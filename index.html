@@ -13,6 +13,17 @@
     <link rel="stylesheet" href="css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100;14..32,200;14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        /* إصلاح اتجاه النص الإنجليزي */
+        .hero-title-wrapper {
+            direction: ltr !important;
+            unicode-bidi: isolate !important;
+        }
+        .char, .separator-char {
+            display: inline-block;
+            direction: ltr !important;
+        }
+    </style>
 </head>
 <body>
 
@@ -257,22 +268,43 @@
         // الرابط المختصر
         const SHORT_URL = 'https://spoo.me/FiROGIST';
         
+        // رسالة واتساب (مختصرة وجذابة)
+        const WHATSAPP_TEXT = `🎨 FIROGIST DESIGNER | مصمم جرافيك
+
+✨ استكشف أعمالي:
+• تصاميم إبداعية
+• هوية بصرية
+• طباعة أقمشة (Silk Screen)
+
+🌐 الرابط: ${SHORT_URL}
+
+#GraphicDesigner #مصمم_جرافيك #Portfolio`;
+        
+        // رسالة فيسبوك (احترافية)
+        const FACEBOOK_TEXT = `🎨 FIROGIST DESIGNER - Creative Graphic Designer Portfolio ✨\n\nExplore my creative works in visual identity, silk screen printing, and graphic design.\n\n🌐 Portfolio: ${SHORT_URL}\n\n#GraphicDesigner #Portfolio #CreativeDesign`;
+        
+        // رسالة تويتر (مختصرة مع هاشتاجات)
+        const TWITTER_TEXT = `🎨 FIROGIST DESIGNER | Graphic Designer Portfolio ✨\n\nCheck out my creative works! 👇\n\n🌐 ${SHORT_URL}\n\n#GraphicDesigner #Portfolio #CreativeDesign`;
+        
+        // رسالة لينكد إن (احترافية للشبكات المهنية)
+        const LINKEDIN_TITLE = "FIROGIST DESIGNER - Graphic Design Portfolio";
+        const LINKEDIN_SUMMARY = "🎨 Creative Graphic Designer specialized in visual identity, silk screen printing, and creative design. Check out my portfolio to see my latest works!";
+        
         // دوال المشاركة
         function shareWhatsApp() {
-            const url = encodeURIComponent(SHORT_URL);
-            const text = encodeURIComponent('🎨 تعالوا شوفوا أعمالي على FIROGIST DESIGNER');
-            window.open(`https://wa.me/?text=${text}%20${url}`, '_blank');
+            const text = encodeURIComponent(WHATSAPP_TEXT);
+            window.open(`https://wa.me/?text=${text}`, '_blank');
         }
         
         function shareFacebook() {
             const url = encodeURIComponent(SHORT_URL);
-            window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank', 'width=600,height=400');
+            const quote = encodeURIComponent(FACEBOOK_TEXT);
+            window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${quote}`, '_blank', 'width=600,height=400');
         }
         
         function shareTwitter() {
-            const url = encodeURIComponent(SHORT_URL);
-            const text = encodeURIComponent('🎨 شوفوا أعمالي على FIROGIST DESIGNER');
-            window.open(`https://twitter.com/intent/tweet?text=${text}&url=${url}`, '_blank', 'width=600,height=400');
+            const text = encodeURIComponent(TWITTER_TEXT);
+            window.open(`https://twitter.com/intent/tweet?text=${text}`, '_blank', 'width=600,height=400');
         }
         
         function shareLinkedIn() {
