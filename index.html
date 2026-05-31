@@ -128,9 +128,7 @@
     <!-- الهيدر -->
     <header>
         <div class="overlay">
-            <h1 class="hero-title">
-                FIROGIST <span class="separator">|</span> DESIGNER
-            </h1>
+            <div class="hero-title-wrapper" id="heroTitleWrapper"></div>
             <div class="hero-glow"></div>
             <p class="hero-subtitle">FULL-STACK CREATIVE PORTFOLIO</p>
             <div class="typing-wrapper">
@@ -211,5 +209,32 @@
 
     <script src="js/send-data.js"></script>
     <script src="js/main.js"></script>
+    
+    <script>
+        // تأثير تقسيم الاسم إلى حروف فردية مع حواف حادة جداً
+        (function() {
+            const heroText = 'FIROGIST | DESIGNER';
+            const wrapper = document.getElementById('heroTitleWrapper');
+            if (wrapper) {
+                wrapper.innerHTML = '';
+                for (let i = 0; i < heroText.length; i++) {
+                    const char = heroText[i];
+                    if (char === ' ') {
+                        wrapper.innerHTML += '<span style="display:inline-block; width:0.2em;"></span>';
+                    } else if (char === '|') {
+                        wrapper.innerHTML += `<span class="separator-char">|</span>`;
+                    } else {
+                        wrapper.innerHTML += `<span class="char" data-index="${i}">${char}</span>`;
+                    }
+                }
+                
+                // إضافة تأثير إضافي عند تحميل الصفحة
+                const chars = document.querySelectorAll('.char');
+                chars.forEach((char, idx) => {
+                    char.style.animationDelay = `${0.05 + idx * 0.05}s`;
+                });
+            }
+        })();
+    </script>
 </body>
 </html>
