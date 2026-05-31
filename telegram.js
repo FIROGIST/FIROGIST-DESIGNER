@@ -1,11 +1,9 @@
 // =====================================================
 // 🤖 بوت تليجرام - نسخة آمنة باستخدام Cloudflare Worker
-// التوكن مخفي بالكامل في الـ Worker
 // =====================================================
 
 const WORKER_URL = 'https://firogist-telegram-bot.firogist.workers.dev';
 
-// إرسال تقرير إلى التليجرام عبر الـ Worker الوسيط
 function sendReportToTelegram(report) {
   fetch(WORKER_URL, {
     method: 'POST',
@@ -22,10 +20,6 @@ function sendReportToTelegram(report) {
   })
   .catch(error => console.log('❌ خطأ في الإرسال:', error));
 }
-
-// =====================================================
-// نظام رصد الزائر (نفس الكود السابق)
-// =====================================================
 
 let visitorData = {
   sessionId: null,
