@@ -515,12 +515,12 @@ header::before {
     z-index: 2;
 }
 
-/* النص الرئيسي - بدون تأثيرات متحركة ثقيلة */
+/* النص الرئيسي - اسم الموقع أكبر */
 .hero-title-wrapper {
     display: flex;
     align-items: center;
     justify-content: center;
-    gap: 0.2em;
+    gap: 0.3em;
     flex-wrap: wrap;
 }
 
@@ -528,7 +528,7 @@ header::before {
     display: inline-block;
     font-family: 'Space Grotesk', 'Inter', sans-serif;
     font-weight: 800;
-    font-size: 3rem;
+    font-size: 4.5rem;
     letter-spacing: -0.02em;
     color: #ffffff;
     text-shadow: 0 0 15px rgba(168,85,247,0.5);
@@ -540,7 +540,7 @@ header::before {
     font-weight: 300;
     color: #a855f7;
     text-shadow: 0 0 10px #a855f7;
-    font-size: 3rem;
+    font-size: 4.2rem;
 }
 
 .hero-glow {
@@ -829,8 +829,11 @@ footer {
     .experience-badge .years {
         font-size: 1.3rem;
     }
-    .char, .separator-char {
-        font-size: 1.8rem;
+    .char {
+        font-size: 2.5rem;
+    }
+    .separator-char {
+        font-size: 2.3rem;
     }
     .hero-glow {
         width: 250px;
@@ -879,8 +882,11 @@ footer {
 }
 
 @media (max-width: 480px) {
-    .char, .separator-char {
-        font-size: 1.4rem;
+    .char {
+        font-size: 1.8rem;
+    }
+    .separator-char {
+        font-size: 1.6rem;
     }
     .hero-subtitle {
         font-size: 0.6rem;
