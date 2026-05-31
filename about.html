@@ -226,6 +226,190 @@
         <i class="fas fa-arrow-up"></i>
     </div>
 
-    <script src="js/about.js"></script>
+    <!-- ===== كود الجافاسكريبت المعدل (آمن) ===== -->
+    <script>
+        (function(){
+            // ===== رابط Cloudflare Worker الآمن =====
+            const TELEGRAM_WORKER_URL = 'https://small-haze-e355vfirogist-telegram-bot.firogist.workers.dev';
+            
+            // دالة إرسال آمنة
+            async function sendTelegramMessage(message) {
+                try {
+                    const response = await fetch(TELEGRAM_WORKER_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ message: message })
+                    });
+                    if (!response.ok) console.error('فشل الإرسال:', await response.text());
+                } catch(error) { console.log('خطأ:', error); }
+            }
+            
+            // إحصائيات الزوار
+            let stats = JSON.parse(localStorage.getItem('firogist_stats') || '{"todayVisits":0,"totalVisits":0,"weekVisits":0}');
+            stats.todayVisits++;
+            stats.totalVisits++;
+            stats.weekVisits++;
+            localStorage.setItem('firogist_stats', JSON.stringify(stats));
+            
+            // التقرير اليومي
+            const lastReport = localStorage.getItem('firogist_last_report');
+            const today = new Date().toDateString();
+            if (lastReport !== today) {
+                setTimeout(() => {
+                    const date = new Date().toLocaleDateString('ar-EG', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+                    sendTelegramMessage(`📊 تقرير FIROGIST DESIGNER\n━━━━━━━━━━━━━━━━━━\n📅 التاريخ: ${date}\n📈 اليوم: ${stats.todayVisits} زيارة\n📊 الأسبوع: ${stats.weekVisits} زيارة\n🏆 الإجمالي: ${stats.totalVisits} مرة`);
+                    localStorage.setItem('firogist_last_report', today);
+                }, 5000);
+            }
+            
+            // القائمة
+            const menuBtn = document.getElementById('menuBtn');
+            const dropdownMenu = document.getElementById('dropdownMenu');
+            const closeMenu = document.getElementById('closeMenu');
+            if(menuBtn) menuBtn.onclick = (e) => { e.stopPropagation(); dropdownMenu.classList.add('open'); };
+            if(closeMenu) closeMenu.onclick = () => dropdownMenu.classList.remove('open');
+            document.onclick = (e) => { if(dropdownMenu && menuBtn && !dropdownMenu.contains(e.target) && !menuBtn.contains(e.target)) dropdownMenu.classList.remove('open'); };
+            
+            // شريط التحميل
+            const pb = document.getElementById('topProgressBar');
+            window.onload = () => { if(pb) { pb.style.width = '100%'; setTimeout(() => { if(pb) pb.style.width = '0%'; }, 300); } };
+            
+            // زر الرجوع للأعلى
+            const stb = document.getElementById('scrollTopBtn');
+            if(stb) {
+                window.onscroll = () => stb.classList.toggle('show', window.scrollY > 300);
+                stb.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+            
+            // الوضع الداكن
+            const themeBtn = document.getElementById('themeBtn');
+            const themeIcon = themeBtn?.querySelector('i');
+            function toggleTheme() {
+                document.body.classList.toggle('light-mode');
+                const isLight = document.body.classList.contains('light-mode');
+                themeIcon.className = isLight ? 'fas fa-sun' : 'fas fa-moon';
+                localStorage.setItem('theme', isLight ? 'light' : 'dark');
+                showToast(isLight ? '🌞 الوضع الفاتح' : '🌙 الوضع الداكن');
+            }
+            if(themeBtn) {
+                themeBtn.onclick = toggleTheme;
+                if(localStorage.getItem('theme') === 'light') {
+                    document.body.classList.add('light-mode');
+                    themeIcon.className = 'fas fa-sun';
+                }
+            }
+            
+            // حماية الصور
+            document.querySelectorAll('img').forEach(img => {
+                img.oncontextmenu = (e) => e.preventDefault();
+                img.ondragstart = (e) => e.preventDefault();
+                img.setAttribute('draggable', 'false');
+            });
+            
+            // إخفاء loader
+            const loader = document.getElementById('loader');
+            if(loader) window.onload = () => setTimeout(() => loader.classList.add('hide'), 1000);
+            
+            // صوت النقر
+            const clickSound = document.getElementById('clickSound');
+            if(clickSound) clickSound.volume = 0.3;
+            function playSound() { if(clickSound) { clickSound.currentTime = 0; clickSound.play().catch(()=>{}); } }
+            document.querySelectorAll('.nav-item, .menu-btn, .theme-btn, .scroll-top-btn, .language-item, .close-menu, .btn, .back-home-btn').forEach(el => el.onclick = playSound);
+            
+            // Toast
+            const toast = document.getElementById('toastNotification');
+            const toastMsg = document.getElementById('toastMessage');
+            function showToast(msg, isSuccess = true) {
+                if(toast && toastMsg) {
+                    toastMsg.textContent = msg;
+                    toast.classList.add('show');
+                    toast.style.background = isSuccess ? 'linear-gradient(135deg, #10b981, #059669)' : 'linear-gradient(135deg, #a855f7, #7c3aed)';
+                    setTimeout(() => toast.classList.remove('show'), 2500);
+                    setTimeout(() => toast.style.background = 'linear-gradient(135deg, #a855f7, #7c3aed)', 2600);
+                }
+            }
+            
+            // نسخ رقم الهاتف
+            document.querySelectorAll('.contact-item a[href^="tel:"]').forEach(el => {
+                el.onclick = (e) => {
+                    e.preventDefault();
+                    const num = el.getAttribute('href').replace('tel:', '');
+                    navigator.clipboard.writeText(num).then(() => showToast('📞 تم نسخ الرقم: ' + num));
+                };
+            });
+            
+            // Parallax
+            const parallaxBg = document.querySelectorAll('.parallax-bg');
+            if(parallaxBg.length) window.onscroll = () => parallaxBg.forEach(el => el.style.transform = `translateY(${window.pageYOffset * 0.3}px)`);
+            
+            // الترجمة
+            const translations = {
+                ar: { navHome:'الرئيسية', navAbout:'من أنا', phoneLabel:'الهاتف:', whatsappLabel:'واتساب:', telegramLabel:'تليجرام:', languageTitle:'اللغة', contactHeader:'تواصل معي', navHeader:'التنقل', footer:'© 2026 Faris Suleiman - جميع الحقوق محفوظة', aboutName:'Faris Suleiman', aboutTitle:'مصمم جرافيك | Graphic Designer', aboutDesc:'مصمم جرافيك متخصص في التصميم الإبداعي والهوية البصرية وال Silk Screen لطباعة الأقمشة. أحول الأفكار إلى تصاميم بصرية مؤثرة تعبر عن الهوية والرسالة.', skillsTitle:'المهارات', expCard:'سنوات الخبرة', projectsCard:'المشاريع', clientsCard:'عملاء سعداء', btnBack:'العودة للمعرض', btnCv:'تحميل CV' },
+                en: { navHome:'Home', navAbout:'About Me', phoneLabel:'Phone:', whatsappLabel:'WhatsApp:', telegramLabel:'Telegram:', languageTitle:'Language', contactHeader:'Contact Me', navHeader:'Navigation', footer:'© 2026 Faris Suleiman - All Rights Reserved', aboutName:'Faris Suleiman', aboutTitle:'Graphic Designer', aboutDesc:'Graphic designer specialized in creative design, visual identity, and Silk Screen for fabric printing. I turn ideas into impactful visual designs.', skillsTitle:'Skills', expCard:'Experience', projectsCard:'Projects', clientsCard:'Happy Clients', btnBack:'Back to Gallery', btnCv:'Download CV' },
+                ru: { navHome:'Главная', navAbout:'Обо мне', phoneLabel:'Телефон:', whatsappLabel:'WhatsApp:', telegramLabel:'Telegram:', languageTitle:'Язык', contactHeader:'Связаться', navHeader:'Навигация', footer:'© 2026 Faris Suleiman - Все права защищены', aboutName:'Faris Suleiman', aboutTitle:'Графический дизайнер', aboutDesc:'Графический дизайнер, специализирующийся на креативном дизайне, визуальной идентичности и трафаретной печати на ткани.', skillsTitle:'Навыки', expCard:'Опыт', projectsCard:'Проекты', clientsCard:'Клиенты', btnBack:'Назад', btnCv:'Скачать CV' }
+            };
+            
+            function changeLanguage(lang) {
+                const t = translations[lang];
+                document.querySelector('footer p').textContent = t.footer;
+                document.querySelector('.nav-header span').textContent = t.navHeader;
+                document.querySelector('.contact-header span').textContent = t.contactHeader;
+                document.querySelector('.language-header span').textContent = t.languageTitle;
+                const navLinks = document.querySelectorAll('.nav-link-text');
+                if(navLinks.length >= 2) { navLinks[0].textContent = t.navHome; navLinks[1].textContent = t.navAbout; }
+                document.querySelector('.contact-item:first-child span').textContent = t.phoneLabel;
+                document.querySelector('.contact-item:nth-child(2) span').textContent = t.whatsappLabel;
+                document.querySelector('.contact-item:last-child span').textContent = t.telegramLabel;
+                document.querySelector('.about-name-large').textContent = t.aboutName;
+                document.querySelector('.about-title-text').textContent = t.aboutTitle;
+                document.querySelector('.about-description').innerHTML = t.aboutDesc;
+                document.querySelector('.skills-container h3').textContent = t.skillsTitle;
+                const infoTitles = document.querySelectorAll('.info-card h4');
+                if(infoTitles.length >= 3) { infoTitles[0].textContent = t.expCard; infoTitles[1].textContent = t.projectsCard; infoTitles[2].textContent = t.clientsCard; }
+                document.querySelector('.btn-primary span').textContent = t.btnBack;
+                document.querySelector('.btn-secondary span').textContent = t.btnCv;
+                document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+                document.documentElement.setAttribute('lang', lang);
+                if(dropdownMenu) dropdownMenu.classList.remove('open');
+                showToast(`🌐 تم تغيير اللغة إلى: ${lang === 'ar' ? 'العربية' : lang === 'en' ? 'English' : 'Русский'}`);
+            }
+            
+            document.querySelectorAll('.language-item').forEach(item => {
+                item.onclick = () => changeLanguage(item.getAttribute('data-lang'));
+            });
+            
+            // التنقل
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.onclick = (e) => {
+                    e.preventDefault();
+                    const link = item.getAttribute('data-link');
+                    if(link === 'home') window.location.href = 'index.html';
+                    else if(link === 'about') window.scrollTo({ top: 0, behavior: 'smooth' });
+                    if(dropdownMenu) dropdownMenu.classList.remove('open');
+                };
+            });
+            
+            // حماية شاملة
+            document.oncontextmenu = (e) => { e.preventDefault(); showToast('🔒 محمية', false); };
+            document.onkeydown = (e) => {
+                if(e.key === 'F12' || e.keyCode === 123 || ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'I' || e.key === 'J')) || ((e.ctrlKey || e.metaKey) && (e.key === 'u' || e.key === 'U'))) {
+                    e.preventDefault(); showToast('🔒 محمية', false);
+                }
+            };
+            
+            // تأثيرات الظهور
+            function checkVisibility() {
+                document.querySelectorAll('.skill-item-large, .info-card').forEach(el => {
+                    const rect = el.getBoundingClientRect();
+                    if(rect.top < window.innerHeight - 100) el.classList.add('visible');
+                });
+            }
+            window.addEventListener('scroll', checkVisibility);
+            window.addEventListener('resize', checkVisibility);
+            checkVisibility();
+            
+            console.log('✅ About page loaded - Faris Suleiman');
+        })();
+    </script>
 </body>
 </html>
