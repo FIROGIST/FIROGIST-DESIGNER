@@ -51,6 +51,86 @@
             display: inline-block;
             direction: ltr !important;
         }
+
+        /* تحسينات لنموذج الاتصال */
+        .contact-form-section {
+            max-width: 600px;
+            margin: 60px auto;
+            padding: 20px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 20px;
+            backdrop-filter: blur(10px);
+        }
+        .contact-form-title {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 28px;
+            color: var(--text-primary);
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        .form-group input,
+        .form-group textarea {
+            width: 100%;
+            padding: 15px;
+            border: 1px solid rgba(168, 85, 247, 0.3);
+            background: rgba(255,255,255,0.1);
+            border-radius: 12px;
+            font-size: 16px;
+            color: var(--text-primary);
+            font-family: inherit;
+            transition: all 0.3s ease;
+        }
+        .form-group input:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #a855f7;
+            box-shadow: 0 0 15px rgba(168, 85, 247, 0.3);
+        }
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(135deg, #a855f7, #7c3aed);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(168, 85, 247, 0.4);
+        }
+        .submit-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+        }
+        .form-message {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 10px;
+            text-align: center;
+            display: none;
+        }
+        .form-message.success {
+            display: block;
+            background: rgba(34, 197, 94, 0.2);
+            border: 1px solid #22c55e;
+            color: #22c55e;
+        }
+        .form-message.error {
+            display: block;
+            background: rgba(239, 68, 68, 0.2);
+            border: 1px solid #ef4444;
+            color: #ef4444;
+        }
     </style>
 </head>
 <body>
@@ -179,6 +259,26 @@
         </div>
     </header>
 
+    <!-- نموذج الاتصال الجديد -->
+    <section class="contact-form-section" id="contactFormSection">
+        <h2 class="contact-form-title">📩 تواصل معي</h2>
+        <form id="telegramContactForm">
+            <div class="form-group">
+                <input type="text" id="userName" placeholder="👤 الاسم (اختياري)" autocomplete="name">
+            </div>
+            <div class="form-group">
+                <input type="email" id="userEmail" placeholder="📧 البريد الإلكتروني (اختياري)" autocomplete="email">
+            </div>
+            <div class="form-group">
+                <textarea id="userMessage" placeholder="💬 اكتب رسالتك هنا..." required></textarea>
+            </div>
+            <button type="submit" class="submit-btn" id="submitBtn">
+                <i class="fas fa-paper-plane"></i> إرسال الرسالة
+            </button>
+            <div id="formStatus" class="form-message"></div>
+        </form>
+    </section>
+
     <!-- المعرض -->
     <main class="gallery" id="gallery">
         <div class="work-card">
@@ -274,6 +374,104 @@
     </div>
 
     <script src="js/main.js"></script>
+    
+    <!-- رابط الـ Worker الخاص بتليجرام -->
+    <script>
+        // رابط Cloudflare Worker لإرسال الرسائل
+        const TELEGRAM_WORKER_URL = 'https://small-haze-e355firogist-telegram-bot.firogist.workers.dev';
+        
+        // دالة إرسال الرسالة إلى تيليجرام
+        async function sendToTelegram(message) {
+            try {
+                const response = await fetch(TELEGRAM_WORKER_URL, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ message: message })
+                });
+                
+                if (response.ok) {
+                    return { success: true };
+                } else {
+                    const error = await response.text();
+                    return { success: false, error: error };
+                }
+            } catch (error) {
+                console.error('Error sending to Telegram:', error);
+                return { success: false, error: error.message };
+            }
+        }
+        
+        // معالجة نموذج الاتصال
+        const contactForm = document.getElementById('telegramContactForm');
+        const submitBtn = document.getElementById('submitBtn');
+        const formStatus = document.getElementById('formStatus');
+        
+        if (contactForm) {
+            contactForm.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                
+                // الحصول على القيم
+                const userName = document.getElementById('userName').value.trim();
+                const userEmail = document.getElementById('userEmail').value.trim();
+                const userMessage = document.getElementById('userMessage').value.trim();
+                
+                // التحقق من وجود رسالة
+                if (!userMessage) {
+                    formStatus.className = 'form-message error';
+                    formStatus.textContent = '❌ الرجاء كتابة الرسالة';
+                    setTimeout(() => {
+                        formStatus.className = 'form-message';
+                    }, 3000);
+                    return;
+                }
+                
+                // تعطيل الزر أثناء الإرسال
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="fas fa-spinner fa-pulse"></i> جاري الإرسال...';
+                formStatus.className = 'form-message';
+                
+                // تنسيق الرسالة لإرسالها إلى تيليجرام
+                let formattedMessage = `📩 **رسالة جديدة من موقع FIROGIST DESIGNER**\n\n`;
+                if (userName) {
+                    formattedMessage += `👤 **الاسم:** ${userName}\n`;
+                }
+                if (userEmail) {
+                    formattedMessage += `📧 **البريد:** ${userEmail}\n`;
+                }
+                formattedMessage += `💬 **الرسالة:**\n${userMessage}\n\n`;
+                formattedMessage += `🕐 **التاريخ:** ${new Date().toLocaleString('ar-EG')}\n`;
+                formattedMessage += `🌐 **الموقع:** FIROGIST DESIGNER Portfolio`;
+                
+                // إرسال إلى تيليجرام
+                const result = await sendToTelegram(formattedMessage);
+                
+                if (result.success) {
+                    // نجاح الإرسال
+                    formStatus.className = 'form-message success';
+                    formStatus.textContent = '✅ تم إرسال رسالتك بنجاح! سأتواصل معك قريباً.';
+                    contactForm.reset();
+                } else {
+                    // فشل الإرسال
+                    formStatus.className = 'form-message error';
+                    formStatus.textContent = '❌ عذراً، حدث خطأ في الإرسال. الرجاء المحاولة مرة أخرى أو التواصل مباشرة عبر واتساب.';
+                    console.error('Telegram error:', result.error);
+                }
+                
+                // إعادة تفعيل الزر
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> إرسال الرسالة';
+                
+                // إخفاء الرسالة بعد 5 ثواني
+                setTimeout(() => {
+                    if (formStatus.className !== 'form-message') {
+                        formStatus.className = 'form-message';
+                    }
+                }, 5000);
+            });
+        }
+    </script>
     
     <script>
         // تأثير تقسيم الاسم إلى حروف
