@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>لوحة التحكم - بيانات الزوار</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #1a0033;
+            color: #fff;
+            padding: 20px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #0f0f1a;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        th, td {
+            padding: 12px;
+            text-align: right;
+            border-bottom: 1px solid #a855f7;
+        }
+        th {
+            background: #a855f7;
+            color: #fff;
+        }
+        .container {
+            max-width: 1200px;
+            margin: auto;
+        }
+        h1 {
+            color: #a855f7;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>📊 بيانات زوار الموقع</h1>
+        <table id="visitorsTable">
+            <thead>
+                <tr><th>التاريخ</th><th>IP</th><th>الدولة</th><th>المدينة</th><th>الجهاز</th><th>نظام التشغيل</th><th>المتصفح</th></tr>
+            </thead>
+            <tbody id="visitorsBody"></tbody>
+        </table>
+    </div>
+    <script>
+        fetch('visitors.json')
+            .then(res => res.json())
+            .then(data => {
+                const tbody = document.getElementById('visitorsBody');
+                data.reverse().forEach(v => {
+                    tbody.innerHTML += `<tr>
+                        <td>${v.time}</td>
+                        <td>${v.ip}</td>
+                        <td>${v.country}</td>
+                        <td>${v.city}</td>
+                        <td>${v.device}</td>
+                        <td>${v.os}</td>
+                        <td>${v.browser}</td>
+                    </tr>`;
+                });
+            })
+            .catch(err => console.log('لا توجد بيانات بعد'));
+    </script>
+</body>
+</html>
