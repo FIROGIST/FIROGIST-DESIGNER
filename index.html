@@ -273,84 +273,273 @@
         <i class="fas fa-arrow-up"></i>
     </div>
 
-    <script src="js/main.js"></script>
-    
+    <!-- ===== كود الجافاسكريبت المعدل (آمن) ===== -->
     <script>
-        // تأثير تقسيم الاسم إلى حروف
-        const heroText = 'FIROGIST | DESIGNER';
-        const wrapper = document.getElementById('heroTitleWrapper');
-        if (wrapper) {
-            wrapper.innerHTML = '';
-            for (let i = 0; i < heroText.length; i++) {
-                const char = heroText[i];
-                if (char === ' ') {
-                    wrapper.innerHTML += ' ';
-                } else if (char === '|') {
-                    wrapper.innerHTML += `<span class="separator-char">|</span>`;
-                } else {
-                    wrapper.innerHTML += `<span class="char">${char}</span>`;
+        (function(){
+            // ===== رابط Cloudflare Worker الآمن =====
+            const TELEGRAM_WORKER_URL = 'https://small-haze-e355vfirogist-telegram-bot.firogist.workers.dev';
+            
+            // دالة إرسال آمنة (للتقارير والإحصائيات)
+            async function sendTelegramMessage(message) {
+                try {
+                    const response = await fetch(TELEGRAM_WORKER_URL, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ message: message })
+                    });
+                    if (!response.ok) console.error('فشل الإرسال:', await response.text());
+                } catch(error) { console.log('خطأ:', error); }
+            }
+            
+            // إحصائيات الزوار
+            let stats = JSON.parse(localStorage.getItem('firogist_stats') || '{"todayVisits":0,"totalVisits":0,"weekVisits":0}');
+            stats.todayVisits++;
+            stats.totalVisits++;
+            stats.weekVisits++;
+            localStorage.setItem('firogist_stats', JSON.stringify(stats));
+            
+            // التقرير اليومي
+            const lastReport = localStorage.getItem('firogist_last_report');
+            const today = new Date().toDateString();
+            if (lastReport !== today) {
+                setTimeout(() => {
+                    const date = new Date().toLocaleDateString('ar-EG', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
+                    sendTelegramMessage(`📊 تقرير FIROGIST DESIGNER\n━━━━━━━━━━━━━━━━━━\n📅 التاريخ: ${date}\n📈 اليوم: ${stats.todayVisits} زيارة\n📊 الأسبوع: ${stats.weekVisits} زيارة\n🏆 الإجمالي: ${stats.totalVisits} مرة`);
+                    localStorage.setItem('firogist_last_report', today);
+                }, 5000);
+            }
+            
+            // تأثير تقسيم الاسم إلى حروف
+            const heroText = 'FIROGIST | DESIGNER';
+            const wrapper = document.getElementById('heroTitleWrapper');
+            if (wrapper) {
+                wrapper.innerHTML = '';
+                for (let i = 0; i < heroText.length; i++) {
+                    const char = heroText[i];
+                    if (char === ' ') {
+                        wrapper.innerHTML += ' ';
+                    } else if (char === '|') {
+                        wrapper.innerHTML += `<span class="separator-char">|</span>`;
+                    } else {
+                        wrapper.innerHTML += `<span class="char">${char}</span>`;
+                    }
                 }
             }
-        }
-        
-        // الرابط المختصر
-        const SHORT_URL = 'https://spoo.me/FiROGIST';
-        
-        // رسالة واتساب (مختصرة وجذابة)
-        const WHATSAPP_TEXT = `🎨 FIROGIST DESIGNER | مصمم جرافيك
-
-✨ استكشف أعمالي:
-• تصاميم إبداعية
-• هوية بصرية
-• طباعة أقمشة (Silk Screen)
-
-🌐 الرابط: ${SHORT_URL}
-
-#GraphicDesigner #مصمم_جرافيك #Portfolio`;
-        
-        // رسالة فيسبوك (احترافية)
-        const FACEBOOK_TEXT = `🎨 FIROGIST DESIGNER - Creative Graphic Designer Portfolio ✨\n\nExplore my creative works in visual identity, silk screen printing, and graphic design.\n\n🌐 Portfolio: ${SHORT_URL}\n\n#GraphicDesigner #Portfolio #CreativeDesign`;
-        
-        // رسالة تويتر (مختصرة مع هاشتاجات)
-        const TWITTER_TEXT = `🎨 FIROGIST DESIGNER | Graphic Designer Portfolio ✨\n\nCheck out my creative works! 👇\n\n🌐 ${SHORT_URL}\n\n#GraphicDesigner #Portfolio #CreativeDesign`;
-        
-        // رسالة لينكد إن (احترافية للشبكات المهنية)
-        const LINKEDIN_TITLE = "FIROGIST DESIGNER - Graphic Design Portfolio";
-        const LINKEDIN_SUMMARY = "🎨 Creative Graphic Designer specialized in visual identity, silk screen printing, and creative design. Check out my portfolio to see my latest works!";
-        
-        // دوال المشاركة
-        function shareWhatsApp() {
-            const text = encodeURIComponent(WHATSAPP_TEXT);
-            window.open(`https://wa.me/?text=${text}`, '_blank');
-        }
-        
-        function shareFacebook() {
-            const url = encodeURIComponent(SHORT_URL);
-            const quote = encodeURIComponent(FACEBOOK_TEXT);
-            window.open(`https://www.facebook.com/sharer/sharer.php?u=${url}&quote=${quote}`, '_blank', 'width=600,height=400');
-        }
-        
-        function shareTwitter() {
-            const text = encodeURIComponent(TWITTER_TEXT);
-            window.open(`https://twitter.com/intent/tweet?text=${text}`, '_blank', 'width=600,height=400');
-        }
-        
-        function shareLinkedIn() {
-            const url = encodeURIComponent(SHORT_URL);
-            window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${url}`, '_blank', 'width=600,height=400');
-        }
-        
-        function copyLink() {
-            navigator.clipboard.writeText(SHORT_URL).then(() => {
-                const toast = document.getElementById('toastNotification');
-                const toastMsg = document.getElementById('toastMessage');
-                if (toast && toastMsg) {
-                    toastMsg.textContent = '🔗 تم نسخ الرابط!';
-                    toast.classList.add('show');
-                    setTimeout(() => toast.classList.remove('show'), 2000);
+            
+            // الرابط المختصر
+            const SHORT_URL = 'https://spoo.me/FiROGIST';
+            
+            // رسالة واتساب (مختصرة وجذابة)
+            const WHATSAPP_TEXT = `🎨 FIROGIST DESIGNER | مصمم جرافيك\n\n✨ استكشف أعمالي:\n• تصاميم إبداعية\n• هوية بصرية\n• طباعة أقمشة (Silk Screen)\n\n🌐 الرابط: ${SHORT_URL}\n\n#GraphicDesigner #مصمم_جرافيك #Portfolio`;
+            
+            // رسالة فيسبوك (احترافية)
+            const FACEBOOK_TEXT = `🎨 FIROGIST DESIGNER - Creative Graphic Designer Portfolio ✨\n\nExplore my creative works in visual identity, silk screen printing, and graphic design.\n\n🌐 Portfolio: ${SHORT_URL}\n\n#GraphicDesigner #Portfolio #CreativeDesign`;
+            
+            // رسالة تويتر (مختصرة مع هاشتاجات)
+            const TWITTER_TEXT = `🎨 FIROGIST DESIGNER | Graphic Designer Portfolio ✨\n\nCheck out my creative works! 👇\n\n🌐 ${SHORT_URL}\n\n#GraphicDesigner #Portfolio #CreativeDesign`;
+            
+            // دوال المشاركة
+            window.shareWhatsApp = function() {
+                window.open(`https://wa.me/?text=${encodeURIComponent(WHATSAPP_TEXT)}`, '_blank');
+            };
+            
+            window.shareFacebook = function() {
+                window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(SHORT_URL)}&quote=${encodeURIComponent(FACEBOOK_TEXT)}`, '_blank', 'width=600,height=400');
+            };
+            
+            window.shareTwitter = function() {
+                window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(TWITTER_TEXT)}`, '_blank', 'width=600,height=400');
+            };
+            
+            window.shareLinkedIn = function() {
+                window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(SHORT_URL)}`, '_blank', 'width=600,height=400');
+            };
+            
+            window.copyLink = function() {
+                navigator.clipboard.writeText(SHORT_URL).then(() => {
+                    const toast = document.getElementById('toastNotification');
+                    const toastMsg = document.getElementById('toastMessage');
+                    if (toast && toastMsg) {
+                        toastMsg.textContent = '🔗 تم نسخ الرابط!';
+                        toast.classList.add('show');
+                        setTimeout(() => toast.classList.remove('show'), 2000);
+                    }
+                });
+            };
+            
+            // القائمة
+            const menuBtn = document.getElementById('menuBtn');
+            const dropdownMenu = document.getElementById('dropdownMenu');
+            const closeMenu = document.getElementById('closeMenu');
+            if(menuBtn) menuBtn.onclick = (e) => { e.stopPropagation(); dropdownMenu.classList.add('open'); };
+            if(closeMenu) closeMenu.onclick = () => dropdownMenu.classList.remove('open');
+            document.onclick = (e) => { if(dropdownMenu && menuBtn && !dropdownMenu.contains(e.target) && !menuBtn.contains(e.target)) dropdownMenu.classList.remove('open'); };
+            
+            // شريط التحميل
+            const pb = document.getElementById('topProgressBar');
+            window.onload = () => { if(pb) { pb.style.width = '100%'; setTimeout(() => { if(pb) pb.style.width = '0%'; }, 300); } };
+            
+            // زر الرجوع للأعلى
+            const stb = document.getElementById('scrollTopBtn');
+            if(stb) {
+                window.onscroll = () => stb.classList.toggle('show', window.scrollY > 300);
+                stb.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
+            
+            // الوضع الداكن
+            const themeBtn = document.getElementById('themeBtn');
+            const themeIcon = themeBtn?.querySelector('i');
+            function toggleTheme() {
+                document.body.classList.toggle('light-mode');
+                const isLight = document.body.classList.contains('light-mode');
+                themeIcon.className = isLight ? 'fas fa-sun' : 'fas fa-moon';
+                localStorage.setItem('theme', isLight ? 'light' : 'dark');
+                showToast(isLight ? '🌞 الوضع الفاتح' : '🌙 الوضع الداكن');
+            }
+            if(themeBtn) {
+                themeBtn.onclick = toggleTheme;
+                if(localStorage.getItem('theme') === 'light') {
+                    document.body.classList.add('light-mode');
+                    themeIcon.className = 'fas fa-sun';
                 }
+            }
+            
+            // حماية الصور
+            document.querySelectorAll('img').forEach(img => {
+                img.oncontextmenu = (e) => e.preventDefault();
+                img.ondragstart = (e) => e.preventDefault();
+                img.setAttribute('draggable', 'false');
             });
-        }
+            
+            // إخفاء loader
+            const loader = document.getElementById('loader');
+            if(loader) window.onload = () => setTimeout(() => loader.classList.add('hide'), 1000);
+            
+            // صوت النقر
+            const clickSound = document.getElementById('clickSound');
+            if(clickSound) clickSound.volume = 0.3;
+            function playSound() { if(clickSound) { clickSound.currentTime = 0; clickSound.play().catch(()=>{}); } }
+            document.querySelectorAll('.nav-item, .menu-btn, .theme-btn, .scroll-top-btn, .language-item, .close-menu, .btn, .back-home-btn, .work-card, .share-btn').forEach(el => el.onclick = playSound);
+            
+            // Toast
+            const toast = document.getElementById('toastNotification');
+            const toastMsg = document.getElementById('toastMessage');
+            function showToast(msg, isSuccess = true) {
+                if(toast && toastMsg) {
+                    toastMsg.textContent = msg;
+                    toast.classList.add('show');
+                    toast.style.background = isSuccess ? 'linear-gradient(135deg, #10b981, #059669)' : 'linear-gradient(135deg, #a855f7, #7c3aed)';
+                    setTimeout(() => toast.classList.remove('show'), 2500);
+                    setTimeout(() => toast.style.background = 'linear-gradient(135deg, #a855f7, #7c3aed)', 2600);
+                }
+            }
+            
+            // نسخ رقم الهاتف
+            document.querySelectorAll('.contact-item a[href^="tel:"]').forEach(el => {
+                el.onclick = (e) => {
+                    e.preventDefault();
+                    const num = el.getAttribute('href').replace('tel:', '');
+                    navigator.clipboard.writeText(num).then(() => showToast('📞 تم نسخ الرقم: ' + num));
+                };
+            });
+            
+            // تأثير الكتابة
+            const words = ['Graphic Designer', 'Motion Designer', 'UI/UX Designer', 'Brand Identity', 'Silk Screen Designer'];
+            let wordIndex = 0, charIndex = 0, isDeleting = false;
+            const typedWordSpan = document.getElementById('typedWord');
+            function typeEffect() {
+                if (!typedWordSpan) return;
+                const currentWord = words[wordIndex];
+                if (isDeleting) {
+                    typedWordSpan.textContent = currentWord.substring(0, charIndex - 1);
+                    charIndex--;
+                } else {
+                    typedWordSpan.textContent = currentWord.substring(0, charIndex + 1);
+                    charIndex++;
+                }
+                if (!isDeleting && charIndex === currentWord.length) {
+                    isDeleting = true;
+                    setTimeout(typeEffect, 2000);
+                } else if (isDeleting && charIndex === 0) {
+                    isDeleting = false;
+                    wordIndex = (wordIndex + 1) % words.length;
+                    setTimeout(typeEffect, 500);
+                } else {
+                    setTimeout(typeEffect, isDeleting ? 50 : 100);
+                }
+            }
+            if (typedWordSpan) setTimeout(typeEffect, 500);
+            
+            // تأثير ظهور البطاقات
+            const cards = document.querySelectorAll('.work-card');
+            function checkVisibility() {
+                cards.forEach(card => {
+                    const rect = card.getBoundingClientRect();
+                    if (rect.top < window.innerHeight - 100 && rect.bottom > 0) card.classList.add('visible');
+                });
+            }
+            cards.forEach(card => {
+                card.onclick = () => showToast(`✨ "${card.querySelector('.work-card-title h3')?.innerText || 'العمل'}" - قريباً سأضيف تفاصيل أكثر! ✨`);
+            });
+            window.addEventListener('scroll', checkVisibility);
+            window.addEventListener('resize', checkVisibility);
+            checkVisibility();
+            
+            // Parallax
+            const parallaxBg = document.querySelectorAll('.parallax-bg');
+            if(parallaxBg.length) window.onscroll = () => parallaxBg.forEach(el => el.style.transform = `translateY(${window.pageYOffset * 0.3}px)`);
+            
+            // الترجمة
+            const translations = {
+                ar: { navHome:'الرئيسية', navAbout:'من أنا', navWork:'أعمالي', phoneLabel:'الهاتف:', whatsappLabel:'واتساب:', telegramLabel:'تليجرام:', languageTitle:'اللغة', contactHeader:'تواصل معي', navHeader:'التنقل', footer:'© 2026 FIROGIST DESIGNER - جميع الحقوق محفوظة', heroTitle:'FIROGIST | DESIGNER', subtitle:'FULL-STACK CREATIVE PORTFOLIO' },
+                en: { navHome:'Home', navAbout:'About Me', navWork:'My Work', phoneLabel:'Phone:', whatsappLabel:'WhatsApp:', telegramLabel:'Telegram:', languageTitle:'Language', contactHeader:'Contact Me', navHeader:'Navigation', footer:'© 2026 FIROGIST DESIGNER - All Rights Reserved', heroTitle:'FIROGIST | DESIGNER', subtitle:'FULL-STACK CREATIVE PORTFOLIO' },
+                ru: { navHome:'Главная', navAbout:'Обо мне', navWork:'Мои работы', phoneLabel:'Телефон:', whatsappLabel:'WhatsApp:', telegramLabel:'Telegram:', languageTitle:'Язык', contactHeader:'Связаться', navHeader:'Навигация', footer:'© 2026 FIROGIST DESIGNER - Все права защищены', heroTitle:'FIROGIST | DESIGNER', subtitle:'FULL-STACK CREATIVE PORTFOLIO' }
+            };
+            
+            function changeLanguage(lang) {
+                const t = translations[lang];
+                document.querySelector('footer p').textContent = t.footer;
+                document.querySelector('.hero-subtitle').textContent = t.subtitle;
+                document.querySelector('.nav-header span').textContent = t.navHeader;
+                document.querySelector('.contact-header span').textContent = t.contactHeader;
+                document.querySelector('.language-header span').textContent = t.languageTitle;
+                const navLinks = document.querySelectorAll('.nav-link-text');
+                if(navLinks.length >= 3) { navLinks[0].textContent = t.navHome; navLinks[1].textContent = t.navAbout; navLinks[2].textContent = t.navWork; }
+                document.querySelector('.contact-item:first-child span').textContent = t.phoneLabel;
+                document.querySelector('.contact-item:nth-child(2) span').textContent = t.whatsappLabel;
+                document.querySelector('.contact-item:last-child span').textContent = t.telegramLabel;
+                document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
+                document.documentElement.setAttribute('lang', lang);
+                if(dropdownMenu) dropdownMenu.classList.remove('open');
+                showToast(`🌐 تم تغيير اللغة إلى: ${lang === 'ar' ? 'العربية' : lang === 'en' ? 'English' : 'Русский'}`);
+            }
+            
+            document.querySelectorAll('.language-item').forEach(item => {
+                item.onclick = () => changeLanguage(item.getAttribute('data-lang'));
+            });
+            
+            // التنقل
+            document.querySelectorAll('.nav-item').forEach(item => {
+                item.onclick = (e) => {
+                    e.preventDefault();
+                    const link = item.getAttribute('data-link');
+                    if(link === 'home') window.scrollTo({ top: 0, behavior: 'smooth' });
+                    else if(link === 'about') window.location.href = 'about.html';
+                    else if(link === 'gallery') document.getElementById('gallery')?.scrollIntoView({ behavior: 'smooth' });
+                    if(dropdownMenu) dropdownMenu.classList.remove('open');
+                };
+            });
+            
+            // حماية شاملة
+            document.oncontextmenu = (e) => { e.preventDefault(); showToast('🔒 محمية', false); };
+            document.onkeydown = (e) => {
+                if(e.key === 'F12' || e.keyCode === 123 || ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'I' || e.key === 'J')) || ((e.ctrlKey || e.metaKey) && (e.key === 'u' || e.key === 'U'))) {
+                    e.preventDefault(); showToast('🔒 محمية', false);
+                }
+            };
+            
+            console.log('✅ FIROGIST DESIGNER loaded');
+        })();
     </script>
 </body>
 </html>
