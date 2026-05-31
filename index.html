@@ -8,14 +8,14 @@
     <meta name="keywords" content="مصمم جرافيك, بورتفليو, تصميم, FIROGIST, جرافيك ديزاين">
     <title>FIROGIST DESIGNER | بورتفليو جرافيك ديزاينر</title>
     
-    <!-- Favicon - لوجو الموقع في تبويب المتصفح -->
+    <!-- Favicon -->
     <link rel="icon" type="image/png" sizes="512x512" href="images/logo.png">
     <link rel="icon" type="image/png" sizes="192x192" href="images/logo.png">
     <link rel="icon" type="image/png" sizes="32x32" href="images/logo.png">
     <link rel="icon" type="image/png" sizes="16x16" href="images/logo.png">
     <link rel="apple-touch-icon" sizes="180x180" href="images/logo.png">
     
-    <!-- ===== Social Media Meta Tags (OG Image) للواتساب والتليجرام وفيسبوك ===== -->
+    <!-- Social Media Meta Tags -->
     <meta property="og:title" content="FIROGIST DESIGNER - بورتفليو جرافيك ديزاينر">
     <meta property="og:description" content="🎨 مصمم جرافيك متخصص في التصميم الإبداعي والهوية البصرية والطباعة على الأقمشة ✨">
     <meta property="og:image" content="https://firogist.github.io/FIROGIST-DESIGNER/images/logo.png">
@@ -27,13 +27,10 @@
     <meta property="og:locale" content="ar_AR">
     <meta property="og:site_name" content="FIROGIST DESIGNER">
     
-    <!-- لتويتر -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="FIROGIST DESIGNER - بورتفليو جرافيك ديزاينر">
     <meta name="twitter:description" content="🎨 مصمم جرافيك متخصص في التصميم الإبداعي والهوية البصرية">
     <meta name="twitter:image" content="https://firogist.github.io/FIROGIST-DESIGNER/images/logo.png">
-    
-    <!-- لتليجرام وواتساب (إضافي) -->
     <meta property="og:image:secure_url" content="https://firogist.github.io/FIROGIST-DESIGNER/images/logo.png">
     
     <link rel="manifest" href="manifest.json">
@@ -42,7 +39,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100;14..32,200;14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
-        /* إصلاح اتجاه النص الإنجليزي */
         .hero-title-wrapper {
             direction: ltr !important;
             unicode-bidi: isolate !important;
@@ -51,14 +47,34 @@
             display: inline-block;
             direction: ltr !important;
         }
+        /* تحسين ظهور القائمة */
+        .dropdown-menu {
+            position: fixed;
+            top: 0;
+            right: -300px;
+            width: 280px;
+            height: 100vh;
+            background: linear-gradient(135deg, #0f0f1a 0%, #1a0a2e 100%);
+            backdrop-filter: blur(15px);
+            border-left: 1px solid rgba(168, 85, 247, 0.3);
+            z-index: 1002;
+            transition: right 0.3s ease;
+            box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
+            overflow-y: auto;
+        }
+        .dropdown-menu.open {
+            right: 0;
+        }
+        body.light-mode .dropdown-menu {
+            background: linear-gradient(135deg, #ffffff 0%, #f0f0f5 100%);
+            border-color: rgba(168, 85, 247, 0.2);
+        }
     </style>
 </head>
 <body>
 
-    <!-- شريط التحميل العلوي -->
     <div class="top-progress-bar" id="topProgressBar"></div>
 
-    <!-- مؤشر التحميل (Loader) -->
     <div class="loader" id="loader">
         <div class="loader-content">
             <div class="loader-ring"></div>
@@ -71,23 +87,19 @@
         </div>
     </div>
 
-    <!-- Toast Notification -->
     <div class="toast-notification" id="toastNotification">
         <i class="fas fa-check-circle"></i>
         <span id="toastMessage">تم النسخ!</span>
     </div>
 
-    <!-- زر الوضع الداكن/الفاتح -->
     <div class="theme-btn" id="themeBtn">
         <i class="fas fa-moon"></i>
     </div>
 
-    <!-- زر القائمة -->
     <div class="menu-btn" id="menuBtn">
         <i class="fas fa-bars"></i>
     </div>
 
-    <!-- القائمة المنسدلة -->
     <div class="dropdown-menu" id="dropdownMenu">
         <div class="dropdown-header">
             <div class="logo-small">
@@ -164,7 +176,6 @@
         </div>
     </div>
 
-    <!-- الهيدر -->
     <header>
         <div class="overlay">
             <div class="hero-title-wrapper" id="heroTitleWrapper"></div>
@@ -179,88 +190,53 @@
         </div>
     </header>
 
-    <!-- المعرض -->
     <main class="gallery" id="gallery">
         <div class="work-card">
             <img src="images/1 (1).jpg" alt="تصميم جرافيك - ثقافة التزلج">
-            <div class="work-card-title">
-                <h3>SKATE CULTURE VIBES</h3>
-            </div>
+            <div class="work-card-title"><h3>SKATE CULTURE VIBES</h3></div>
         </div>
         <div class="work-card">
             <img src="images/1 (2).jpg" alt="تصميم جرافيك - هيكل عظمي تحفيزي">
-            <div class="work-card-title">
-                <h3>MOTIVATIONAL SKELETON</h3>
-            </div>
+            <div class="work-card-title"><h3>MOTIVATIONAL SKELETON</h3></div>
         </div>
         <div class="work-card">
             <img src="images/1 (3).jpg" alt="تصميم جرافيك - جزيرة التزلج على الماء">
-            <div class="work-card-title">
-                <h3>WAKEBOARD ISLAND</h3>
-            </div>
+            <div class="work-card-title"><h3>WAKEBOARD ISLAND</h3></div>
         </div>
         <div class="work-card">
             <img src="images/1 (4).jpg" alt="تصميم جرافيك - جاهز للعب">
-            <div class="work-card-title">
-                <h3>READY TO PLAY</h3>
-            </div>
+            <div class="work-card-title"><h3>READY TO PLAY</h3></div>
         </div>
         <div class="work-card">
             <img src="images/1 (5).jpg" alt="تصميم جرافيك - فنون استراتيجية كرة القدم">
-            <div class="work-card-title">
-                <h3>SOCCER STRATEGY ARTS</h3>
-            </div>
+            <div class="work-card-title"><h3>SOCCER STRATEGY ARTS</h3></div>
         </div>
         <div class="work-card">
             <img src="images/1 (6).jpg" alt="تصميم جرافيك - طباعة استوائية">
-            <div class="work-card-title">
-                <h3>TROPICAL TYPOGRAPHY</h3>
-            </div>
+            <div class="work-card-title"><h3>TROPICAL TYPOGRAPHY</h3></div>
         </div>
         <div class="work-card">
             <img src="images/1 (8).jpg" alt="تصميم جرافيك - عمل فني حضري">
-            <div class="work-card-title">
-                <h3>URBAN STREET ART</h3>
-            </div>
+            <div class="work-card-title"><h3>URBAN STREET ART</h3></div>
         </div>
         <div class="work-card">
             <img src="images/1 (9).jpg" alt="تصميم جرافيك - أحلام رقمية">
-            <div class="work-card-title">
-                <h3>DIGITAL DREAMS</h3>
-            </div>
+            <div class="work-card-title"><h3>DIGITAL DREAMS</h3></div>
         </div>
         <div class="work-card">
             <img src="images/1 (10).jpg" alt="تصميم جرافيك - نيون فايبس">
-            <div class="work-card-title">
-                <h3>NEON VIBES</h3>
-            </div>
+            <div class="work-card-title"><h3>NEON VIBES</h3></div>
         </div>
     </main>
 
-    <!-- أزرار المشاركة -->
     <div class="share-section">
         <h3 class="share-title">شارك الموقع</h3>
         <div class="share-buttons">
-            <button class="share-btn whatsapp" onclick="shareWhatsApp()">
-                <i class="fab fa-whatsapp"></i>
-                <span>واتساب</span>
-            </button>
-            <button class="share-btn facebook" onclick="shareFacebook()">
-                <i class="fab fa-facebook-f"></i>
-                <span>فيسبوك</span>
-            </button>
-            <button class="share-btn twitter" onclick="shareTwitter()">
-                <i class="fab fa-twitter"></i>
-                <span>تويتر</span>
-            </button>
-            <button class="share-btn linkedin" onclick="shareLinkedIn()">
-                <i class="fab fa-linkedin-in"></i>
-                <span>لينكد إن</span>
-            </button>
-            <button class="share-btn copy" onclick="copyLink()">
-                <i class="fas fa-link"></i>
-                <span>نسخ الرابط</span>
-            </button>
+            <button class="share-btn whatsapp" onclick="shareWhatsApp()"><i class="fab fa-whatsapp"></i><span>واتساب</span></button>
+            <button class="share-btn facebook" onclick="shareFacebook()"><i class="fab fa-facebook-f"></i><span>فيسبوك</span></button>
+            <button class="share-btn twitter" onclick="shareTwitter()"><i class="fab fa-twitter"></i><span>تويتر</span></button>
+            <button class="share-btn linkedin" onclick="shareLinkedIn()"><i class="fab fa-linkedin-in"></i><span>لينكد إن</span></button>
+            <button class="share-btn copy" onclick="copyLink()"><i class="fas fa-link"></i><span>نسخ الرابط</span></button>
         </div>
     </div>
 
@@ -268,18 +244,16 @@
         <p>© 2026 FIROGIST DESIGNER - جميع الحقوق محفوظة</p>
     </footer>
 
-    <!-- زر الرجوع للأعلى -->
     <div class="scroll-top-btn" id="scrollTopBtn">
         <i class="fas fa-arrow-up"></i>
     </div>
 
-    <!-- ===== كود الجافاسكريبت المعدل (آمن) مع إشعار الزائر ===== -->
     <script>
         (function(){
             // ===== رابط Cloudflare Worker الآمن =====
             const TELEGRAM_WORKER_URL = 'https://small-haze-e355vfirogist-telegram-bot.firogist.workers.dev';
             
-            // دالة إرسال آمنة (للتقارير والإحصائيات والإشعارات)
+            // دالة إرسال آمنة
             async function sendTelegramMessage(message) {
                 try {
                     const response = await fetch(TELEGRAM_WORKER_URL, {
@@ -287,64 +261,36 @@
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ message: message })
                     });
-                    if (!response.ok) console.error('فشل الإرسال:', await response.text());
+                    const result = await response.text();
+                    console.log('إرسال:', result);
+                    if (!response.ok) console.error('فشل الإرسال:', result);
                 } catch(error) { console.log('خطأ:', error); }
             }
             
-            // ===== إشعار فتح الموقع (زائر جديد) =====
+            // ===== إشعار فتح الموقع =====
             async function sendVisitorNotification() {
-                // التحقق إذا تم إرسال إشعار لهذا الزائر في آخر ساعة
                 const lastNotify = localStorage.getItem('last_notify_time');
                 const now = Date.now();
                 
                 if (lastNotify && (now - parseInt(lastNotify)) < 3600000) {
-                    console.log('⏳ تم إرسال إشعار مؤخراً، سيتم التجربة بعد ساعة');
+                    console.log('⏳ تم إرسال إشعار مؤخراً');
                     return;
                 }
                 
                 localStorage.setItem('last_notify_time', now);
                 
-                // الحصول على معلومات الزائر
                 const visitorTime = new Date().toLocaleString('ar-EG', { timeZone: 'Africa/Cairo' });
                 const userAgent = navigator.userAgent;
                 const isMobile = /Mobile|Android|iPhone|iPad|iPod/i.test(userAgent);
                 const deviceType = isMobile ? '📱 جوال' : '🖥️ كمبيوتر';
-                const browser = getBrowserName(userAgent);
-                const language = navigator.language;
-                const screenSize = `${window.screen.width}x${window.screen.height}`;
-                const referrer = document.referrer || 'مباشر';
                 
-                // الحصول على إجمالي الزوار
                 let stats = JSON.parse(localStorage.getItem('firogist_stats') || '{"totalVisits":0}');
                 const visitorNumber = stats.totalVisits || 1;
                 
-                // تنسيق الرسالة
-                const message = `🆕 <b>زائر جديد دخل الموقع!</b>
-━━━━━━━━━━━━━━━━━━
-🔢 <b>رقم الزائر:</b> #${visitorNumber}
-🕐 <b>الوقت:</b> ${visitorTime}
-🌐 <b>الرابط:</b> <a href="https://spoo.me/FiROGIST">spoo.me/FiROGIST</a>
-💻 <b>الجهاز:</b> ${deviceType}
-🌍 <b>المتصفح:</b> ${browser}
-🗣️ <b>اللغة:</b> ${language}
-📏 <b>الشاشة:</b> ${screenSize}
-🔗 <b>قادم من:</b> ${referrer}
-━━━━━━━━━━━━━━━━━━
-🔒 FIROGIST STATS`;
+                const message = `🆕 زائر جديد دخل الموقع!\n━━━━━━━━━━━━━━━━━━\n🔢 رقم الزائر: #${visitorNumber}\n🕐 الوقت: ${visitorTime}\n💻 الجهاز: ${deviceType}\n🌐 المتصفح: ${userAgent.split('/')[0]}\n━━━━━━━━━━━━━━━━━━\n🔗 spoo.me/FiROGIST`;
                 
                 await sendTelegramMessage(message);
-                console.log('✅ تم إرسال إشعار الزائر رقم', visitorNumber);
-            }
-            
-            // دالة لمعرفة اسم المتصفح
-            function getBrowserName(ua) {
-                if (ua.includes('Chrome')) return 'Google Chrome';
-                if (ua.includes('Firefox')) return 'Mozilla Firefox';
-                if (ua.includes('Safari') && !ua.includes('Chrome')) return 'Apple Safari';
-                if (ua.includes('Edge')) return 'Microsoft Edge';
-                if (ua.includes('Opera') || ua.includes('OPR')) return 'Opera';
-                if (ua.includes('Brave')) return 'Brave';
-                return 'متصفح آخر';
+                console.log('✅ تم إرسال إشعار الزائر');
             }
             
             // ===== إحصائيات الزوار =====
@@ -355,10 +301,7 @@
             localStorage.setItem('firogist_stats', JSON.stringify(stats));
             
             // ===== إرسال إشعار الزائر =====
-            // تأخير بسيط لضمان تحميل الصفحة بالكامل
-            setTimeout(() => {
-                sendVisitorNotification();
-            }, 2000);
+            setTimeout(() => { sendVisitorNotification(); }, 3000);
             
             // ===== التقرير اليومي =====
             const lastReport = localStorage.getItem('firogist_last_report');
@@ -366,86 +309,88 @@
             if (lastReport !== today) {
                 setTimeout(() => {
                     const date = new Date().toLocaleDateString('ar-EG', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
-                    sendTelegramMessage(`📊 <b>تقرير FIROGIST DESIGNER</b>\n━━━━━━━━━━━━━━━━━━\n📅 <b>التاريخ:</b> ${date}\n📈 <b>اليوم:</b> ${stats.todayVisits} زيارة\n📊 <b>هذا الأسبوع:</b> ${stats.weekVisits} زيارة\n🏆 <b>الإجمالي:</b> ${stats.totalVisits} مرة\n━━━━━━━━━━━━━━━━━━\n🔒 FIROGIST STATS`);
+                    sendTelegramMessage(`📊 تقرير FIROGIST DESIGNER\n━━━━━━━━━━━━━━━━━━\n📅 التاريخ: ${date}\n📈 اليوم: ${stats.todayVisits} زيارة\n📊 الأسبوع: ${stats.weekVisits} زيارة\n🏆 الإجمالي: ${stats.totalVisits} مرة`);
                     localStorage.setItem('firogist_last_report', today);
                 }, 5000);
             }
             
-            // تأثير تقسيم الاسم إلى حروف
+            // تأثير تقسيم الاسم
             const heroText = 'FIROGIST | DESIGNER';
             const wrapper = document.getElementById('heroTitleWrapper');
             if (wrapper) {
                 wrapper.innerHTML = '';
                 for (let i = 0; i < heroText.length; i++) {
                     const char = heroText[i];
-                    if (char === ' ') {
-                        wrapper.innerHTML += ' ';
-                    } else if (char === '|') {
-                        wrapper.innerHTML += `<span class="separator-char">|</span>`;
-                    } else {
-                        wrapper.innerHTML += `<span class="char">${char}</span>`;
-                    }
+                    if (char === ' ') wrapper.innerHTML += ' ';
+                    else if (char === '|') wrapper.innerHTML += `<span class="separator-char">|</span>`;
+                    else wrapper.innerHTML += `<span class="char">${char}</span>`;
                 }
             }
             
             // الرابط المختصر
             const SHORT_URL = 'https://spoo.me/FiROGIST';
             
-            // رسالة واتساب (مختصرة وجذابة)
-            const WHATSAPP_TEXT = `🎨 FIROGIST DESIGNER | مصمم جرافيك\n\n✨ استكشف أعمالي:\n• تصاميم إبداعية\n• هوية بصرية\n• طباعة أقمشة (Silk Screen)\n\n🌐 الرابط: ${SHORT_URL}\n\n#GraphicDesigner #مصمم_جرافيك #Portfolio`;
+            const WHATSAPP_TEXT = `🎨 FIROGIST DESIGNER | مصمم جرافيك\n\n✨ استكشف أعمالي\n🌐 ${SHORT_URL}`;
+            const FACEBOOK_TEXT = `🎨 FIROGIST DESIGNER - Creative Graphic Designer Portfolio ✨\n🌐 ${SHORT_URL}`;
+            const TWITTER_TEXT = `🎨 FIROGIST DESIGNER | Graphic Designer Portfolio ✨\n🌐 ${SHORT_URL}`;
             
-            // رسالة فيسبوك (احترافية)
-            const FACEBOOK_TEXT = `🎨 FIROGIST DESIGNER - Creative Graphic Designer Portfolio ✨\n\nExplore my creative works in visual identity, silk screen printing, and graphic design.\n\n🌐 Portfolio: ${SHORT_URL}\n\n#GraphicDesigner #Portfolio #CreativeDesign`;
-            
-            // رسالة تويتر (مختصرة مع هاشتاجات)
-            const TWITTER_TEXT = `🎨 FIROGIST DESIGNER | Graphic Designer Portfolio ✨\n\nCheck out my creative works! 👇\n\n🌐 ${SHORT_URL}\n\n#GraphicDesigner #Portfolio #CreativeDesign`;
-            
-            // دوال المشاركة
-            window.shareWhatsApp = function() {
-                window.open(`https://wa.me/?text=${encodeURIComponent(WHATSAPP_TEXT)}`, '_blank');
-            };
-            
-            window.shareFacebook = function() {
-                window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(SHORT_URL)}&quote=${encodeURIComponent(FACEBOOK_TEXT)}`, '_blank', 'width=600,height=400');
-            };
-            
-            window.shareTwitter = function() {
-                window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(TWITTER_TEXT)}`, '_blank', 'width=600,height=400');
-            };
-            
-            window.shareLinkedIn = function() {
-                window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(SHORT_URL)}`, '_blank', 'width=600,height=400');
-            };
+            window.shareWhatsApp = function() { window.open(`https://wa.me/?text=${encodeURIComponent(WHATSAPP_TEXT)}`, '_blank'); };
+            window.shareFacebook = function() { window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(SHORT_URL)}`, '_blank', 'width=600,height=400'); };
+            window.shareTwitter = function() { window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(TWITTER_TEXT)}`, '_blank', 'width=600,height=400'); };
+            window.shareLinkedIn = function() { window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(SHORT_URL)}`, '_blank', 'width=600,height=400'); };
             
             window.copyLink = function() {
                 navigator.clipboard.writeText(SHORT_URL).then(() => {
                     const toast = document.getElementById('toastNotification');
-                    const toastMsg = document.getElementById('toastMessage');
-                    if (toast && toastMsg) {
-                        toastMsg.textContent = '🔗 تم نسخ الرابط!';
+                    if (toast) {
+                        document.getElementById('toastMessage').textContent = '🔗 تم نسخ الرابط!';
                         toast.classList.add('show');
                         setTimeout(() => toast.classList.remove('show'), 2000);
                     }
                 });
             };
             
-            // القائمة
+            // ===== القائمة (تم إصلاحها) =====
             const menuBtn = document.getElementById('menuBtn');
             const dropdownMenu = document.getElementById('dropdownMenu');
             const closeMenu = document.getElementById('closeMenu');
-            if(menuBtn) menuBtn.onclick = (e) => { e.stopPropagation(); dropdownMenu.classList.add('open'); };
-            if(closeMenu) closeMenu.onclick = () => dropdownMenu.classList.remove('open');
-            document.onclick = (e) => { if(dropdownMenu && menuBtn && !dropdownMenu.contains(e.target) && !menuBtn.contains(e.target)) dropdownMenu.classList.remove('open'); };
+            
+            if(menuBtn) {
+                menuBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    dropdownMenu.classList.add('open');
+                });
+            }
+            
+            if(closeMenu) {
+                closeMenu.addEventListener('click', function() {
+                    dropdownMenu.classList.remove('open');
+                });
+            }
+            
+            document.addEventListener('click', function(e) {
+                if(dropdownMenu && menuBtn && !dropdownMenu.contains(e.target) && !menuBtn.contains(e.target)) {
+                    dropdownMenu.classList.remove('open');
+                }
+            });
+            
+            if(dropdownMenu) {
+                dropdownMenu.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                });
+            }
             
             // شريط التحميل
             const pb = document.getElementById('topProgressBar');
-            window.onload = () => { if(pb) { pb.style.width = '100%'; setTimeout(() => { if(pb) pb.style.width = '0%'; }, 300); } };
+            window.addEventListener('load', function() { 
+                if(pb) { pb.style.width = '100%'; setTimeout(function() { if(pb) pb.style.width = '0%'; }, 300); } 
+            });
             
             // زر الرجوع للأعلى
             const stb = document.getElementById('scrollTopBtn');
             if(stb) {
-                window.onscroll = () => stb.classList.toggle('show', window.scrollY > 300);
-                stb.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+                window.addEventListener('scroll', function() { stb.classList.toggle('show', window.scrollY > 300); });
+                stb.addEventListener('click', function() { window.scrollTo({ top: 0, behavior: 'smooth' }); });
             }
             
             // الوضع الداكن
@@ -454,55 +399,50 @@
             function toggleTheme() {
                 document.body.classList.toggle('light-mode');
                 const isLight = document.body.classList.contains('light-mode');
-                themeIcon.className = isLight ? 'fas fa-sun' : 'fas fa-moon';
+                if(themeIcon) themeIcon.className = isLight ? 'fas fa-sun' : 'fas fa-moon';
                 localStorage.setItem('theme', isLight ? 'light' : 'dark');
                 showToast(isLight ? '🌞 الوضع الفاتح' : '🌙 الوضع الداكن');
             }
             if(themeBtn) {
-                themeBtn.onclick = toggleTheme;
+                themeBtn.addEventListener('click', toggleTheme);
                 if(localStorage.getItem('theme') === 'light') {
                     document.body.classList.add('light-mode');
-                    themeIcon.className = 'fas fa-sun';
+                    if(themeIcon) themeIcon.className = 'fas fa-sun';
                 }
             }
             
             // حماية الصور
             document.querySelectorAll('img').forEach(img => {
-                img.oncontextmenu = (e) => e.preventDefault();
-                img.ondragstart = (e) => e.preventDefault();
+                img.addEventListener('contextmenu', (e) => e.preventDefault());
+                img.addEventListener('dragstart', (e) => e.preventDefault());
                 img.setAttribute('draggable', 'false');
             });
             
             // إخفاء loader
             const loader = document.getElementById('loader');
-            if(loader) window.onload = () => setTimeout(() => loader.classList.add('hide'), 1000);
-            
-            // صوت النقر
-            const clickSound = document.getElementById('clickSound');
-            if(clickSound) clickSound.volume = 0.3;
-            function playSound() { if(clickSound) { clickSound.currentTime = 0; clickSound.play().catch(()=>{}); } }
-            document.querySelectorAll('.nav-item, .menu-btn, .theme-btn, .scroll-top-btn, .language-item, .close-menu, .btn, .back-home-btn, .work-card, .share-btn').forEach(el => el.onclick = playSound);
+            if(loader) {
+                window.addEventListener('load', function() { setTimeout(function() { loader.classList.add('hide'); }, 1000); });
+            }
             
             // Toast
             const toast = document.getElementById('toastNotification');
-            const toastMsg = document.getElementById('toastMessage');
             function showToast(msg, isSuccess = true) {
-                if(toast && toastMsg) {
-                    toastMsg.textContent = msg;
+                if(toast) {
+                    document.getElementById('toastMessage').textContent = msg;
                     toast.classList.add('show');
                     toast.style.background = isSuccess ? 'linear-gradient(135deg, #10b981, #059669)' : 'linear-gradient(135deg, #a855f7, #7c3aed)';
-                    setTimeout(() => toast.classList.remove('show'), 2500);
-                    setTimeout(() => toast.style.background = 'linear-gradient(135deg, #a855f7, #7c3aed)', 2600);
+                    setTimeout(function() { toast.classList.remove('show'); }, 2500);
+                    setTimeout(function() { toast.style.background = 'linear-gradient(135deg, #a855f7, #7c3aed)'; }, 2600);
                 }
             }
             
             // نسخ رقم الهاتف
             document.querySelectorAll('.contact-item a[href^="tel:"]').forEach(el => {
-                el.onclick = (e) => {
+                el.addEventListener('click', (e) => {
                     e.preventDefault();
                     const num = el.getAttribute('href').replace('tel:', '');
                     navigator.clipboard.writeText(num).then(() => showToast('📞 تم نسخ الرقم: ' + num));
-                };
+                });
             });
             
             // تأثير الكتابة
@@ -541,64 +481,81 @@
                 });
             }
             cards.forEach(card => {
-                card.onclick = () => showToast(`✨ "${card.querySelector('.work-card-title h3')?.innerText || 'العمل'}" - قريباً سأضيف تفاصيل أكثر! ✨`);
+                card.addEventListener('click', function() {
+                    const title = card.querySelector('.work-card-title h3')?.innerText || 'العمل';
+                    showToast(`✨ "${title}" - قريباً سأضيف تفاصيل أكثر! ✨`);
+                });
             });
             window.addEventListener('scroll', checkVisibility);
             window.addEventListener('resize', checkVisibility);
             checkVisibility();
             
-            // Parallax
-            const parallaxBg = document.querySelectorAll('.parallax-bg');
-            if(parallaxBg.length) window.onscroll = () => parallaxBg.forEach(el => el.style.transform = `translateY(${window.pageYOffset * 0.3}px)`);
-            
             // الترجمة
             const translations = {
-                ar: { navHome:'الرئيسية', navAbout:'من أنا', navWork:'أعمالي', phoneLabel:'الهاتف:', whatsappLabel:'واتساب:', telegramLabel:'تليجرام:', languageTitle:'اللغة', contactHeader:'تواصل معي', navHeader:'التنقل', footer:'© 2026 FIROGIST DESIGNER - جميع الحقوق محفوظة', heroTitle:'FIROGIST | DESIGNER', subtitle:'FULL-STACK CREATIVE PORTFOLIO' },
-                en: { navHome:'Home', navAbout:'About Me', navWork:'My Work', phoneLabel:'Phone:', whatsappLabel:'WhatsApp:', telegramLabel:'Telegram:', languageTitle:'Language', contactHeader:'Contact Me', navHeader:'Navigation', footer:'© 2026 FIROGIST DESIGNER - All Rights Reserved', heroTitle:'FIROGIST | DESIGNER', subtitle:'FULL-STACK CREATIVE PORTFOLIO' },
-                ru: { navHome:'Главная', navAbout:'Обо мне', navWork:'Мои работы', phoneLabel:'Телефон:', whatsappLabel:'WhatsApp:', telegramLabel:'Telegram:', languageTitle:'Язык', contactHeader:'Связаться', navHeader:'Навигация', footer:'© 2026 FIROGIST DESIGNER - Все права защищены', heroTitle:'FIROGIST | DESIGNER', subtitle:'FULL-STACK CREATIVE PORTFOLIO' }
+                ar: { navHome:'الرئيسية', navAbout:'من أنا', navWork:'أعمالي', phoneLabel:'الهاتف:', whatsappLabel:'واتساب:', telegramLabel:'تليجرام:', languageTitle:'اللغة', contactHeader:'تواصل معي', navHeader:'التنقل', footer:'© 2026 FIROGIST DESIGNER - جميع الحقوق محفوظة', subtitle:'FULL-STACK CREATIVE PORTFOLIO' },
+                en: { navHome:'Home', navAbout:'About Me', navWork:'My Work', phoneLabel:'Phone:', whatsappLabel:'WhatsApp:', telegramLabel:'Telegram:', languageTitle:'Language', contactHeader:'Contact Me', navHeader:'Navigation', footer:'© 2026 FIROGIST DESIGNER - All Rights Reserved', subtitle:'FULL-STACK CREATIVE PORTFOLIO' },
+                ru: { navHome:'Главная', navAbout:'Обо мне', navWork:'Мои работы', phoneLabel:'Телефон:', whatsappLabel:'WhatsApp:', telegramLabel:'Telegram:', languageTitle:'Язык', contactHeader:'Связаться', navHeader:'Навигация', footer:'© 2026 FIROGIST DESIGNER - Все права защищены', subtitle:'FULL-STACK CREATIVE PORTFOLIO' }
             };
             
             function changeLanguage(lang) {
                 const t = translations[lang];
-                document.querySelector('footer p').textContent = t.footer;
-                document.querySelector('.hero-subtitle').textContent = t.subtitle;
-                document.querySelector('.nav-header span').textContent = t.navHeader;
-                document.querySelector('.contact-header span').textContent = t.contactHeader;
-                document.querySelector('.language-header span').textContent = t.languageTitle;
+                const footer = document.querySelector('footer p');
+                if(footer) footer.textContent = t.footer;
+                const subtitle = document.querySelector('.hero-subtitle');
+                if(subtitle) subtitle.textContent = t.subtitle;
+                const navHeader = document.querySelector('.nav-header span');
+                if(navHeader) navHeader.textContent = t.navHeader;
+                const contactHeader = document.querySelector('.contact-header span');
+                if(contactHeader) contactHeader.textContent = t.contactHeader;
+                const languageHeader = document.querySelector('.language-header span');
+                if(languageHeader) languageHeader.textContent = t.languageTitle;
                 const navLinks = document.querySelectorAll('.nav-link-text');
-                if(navLinks.length >= 3) { navLinks[0].textContent = t.navHome; navLinks[1].textContent = t.navAbout; navLinks[2].textContent = t.navWork; }
-                document.querySelector('.contact-item:first-child span').textContent = t.phoneLabel;
-                document.querySelector('.contact-item:nth-child(2) span').textContent = t.whatsappLabel;
-                document.querySelector('.contact-item:last-child span').textContent = t.telegramLabel;
-                document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
-                document.documentElement.setAttribute('lang', lang);
+                if(navLinks.length >= 3) {
+                    navLinks[0].textContent = t.navHome;
+                    navLinks[1].textContent = t.navAbout;
+                    navLinks[2].textContent = t.navWork;
+                }
+                const phoneLabel = document.querySelector('.contact-item:first-child span');
+                if(phoneLabel) phoneLabel.textContent = t.phoneLabel;
+                const whatsappLabel = document.querySelector('.contact-item:nth-child(2) span');
+                if(whatsappLabel) whatsappLabel.textContent = t.whatsappLabel;
+                const telegramLabel = document.querySelector('.contact-item:last-child span');
+                if(telegramLabel) telegramLabel.textContent = t.telegramLabel;
+                const htmlElement = document.documentElement;
+                if(lang === 'ar') {
+                    htmlElement.setAttribute('dir', 'rtl');
+                    htmlElement.setAttribute('lang', 'ar');
+                } else {
+                    htmlElement.setAttribute('dir', 'ltr');
+                    htmlElement.setAttribute('lang', lang);
+                }
                 if(dropdownMenu) dropdownMenu.classList.remove('open');
                 showToast(`🌐 تم تغيير اللغة إلى: ${lang === 'ar' ? 'العربية' : lang === 'en' ? 'English' : 'Русский'}`);
             }
             
             document.querySelectorAll('.language-item').forEach(item => {
-                item.onclick = () => changeLanguage(item.getAttribute('data-lang'));
+                item.addEventListener('click', function() { changeLanguage(this.getAttribute('data-lang')); });
             });
             
             // التنقل
             document.querySelectorAll('.nav-item').forEach(item => {
-                item.onclick = (e) => {
+                item.addEventListener('click', function(e) {
                     e.preventDefault();
-                    const link = item.getAttribute('data-link');
+                    const link = this.getAttribute('data-link');
                     if(link === 'home') window.scrollTo({ top: 0, behavior: 'smooth' });
                     else if(link === 'about') window.location.href = 'about.html';
                     else if(link === 'gallery') document.getElementById('gallery')?.scrollIntoView({ behavior: 'smooth' });
                     if(dropdownMenu) dropdownMenu.classList.remove('open');
-                };
+                });
             });
             
             // حماية شاملة
-            document.oncontextmenu = (e) => { e.preventDefault(); showToast('🔒 محمية', false); };
-            document.onkeydown = (e) => {
+            document.addEventListener('contextmenu', (e) => { e.preventDefault(); showToast('🔒 محمية', false); });
+            document.addEventListener('keydown', (e) => {
                 if(e.key === 'F12' || e.keyCode === 123 || ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'I' || e.key === 'J')) || ((e.ctrlKey || e.metaKey) && (e.key === 'u' || e.key === 'U'))) {
                     e.preventDefault(); showToast('🔒 محمية', false);
                 }
-            };
+            });
             
             console.log('✅ FIROGIST DESIGNER loaded - نظام الإشعارات مفعل');
         })();
