@@ -283,7 +283,6 @@ body.light-mode .toast-notification {
 }
 
 /* ===== أزرار التحكم ===== */
-/* زر الوضع الداكن/الفاتح - أعلى اليسار */
 .theme-btn {
     position: fixed;
     top: 20px;
@@ -318,7 +317,6 @@ body.light-mode .theme-btn i {
     transform: scale(1.05);
 }
 
-/* زر القائمة (3 شرط) - أعلى اليمين */
 .menu-btn {
     position: fixed;
     top: 20px;
@@ -353,7 +351,6 @@ body.light-mode .menu-btn i {
     transform: scale(1.05);
 }
 
-/* زر العودة للرئيسية - أعلى اليسار (يظهر في صفحة من أنا بس) */
 .back-home-btn {
     position: fixed;
     top: 20px;
@@ -388,7 +385,6 @@ body.light-mode .back-home-btn i {
     transform: scale(1.05);
 }
 
-/* زر الرجوع للأعلى - أسفل اليمين */
 .scroll-top-btn {
     position: fixed;
     bottom: 30px;
@@ -624,7 +620,7 @@ body.light-mode .scroll-top-btn i {
     letter-spacing: 2px;
 }
 
-/* ===== الهيدر ===== */
+/* ===== الهيدر المتطور جداً ===== */
 header {
     height: 70vh;
     display: flex;
@@ -635,18 +631,60 @@ header {
     overflow: hidden;
 }
 
+/* طبقة الخلفية الرئيسية - دوائر متحركة متعددة */
 header::before {
+    content: '';
+    position: absolute;
+    width: 400%;
+    height: 400%;
+    background: 
+        radial-gradient(circle at 20% 30%, rgba(168,85,247,0.15) 0%, transparent 40%),
+        radial-gradient(circle at 80% 70%, rgba(192,132,252,0.1) 0%, transparent 40%),
+        radial-gradient(circle at 40% 80%, rgba(124,58,237,0.08) 0%, transparent 50%),
+        repeating-linear-gradient(45deg, rgba(168,85,247,0.02) 0px, rgba(168,85,247,0.02) 3px, transparent 3px, transparent 15px),
+        repeating-linear-gradient(135deg, rgba(255,255,255,0.01) 0px, rgba(255,255,255,0.01) 1px, transparent 1px, transparent 10px);
+    animation: rotateBgSuperSlow 35s linear infinite, floatBgComplex 20s ease-in-out infinite, colorShift 12s ease-in-out infinite;
+}
+
+@keyframes rotateBgSuperSlow {
+    from { transform: rotate(0deg) scale(1); }
+    to { transform: rotate(360deg) scale(1.15); }
+}
+
+@keyframes floatBgComplex {
+    0%, 100% { transform: translate(-15%, -15%) rotate(0deg); }
+    25% { transform: translate(15%, -10%) rotate(3deg); }
+    50% { transform: translate(10%, 20%) rotate(-2deg); }
+    75% { transform: translate(-10%, 10%) rotate(4deg); }
+}
+
+@keyframes colorShift {
+    0% { filter: hue-rotate(0deg) brightness(1); }
+    50% { filter: hue-rotate(15deg) brightness(1.05); }
+    100% { filter: hue-rotate(0deg) brightness(1); }
+}
+
+/* طبقة ثانية - جسيمات متحركة */
+header::after {
     content: '';
     position: absolute;
     width: 200%;
     height: 200%;
-    background: radial-gradient(circle, rgba(255,255,255,0.03) 0%, transparent 70%);
-    animation: rotateBg 20s linear infinite;
+    background-image: 
+        radial-gradient(2px 2px at 10% 20%, #a855f7, rgba(0,0,0,0)),
+        radial-gradient(3px 3px at 85% 40%, #c084fc, rgba(0,0,0,0)),
+        radial-gradient(1px 1px at 30% 90%, #7c3aed, rgba(0,0,0,0)),
+        radial-gradient(2px 2px at 70% 60%, #e0aaff, rgba(0,0,0,0));
+    background-size: 200px 200px, 300px 300px, 150px 150px, 250px 250px;
+    background-repeat: no-repeat;
+    animation: particlesMove 25s linear infinite;
+    opacity: 0.6;
+    pointer-events: none;
 }
 
-@keyframes rotateBg {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
+@keyframes particlesMove {
+    0% { transform: translate(0, 0) rotate(0deg); }
+    100% { transform: translate(-10%, -10%) rotate(360deg); }
 }
 
 .overlay {
@@ -654,62 +692,143 @@ header::before {
     z-index: 2;
 }
 
+/* النص الرئيسي مع تأثيرات متعددة */
 .hero-title {
     font-family: 'Space Grotesk', 'Inter', sans-serif;
     font-weight: 800;
     font-size: 5.5rem;
     letter-spacing: -0.02em;
     color: #ffffff;
-    text-shadow: 0 0 30px rgba(168, 85, 247, 0.4), 0 0 60px rgba(124, 58, 237, 0.2);
+    text-shadow: 
+        0 0 20px rgba(168,85,247,0.6),
+        0 0 40px rgba(124,58,237,0.4),
+        0 0 80px rgba(168,85,247,0.2);
     margin-bottom: 1rem;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 0.3em;
     flex-wrap: wrap;
+    animation: textPulseAdvanced 4s ease-in-out infinite, textFloat 6s ease-in-out infinite;
+}
+
+@keyframes textPulseAdvanced {
+    0%, 100% {
+        text-shadow: 0 0 20px rgba(168,85,247,0.6), 0 0 40px rgba(124,58,237,0.4);
+        letter-spacing: -0.02em;
+    }
+    50% {
+        text-shadow: 0 0 40px rgba(192,132,252,0.9), 0 0 80px rgba(168,85,247,0.6);
+        letter-spacing: -0.01em;
+    }
+}
+
+@keyframes textFloat {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
 }
 
 .hero-title .separator {
     font-weight: 300;
     color: #a855f7;
-    text-shadow: 0 0 15px #a855f7;
+    text-shadow: 0 0 20px #a855f7, 0 0 40px #c084fc;
     font-size: 5rem;
-    animation: separatorPulse 2s ease-in-out infinite;
+    animation: separatorPulseAdvanced 2.5s ease-in-out infinite;
 }
 
-@keyframes separatorPulse {
+@keyframes separatorPulseAdvanced {
     0%, 100% {
-        opacity: 0.7;
-        text-shadow: 0 0 10px #a855f7;
+        opacity: 0.6;
+        text-shadow: 0 0 10px #a855f7, 0 0 20px #c084fc;
     }
     50% {
         opacity: 1;
-        text-shadow: 0 0 25px #c084fc;
+        text-shadow: 0 0 30px #c084fc, 0 0 60px #e0aaff;
+        transform: scale(1.1);
     }
 }
 
+/* الكرة الضبابية الرئيسية المتطورة */
 .hero-glow {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 600px;
-    height: 600px;
-    background: radial-gradient(circle, rgba(168,85,247,0.25) 0%, rgba(168,85,247,0) 70%);
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(circle, 
+        rgba(168,85,247,0.35) 0%, 
+        rgba(192,132,252,0.2) 25%, 
+        rgba(124,58,237,0.1) 50%, 
+        transparent 80%);
     border-radius: 50%;
     transform: translate(-50%, -50%);
-    filter: blur(70px);
+    filter: blur(100px);
     z-index: -1;
-    animation: pulseGlow 4s ease-in-out infinite;
+    animation: pulseGlowSuper 6s ease-in-out infinite, moveGlowComplex 15s ease-in-out infinite, rotateGlow 20s linear infinite;
 }
 
-@keyframes pulseGlow {
+@keyframes pulseGlowSuper {
     0%, 100% {
         opacity: 0.5;
         transform: translate(-50%, -50%) scale(1);
+        background: radial-gradient(circle, rgba(168,85,247,0.35) 0%, rgba(192,132,252,0.2) 25%, transparent 80%);
     }
     50% {
-        opacity: 1;
-        transform: translate(-50%, -50%) scale(1.2);
+        opacity: 0.9;
+        transform: translate(-50%, -50%) scale(1.4);
+        background: radial-gradient(circle, rgba(192,132,252,0.5) 0%, rgba(168,85,247,0.3) 30%, rgba(124,58,237,0.1) 60%, transparent 80%);
+    }
+}
+
+@keyframes moveGlowComplex {
+    0%, 100% { left: 45%; top: 45%; }
+    20% { left: 55%; top: 45%; }
+    40% { left: 55%; top: 55%; }
+    60% { left: 45%; top: 55%; }
+    80% { left: 48%; top: 48%; }
+}
+
+@keyframes rotateGlow {
+    from { transform: translate(-50%, -50%) rotate(0deg); }
+    to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* الموجات الصوتية حول النص */
+.hero-title::before,
+.hero-title::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    pointer-events: none;
+    z-index: -1;
+}
+
+.hero-title::before {
+    border: 2px solid rgba(168,85,247,0.3);
+    transform: translate(-50%, -50%) scale(1);
+    animation: waveRing 3s ease-out infinite;
+}
+
+.hero-title::after {
+    border: 1px solid rgba(192,132,252,0.2);
+    transform: translate(-50%, -50%) scale(1);
+    animation: waveRing 3s ease-out infinite 1.5s;
+}
+
+@keyframes waveRing {
+    0% {
+        width: 100%;
+        height: 100%;
+        opacity: 0.6;
+    }
+    100% {
+        width: 200%;
+        height: 200%;
+        opacity: 0;
     }
 }
 
@@ -720,8 +839,21 @@ header::before {
     color: #d8b4fe;
     font-weight: 400;
     text-transform: uppercase;
-    animation: fadeInUp 1s ease 0.5s both;
+    animation: fadeInUp 1s ease 0.5s both, subtitleGlow 3s ease-in-out infinite;
     text-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
+    position: relative;
+    display: inline-block;
+    background: linear-gradient(90deg, #d8b4fe, #a855f7, #d8b4fe);
+    background-size: 200% auto;
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    animation: fadeInUp 1s ease 0.5s both, subtitleShine 4s linear infinite;
+}
+
+@keyframes subtitleShine {
+    0% { background-position: 0% center; }
+    100% { background-position: 200% center; }
 }
 
 /* ===== Parallax Effect ===== */
@@ -1049,14 +1181,15 @@ footer {
     .info-cards { grid-template-columns: 1fr; gap: 15px; }
     .experience-badge { width: 80px; height: 80px; }
     .experience-badge .years { font-size: 1.5rem; }
-    .hero-title { font-size: 3.5rem; }
-    .hero-title .separator { font-size: 3rem; }
+    .hero-title { font-size: 3rem; }
+    .hero-title .separator { font-size: 2.8rem; }
+    .hero-glow { width: 400px; height: 400px; filter: blur(60px); }
 }
 
 @media (max-width: 768px) {
     header { height: 60vh; }
-    .hero-title { font-size: 2.2rem; flex-direction: row; flex-wrap: wrap; }
-    .hero-title .separator { font-size: 2rem; }
+    .hero-title { font-size: 2rem; flex-direction: row; flex-wrap: wrap; }
+    .hero-title .separator { font-size: 1.8rem; }
     .hero-subtitle { font-size: 0.7rem; letter-spacing: 5px; }
     .gallery { padding: 20px; gap: 20px; }
     .hero-glow { width: 300px; height: 300px; filter: blur(40px); }
@@ -1082,8 +1215,8 @@ footer {
 }
 
 @media (max-width: 480px) {
-    .hero-title { font-size: 1.6rem; }
-    .hero-title .separator { font-size: 1.4rem; }
+    .hero-title { font-size: 1.4rem; }
+    .hero-title .separator { font-size: 1.2rem; }
     .gallery { grid-template-columns: 1fr; padding: 15px; }
     .about-buttons { flex-direction: column; }
     .btn { justify-content: center; }
