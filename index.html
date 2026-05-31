@@ -273,13 +273,13 @@
         <i class="fas fa-arrow-up"></i>
     </div>
 
-    <!-- ===== كود الجافاسكريبت المعدل (آمن) ===== -->
+    <!-- ===== كود الجافاسكريبت المعدل (آمن) مع إشعار الزائر ===== -->
     <script>
         (function(){
             // ===== رابط Cloudflare Worker الآمن =====
             const TELEGRAM_WORKER_URL = 'https://small-haze-e355vfirogist-telegram-bot.firogist.workers.dev';
             
-            // دالة إرسال آمنة (للتقارير والإحصائيات)
+            // دالة إرسال آمنة (للتقارير والإحصائيات والإشعارات)
             async function sendTelegramMessage(message) {
                 try {
                     const response = await fetch(TELEGRAM_WORKER_URL, {
@@ -291,20 +291,82 @@
                 } catch(error) { console.log('خطأ:', error); }
             }
             
-            // إحصائيات الزوار
+            // ===== إشعار فتح الموقع (زائر جديد) =====
+            async function sendVisitorNotification() {
+                // التحقق إذا تم إرسال إشعار لهذا الزائر في آخر ساعة
+                const lastNotify = localStorage.getItem('last_notify_time');
+                const now = Date.now();
+                
+                if (lastNotify && (now - parseInt(lastNotify)) < 3600000) {
+                    console.log('⏳ تم إرسال إشعار مؤخراً، سيتم التجربة بعد ساعة');
+                    return;
+                }
+                
+                localStorage.setItem('last_notify_time', now);
+                
+                // الحصول على معلومات الزائر
+                const visitorTime = new Date().toLocaleString('ar-EG', { timeZone: 'Africa/Cairo' });
+                const userAgent = navigator.userAgent;
+                const isMobile = /Mobile|Android|iPhone|iPad|iPod/i.test(userAgent);
+                const deviceType = isMobile ? '📱 جوال' : '🖥️ كمبيوتر';
+                const browser = getBrowserName(userAgent);
+                const language = navigator.language;
+                const screenSize = `${window.screen.width}x${window.screen.height}`;
+                const referrer = document.referrer || 'مباشر';
+                
+                // الحصول على إجمالي الزوار
+                let stats = JSON.parse(localStorage.getItem('firogist_stats') || '{"totalVisits":0}');
+                const visitorNumber = stats.totalVisits || 1;
+                
+                // تنسيق الرسالة
+                const message = `🆕 <b>زائر جديد دخل الموقع!</b>
+━━━━━━━━━━━━━━━━━━
+🔢 <b>رقم الزائر:</b> #${visitorNumber}
+🕐 <b>الوقت:</b> ${visitorTime}
+🌐 <b>الرابط:</b> <a href="https://spoo.me/FiROGIST">spoo.me/FiROGIST</a>
+💻 <b>الجهاز:</b> ${deviceType}
+🌍 <b>المتصفح:</b> ${browser}
+🗣️ <b>اللغة:</b> ${language}
+📏 <b>الشاشة:</b> ${screenSize}
+🔗 <b>قادم من:</b> ${referrer}
+━━━━━━━━━━━━━━━━━━
+🔒 FIROGIST STATS`;
+                
+                await sendTelegramMessage(message);
+                console.log('✅ تم إرسال إشعار الزائر رقم', visitorNumber);
+            }
+            
+            // دالة لمعرفة اسم المتصفح
+            function getBrowserName(ua) {
+                if (ua.includes('Chrome')) return 'Google Chrome';
+                if (ua.includes('Firefox')) return 'Mozilla Firefox';
+                if (ua.includes('Safari') && !ua.includes('Chrome')) return 'Apple Safari';
+                if (ua.includes('Edge')) return 'Microsoft Edge';
+                if (ua.includes('Opera') || ua.includes('OPR')) return 'Opera';
+                if (ua.includes('Brave')) return 'Brave';
+                return 'متصفح آخر';
+            }
+            
+            // ===== إحصائيات الزوار =====
             let stats = JSON.parse(localStorage.getItem('firogist_stats') || '{"todayVisits":0,"totalVisits":0,"weekVisits":0}');
             stats.todayVisits++;
             stats.totalVisits++;
             stats.weekVisits++;
             localStorage.setItem('firogist_stats', JSON.stringify(stats));
             
-            // التقرير اليومي
+            // ===== إرسال إشعار الزائر =====
+            // تأخير بسيط لضمان تحميل الصفحة بالكامل
+            setTimeout(() => {
+                sendVisitorNotification();
+            }, 2000);
+            
+            // ===== التقرير اليومي =====
             const lastReport = localStorage.getItem('firogist_last_report');
             const today = new Date().toDateString();
             if (lastReport !== today) {
                 setTimeout(() => {
                     const date = new Date().toLocaleDateString('ar-EG', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
-                    sendTelegramMessage(`📊 تقرير FIROGIST DESIGNER\n━━━━━━━━━━━━━━━━━━\n📅 التاريخ: ${date}\n📈 اليوم: ${stats.todayVisits} زيارة\n📊 الأسبوع: ${stats.weekVisits} زيارة\n🏆 الإجمالي: ${stats.totalVisits} مرة`);
+                    sendTelegramMessage(`📊 <b>تقرير FIROGIST DESIGNER</b>\n━━━━━━━━━━━━━━━━━━\n📅 <b>التاريخ:</b> ${date}\n📈 <b>اليوم:</b> ${stats.todayVisits} زيارة\n📊 <b>هذا الأسبوع:</b> ${stats.weekVisits} زيارة\n🏆 <b>الإجمالي:</b> ${stats.totalVisits} مرة\n━━━━━━━━━━━━━━━━━━\n🔒 FIROGIST STATS`);
                     localStorage.setItem('firogist_last_report', today);
                 }, 5000);
             }
@@ -538,7 +600,7 @@
                 }
             };
             
-            console.log('✅ FIROGIST DESIGNER loaded');
+            console.log('✅ FIROGIST DESIGNER loaded - نظام الإشعارات مفعل');
         })();
     </script>
 </body>
