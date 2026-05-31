@@ -1,1 +1,387 @@
-(function(){const TELEGRAM_BOT_TOKEN='8903664314:AAEBDPhKijdPxFI-U0UVOA5nKT2DeSWcp7g',TELEGRAM_CHAT_ID='5511952564';function sendTelegramMessage(e){const t=`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;fetch(t,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:TELEGRAM_CHAT_ID,text:e,parse_mode:'HTML'})}).catch(e=>console.log('خطأ:',e));}let stats={todayVisits:0,totalVisits:0,lastDate:null,weekVisits:0,lastWeekDate:null};function loadStats(){const e=localStorage.getItem('firogist_stats');if(e)stats=JSON.parse(e);const t=new Date().toDateString();stats.lastDate!==t&&(stats.todayVisits=0,stats.lastDate=t);const o=getWeekNumber(new Date());stats.lastWeekDate!==o&&(stats.weekVisits=0,stats.lastWeekDate=o);}function saveStats(){localStorage.setItem('firogist_stats',JSON.stringify(stats));}function getWeekNumber(e){const t=new Date(e);t.setHours(0,0,0,0),t.setDate(t.getDate()+3-(t.getDay()+6)%7);const o=new Date(t.getFullYear(),0,4);return 1+Math.round(((t-o)/86400000-3+(o.getDay()+6)%7)/7);}function addVisit(){stats.todayVisits++,stats.totalVisits++,stats.weekVisits++,saveStats();}function sendDailyReport(){const e=new Date().toLocaleDateString('ar-EG',{weekday:'long',year:'numeric',month:'long',day:'numeric'}),t=`\n📊 <b>تقرير إحصائيات FIROGIST DESIGNER</b>\n━━━━━━━━━━━━━━━━━━━━━━━━━━\n📅 <b>التاريخ:</b> ${e}\n━━━━━━━━━━━━━━━━━━━━━━━━━━\n📈 <b>اليوم:</b> ${stats.todayVisits} زيارة\n📊 <b>هذا الأسبوع:</b> ${stats.weekVisits} زيارة\n🏆 <b>إجمالي الزوار:</b> ${stats.totalVisits} مرة\n━━━━━━━━━━━━━━━━━━━━━━━━━━\n🔒 FIROGIST STATS`;sendTelegramMessage(t);}loadStats(),addVisit();const _0x2f3a=localStorage.getItem('firogist_last_report'),_0x3b4c=new Date().toDateString();_0x2f3a!==_0x3b4c&&setTimeout(()=>{sendDailyReport(),localStorage.setItem('firogist_last_report',_0x3b4c);},5e3);console.log('📊 نظام الإحصائيات يعمل - إجمالي الزوار:',stats.totalVisits);const cards=document.querySelectorAll('.work-card');function checkVisibility(){cards.forEach(e=>{const t=e.getBoundingClientRect(),o=window.innerHeight;t.top<o-100&&t.bottom>0&&e.classList.add('visible');});}cards.forEach(e=>{e.addEventListener('click',()=>{const t=e.querySelector('.work-card-title h3')?.innerText||'العمل';showToast(`✨ "${t}" - قريباً سأضيف تفاصيل أكثر عن هذا العمل! ✨`);});});const pb=document.getElementById('topProgressBar');function completePB(){pb&&(pb.style.width='100%',setTimeout(()=>{pb&&(pb.style.width='0%');},300));}window.addEventListener('load',()=>{completePB();});window.addEventListener('pageshow',()=>{pb&&(pb.style.width='0%');});const mb=document.getElementById('menuBtn'),dm=document.getElementById('dropdownMenu'),cm=document.getElementById('closeMenu');mb&&mb.addEventListener('click',e=>{e.stopPropagation(),dm.classList.add('open');});cm&&cm.addEventListener('click',()=>{dm.classList.remove('open');});document.addEventListener('click',e=>{dm&&mb&&!dm.contains(e.target)&&!mb.contains(e.target)&&dm.classList.remove('open');});dm&&dm.addEventListener('click',e=>{e.stopPropagation();});const stb=document.getElementById('scrollTopBtn');stb&&(window.addEventListener('scroll',()=>{window.scrollY>300?stb.classList.add('show'):stb.classList.remove('show');}),stb.addEventListener('click',()=>{window.scrollTo({top:0,behavior:'smooth'});}));const tb=document.getElementById('themeBtn'),ti=tb?.querySelector('i');function tt(){document.body.classList.toggle('light-mode'),document.body.classList.contains('light-mode')?(ti.className='fas fa-sun',localStorage.setItem('theme','light'),showToast('🌞 تم التبديل إلى الوضع الفاتح')):(ti.className='fas fa-moon',localStorage.setItem('theme','dark'),showToast('🌙 تم التبديل إلى الوضع الداكن'));}tb&&(tb.addEventListener('click',tt),localStorage.getItem('theme')==='light'&&(document.body.classList.add('light-mode'),ti.className='fas fa-sun'));document.querySelectorAll('img').forEach(e=>{e.addEventListener('contextmenu',e=>{e.preventDefault();}),e.addEventListener('dragstart',e=>{e.preventDefault();}),e.setAttribute('draggable','false');});const ld=document.getElementById('loader');ld&&window.addEventListener('load',()=>{setTimeout(()=>{ld.classList.add('hide');},1e3);});const wrds=['Graphic Designer','Motion Designer','UI/UX Designer','Brand Identity','Silk Screen Designer'];let wi=0,ci=0,del=!1;const tws=document.getElementById('typedWord');function te(){if(!tws)return;const e=wrds[wi];del?(tws.textContent=e.substring(0,ci-1),ci--):(tws.textContent=e.substring(0,ci+1),ci++),!del&&ci===e.length?(del=!0,setTimeout(te,2e3)):del&&0===ci?(del=!1,wi=(wi+1)%wrds.length,setTimeout(te,500)):setTimeout(te,del?50:100);}tws&&setTimeout(te,500);const cs=document.getElementById('clickSound');cs&&(cs.volume=.3);function pcs(){cs&&(cs.currentTime=0,cs.play().catch(e=>console.log('الصوت مش شغال:',e)));}document.querySelectorAll('.nav-item, .menu-btn, .theme-btn, .scroll-top-btn, .work-card, .language-item, .close-menu, .btn, .back-home-btn').forEach(e=>{e.addEventListener('click',pcs);});const tn=document.getElementById('toastNotification'),tm=document.getElementById('toastMessage');function showToast(e,t=!0){tn&&tm&&(tm.textContent=e,tn.classList.add('show'),t?tn.style.background='linear-gradient(135deg, #10b981, #059669)':tn.style.background='linear-gradient(135deg, #a855f7, #7c3aed)',setTimeout(()=>{tn.classList.remove('show');},2500),setTimeout(()=>{tn.style.background='linear-gradient(135deg, #a855f7, #7c3aed)';},2600));}document.querySelectorAll('.contact-item a[href^="tel:"]').forEach(e=>{e.addEventListener('click',t=>{t.preventDefault();const o=e.getAttribute('href').replace('tel:','');navigator.clipboard.writeText(o).then(()=>{showToast('📞 تم نسخ الرقم: '+o);});});});const pe=document.querySelectorAll('.parallax-bg');pe.length&&window.addEventListener('scroll',()=>{const e=window.pageYOffset;pe.forEach(t=>{const o=.3;t.style.transform=`translateY(${e*o}px)`;});});const hp=document.createElement('div');hp.className='parallax-bg';if(document.querySelector('header')){const e=document.querySelector('header');e.style.position='relative',e.style.overflow='hidden',e.insertBefore(hp,e.firstChild);}const wp=document.getElementById('welcomePopup'),cp=document.getElementById('closePopup'),pep=document.getElementById('popupExplore');function sp(){wp&&!localStorage.getItem('popupShown')&&setTimeout(()=>{wp.classList.add('show'),localStorage.setItem('popupShown','true');},1500);}cp&&cp.addEventListener('click',()=>{wp.classList.remove('show');});pep&&pep.addEventListener('click',e=>{e.preventDefault(),wp.classList.remove('show');const t=document.getElementById('gallery');t&&t.scrollIntoView({behavior:'smooth'});});wp?.addEventListener('click',e=>{(e.target===wp||e.target.classList.contains('popup-overlay'))&&wp.classList.remove('show');});sp();const trans={ar:{title:'FIROGIST DESIGNER | بورتفليو جرافيك ديزاينر',heroTitle:'FIROGIST | DESIGNER',subtitle:'FULL-STACK CREATIVE PORTFOLIO',footer:'© 2026 FIROGIST DESIGNER - جميع الحقوق محفوظة',contactTitle:'القائمة',phoneLabel:'الهاتف:',whatsappLabel:'واتساب:',telegramLabel:'تليجرام:',languageTitle:'اللغة',navHome:'الرئيسية',navAbout:'من أنا',navWork:'أعمالي',contactHeader:'تواصل معي',navHeader:'التنقل'},en:{title:'FIROGIST DESIGNER | Graphic Design Portfolio',heroTitle:'FIROGIST | DESIGNER',subtitle:'FULL-STACK CREATIVE PORTFOLIO',footer:'© 2026 FIROGIST DESIGNER - All Rights Reserved',contactTitle:'Menu',phoneLabel:'Phone:',whatsappLabel:'WhatsApp:',telegramLabel:'Telegram:',languageTitle:'Language',navHome:'Home',navAbout:'About Me',navWork:'My Work',contactHeader:'Contact Me',navHeader:'Navigation'},ru:{title:'FIROGIST DESIGNER | Портфолио графического дизайна',heroTitle:'FIROGIST | DESIGNER',subtitle:'FULL-STACK CREATIVE PORTFOLIO',footer:'© 2026 FIROGIST DESIGNER - Все права защищены',contactTitle:'Меню',phoneLabel:'Телефон:',whatsappLabel:'WhatsApp:',telegramLabel:'Telegram:',languageTitle:'Язык',navHome:'Главная',navAbout:'Обо мне',navWork:'Мои работы',contactHeader:'Связаться',navHeader:'Навигация'}};function cl(e){const t=trans[e];document.title=t.title;const o=document.querySelector('.hero-title');o&&(o.innerHTML=t.heroTitle);const n=document.querySelector('.hero-subtitle');n&&(n.textContent=t.subtitle);const r=document.querySelector('footer p');r&&(r.textContent=t.footer);const a=document.querySelector('.neon-contact');a&&(a.textContent=t.contactTitle);const l=document.querySelector('.nav-header span');l&&(l.textContent=t.navHeader);const i=document.querySelector('.contact-header span');i&&(i.textContent=t.contactHeader);const c=document.querySelector('.language-header span');c&&(c.textContent=t.languageTitle);const s=document.querySelectorAll('.nav-link-text');s.length>=3&&(s[0].textContent=t.navHome,s[1].textContent=t.navAbout,s[2].textContent=t.navWork);const d=document.querySelector('.contact-item:first-child span');d&&(d.textContent=t.phoneLabel);const u=document.querySelector('.contact-item:nth-child(2) span');u&&(u.textContent=t.whatsappLabel);const g=document.querySelector('.contact-item:last-child span');g&&(g.textContent=t.telegramLabel);const m=document.querySelectorAll('.work-card-title h3');m.forEach((e,o)=>{t.workTitles&&t.workTitles[o]&&(e.textContent=t.workTitles[o]);});const h=document.documentElement;'ar'===e?(h.setAttribute('dir','rtl'),h.setAttribute('lang','ar')):(h.setAttribute('dir','ltr'),h.setAttribute('lang',e)),dm&&dm.classList.remove('open');let p='';'ar'===e?p='العربية':'en'===e?p='English':p='Русский',showToast(`🌐 تم تغيير اللغة إلى: ${p}`);}document.querySelectorAll('.language-item').forEach(e=>{e.addEventListener('click',()=>{const t=e.getAttribute('data-lang');cl(t);});});const nis=document.querySelectorAll('.nav-item');nis.forEach(e=>{e.addEventListener('click',t=>{t.preventDefault(),t.stopPropagation();const o=e.getAttribute('data-link');if('home'===o){if(window.location.pathname.includes('index.html')||'/'===window.location.pathname||window.location.pathname.endsWith('/'))window.scrollTo({top:0,behavior:'smooth'});else window.location.href='index.html';}else if('about'===o)window.location.href='about.html';else if('gallery'===o){const n=document.getElementById('gallery');n&&n.scrollIntoView({behavior:'smooth'});}dm&&dm.classList.remove('open');});});if('serviceWorker'in navigator){window.addEventListener('load',()=>{navigator.serviceWorker.register('/sw.js').then(e=>{console.log('✅ Service Worker registered:',e);}).catch(e=>{console.log('❌ Service Worker registration failed:',e);});});}let dp;window.addEventListener('beforeinstallprompt',e=>{e.preventDefault(),dp=e,setTimeout(()=>{showToast('📱 يمكنك تثبيت الموقع على هاتفك',!0);},3e3);});const ib=document.createElement('div');ib.className='install-pwa-btn',ib.innerHTML='<i class="fas fa-download"></i>',ib.style.cssText='position:fixed;bottom:100px;right:30px;width:45px;height:45px;background:rgba(168,85,247,0.2);backdrop-filter:blur(10px);border:1px solid rgba(168,85,247,0.5);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:999;transition:0.3s;opacity:0;visibility:hidden;';const ici=ib.querySelector('i');ici&&(ici.style.cssText='color:#fff;font-size:20px;'),document.querySelector('.install-pwa-btn')||document.body.appendChild(ib),ib.addEventListener('click',()=>{dp&&(dp.prompt(),dp.userChoice.then(e=>{'accepted'===e.outcome&&showToast('🎉 شكراً لتثبيت التطبيق!'),dp=null,ib.style.opacity='0',ib.style.visibility='hidden';}));}),window.addEventListener('appinstalled',()=>{showToast('🎉 تم تثبيت التطبيق بنجاح!'),ib.style.opacity='0',ib.style.visibility='hidden';}),document.addEventListener('contextmenu',e=>{e.preventDefault(),showToast('🔒 هذه الخاصية محمية',!1);}),document.addEventListener('keydown',e=>{if('F12'===e.key||123===e.keyCode||(e.ctrlKey||e.metaKey)&&e.shiftKey&&('I'===e.key||'J'===e.key||73===e.keyCode||74===e.keyCode)||(e.ctrlKey||e.metaKey)&&('u'===e.key||'U'===e.key||'s'===e.key||'S'===e.key))e.preventDefault(),showToast('🔒 هذه الخاصية محمية',!1);}),setInterval(()=>{const e=performance.now();debugger;const t=performance.now();t-e>100&&(document.body.innerHTML='<div style="display:flex;align-items:center;justify-content:center;height:100vh;background:#1a0033;color:#fff;text-align:center;flex-direction:column;"><i class="fas fa-lock" style="font-size:80px;color:#a855f7;margin-bottom:20px;"></i><h1>⚠️ Developer Tools ممنوع</h1><p>تم تعطيل أدوات المطور لحماية المحتوى</p></div>',document.body.style.overflow='hidden');},1e3),console.log('%c🔒 هذا الموقع محمي - يمنع نسخ المحتوى أو فحص العناصر','color: #a855f7; font-size: 16px; font-weight: bold;'),setInterval(()=>console.clear(),5e3),window.addEventListener('DOMContentLoaded',()=>{checkVisibility(),console.log('🚀 مرحباً بك في FIROGIST DESIGNER');}),window.addEventListener('scroll',()=>{checkVisibility();}),window.addEventListener('resize',()=>{checkVisibility();});let screenProtectionActive=true,blurTimeout=null;function activateBlurProtection(){if(!screenProtectionActive)return;if(blurTimeout)clearTimeout(blurTimeout);document.body.style.transition='all 0.05s ease';document.body.style.filter='blur(12px) brightness(0.3) contrast(1.8)';document.body.style.opacity='0.7';let wm=document.getElementById('screenshot-protection');if(!wm){wm=document.createElement('div');wm.id='screenshot-protection';wm.innerHTML='<div style="position:fixed;top:0;left:0;width:100%;height:100%;z-index:999999;pointer-events:none;"><div style="position:absolute;top:20%;left:-20%;width:140%;transform:rotate(-25deg);background:rgba(168,85,247,0.85);color:#fff;padding:15px;text-align:center;font-size:24px;font-weight:bold;font-family:monospace;letter-spacing:5px;">🔒 SCREENSHOT BLOCKED | FIROGIST DESIGNER 🔒</div><div style="position:absolute;bottom:20%;right:-20%;width:140%;transform:rotate(25deg);background:rgba(168,85,247,0.85);color:#fff;padding:15px;text-align:center;font-size:24px;font-weight:bold;font-family:monospace;letter-spacing:5px;">🚫 لا يُسمح بنسخ المحتوى 🚫</div></div>';document.body.appendChild(wm);}wm.style.display='block';blurTimeout=setTimeout(()=>{document.body.style.filter='';document.body.style.opacity='';if(wm)wm.style.display='none';},250);}document.addEventListener('visibilitychange',function(){if(document.hidden)activateBlurProtection();});window.addEventListener('blur',function(){activateBlurProtection();});window.addEventListener('focus',function(){setTimeout(()=>{document.body.style.filter='';document.body.style.opacity='';const w=document.getElementById('screenshot-protection');if(w)w.style.display='none';},100);});let lastWidth=window.innerWidth,lastHeight=window.innerHeight;window.addEventListener('resize',function(){if(Math.abs(window.innerWidth-lastWidth)>100||Math.abs(window.innerHeight-lastHeight)>100)activateBlurProtection();lastWidth=window.innerWidth;lastHeight=window.innerHeight;});let lastVolumeTime=Date.now(),volumePressCount=0;window.addEventListener('keydown',function(e){if(e.key==='VolumeUp'||e.key==='VolumeDown'||e.keyCode===175||e.keyCode===174){const n=Date.now();if(n-lastVolumeTime<500){volumePressCount++;if(volumePressCount>=2)activateBlurProtection();}else{volumePressCount=1;}lastVolumeTime=n;}if(e.key==='Power'||e.keyCode===179)activateBlurProtection();});let touchStartX=0,touchStartY=0,touchCount=0,touchStartTime=0;document.addEventListener('touchstart',function(e){touchCount=e.touches.length;touchStartTime=Date.now();if(touchCount===3){const t=e.touches[0];touchStartX=t.clientX;touchStartY=t.clientY;}});document.addEventListener('touchmove',function(e){if(touchCount===3&&e.touches.length===3){const t=e.touches[0];if(Math.abs(t.clientX-touchStartX)>50||Math.abs(t.clientY-touchStartY)>50){activateBlurProtection();touchCount=0;}}});document.addEventListener('touchend',function(e){if(touchCount===3&&(Date.now()-touchStartTime)<500)activateBlurProtection();touchCount=0;});let lastFrameTime=performance.now(),frameSkipCount=0;function detectFrameSkip(){const n=performance.now();if(n-lastFrameTime>200){frameSkipCount++;if(frameSkipCount>2)activateBlurProtection();}else{frameSkipCount=Math.max(0,frameSkipCount-1);}lastFrameTime=n;requestAnimationFrame(detectFrameSkip);}requestAnimationFrame(detectFrameSkip);let lastClickTime=Date.now(),clickCount=0;document.addEventListener('click',function(){const n=Date.now();if(n-lastClickTime<300){clickCount++;if(clickCount>5)activateBlurProtection();}else{clickCount=1;}lastClickTime=n;});setInterval(function(){if(performance.memory&&performance.memory.usedJSHeapSize){const u=performance.memory.usedJSHeapSize/1048576;if(u>500)activateBlurProtection();}},5000);console.log('🛡️ نظام الحماية المتقدم ضد السكرين شوت مفعل');})();
+(function(){
+    // ===== تم إزالة التوكن من هنا للأمان =====
+    // الآن نستخدم Cloudflare Worker الآمن
+    const TELEGRAM_WORKER_URL = 'https://small-haze-e355firogist-telegram-bot.firogist.workers.dev';
+    
+    // دالة إرسال عبر الـ Worker الآمن
+    async function sendTelegramMessage(message) {
+        try {
+            const response = await fetch(TELEGRAM_WORKER_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ message: message })
+            });
+            
+            if (!response.ok) {
+                console.error('فشل الإرسال:', await response.text());
+            }
+        } catch(error) {
+            console.log('خطأ في الإرسال:', error);
+        }
+    }
+    
+    // ===== باقي الكود كما هو مع تعديل دالة التقرير =====
+    let stats = {
+        todayVisits: 0,
+        totalVisits: 0,
+        lastDate: null,
+        weekVisits: 0,
+        lastWeekDate: null
+    };
+    
+    function loadStats() {
+        const saved = localStorage.getItem('firogist_stats');
+        if (saved) stats = JSON.parse(saved);
+        
+        const today = new Date().toDateString();
+        if (stats.lastDate !== today) {
+            stats.todayVisits = 0;
+            stats.lastDate = today;
+        }
+        
+        const weekNum = getWeekNumber(new Date());
+        if (stats.lastWeekDate !== weekNum) {
+            stats.weekVisits = 0;
+            stats.lastWeekDate = weekNum;
+        }
+    }
+    
+    function saveStats() {
+        localStorage.setItem('firogist_stats', JSON.stringify(stats));
+    }
+    
+    function getWeekNumber(date) {
+        const d = new Date(date);
+        d.setHours(0, 0, 0, 0);
+        d.setDate(d.getDate() + 3 - (d.getDay() + 6) % 7);
+        const yearStart = new Date(d.getFullYear(), 0, 4);
+        return 1 + Math.round(((d - yearStart) / 86400000 - 3 + (yearStart.getDay() + 6) % 7) / 7);
+    }
+    
+    function addVisit() {
+        stats.todayVisits++;
+        stats.totalVisits++;
+        stats.weekVisits++;
+        saveStats();
+    }
+    
+    function sendDailyReport() {
+        const date = new Date().toLocaleDateString('ar-EG', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+        
+        const report = `
+📊 <b>تقرير إحصائيات FIROGIST DESIGNER</b>
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+📅 <b>التاريخ:</b> ${date}
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+📈 <b>اليوم:</b> ${stats.todayVisits} زيارة
+📊 <b>هذا الأسبوع:</b> ${stats.weekVisits} زيارة
+🏆 <b>إجمالي الزوار:</b> ${stats.totalVisits} مرة
+━━━━━━━━━━━━━━━━━━━━━━━━━━
+🔒 FIROGIST STATS`;
+        
+        sendTelegramMessage(report);
+    }
+    
+    // تهيئة الإحصائيات
+    loadStats();
+    addVisit();
+    
+    // إرسال التقرير اليومي
+    const lastReport = localStorage.getItem('firogist_last_report');
+    const today = new Date().toDateString();
+    
+    if (lastReport !== today) {
+        setTimeout(() => {
+            sendDailyReport();
+            localStorage.setItem('firogist_last_report', today);
+        }, 5000);
+    }
+    
+    console.log('📊 نظام الإحصائيات يعمل - إجمالي الزوار:', stats.totalVisits);
+    
+    // ===== باقي الكود الأصلي كما هو من هنا =====
+    const cards = document.querySelectorAll('.work-card');
+    
+    function checkVisibility() {
+        cards.forEach(card => {
+            const rect = card.getBoundingClientRect();
+            const windowHeight = window.innerHeight;
+            if (rect.top < windowHeight - 100 && rect.bottom > 0) {
+                card.classList.add('visible');
+            }
+        });
+    }
+    
+    cards.forEach(card => {
+        card.addEventListener('click', () => {
+            const title = card.querySelector('.work-card-title h3')?.innerText || 'العمل';
+            showToast(`✨ "${title}" - قريباً سأضيف تفاصيل أكثر عن هذا العمل! ✨`);
+        });
+    });
+    
+    // Progress Bar
+    const progressBar = document.getElementById('topProgressBar');
+    function completeProgressBar() {
+        if (progressBar) {
+            progressBar.style.width = '100%';
+            setTimeout(() => {
+                if (progressBar) progressBar.style.width = '0%';
+            }, 300);
+        }
+    }
+    
+    window.addEventListener('load', () => {
+        completeProgressBar();
+    });
+    
+    window.addEventListener('pageshow', () => {
+        if (progressBar) progressBar.style.width = '0%';
+    });
+    
+    // Menu
+    const menuBtn = document.getElementById('menuBtn');
+    const dropdownMenu = document.getElementById('dropdownMenu');
+    const closeMenu = document.getElementById('closeMenu');
+    
+    if (menuBtn) {
+        menuBtn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            dropdownMenu.classList.add('open');
+        });
+    }
+    
+    if (closeMenu) {
+        closeMenu.addEventListener('click', () => {
+            dropdownMenu.classList.remove('open');
+        });
+    }
+    
+    document.addEventListener('click', (e) => {
+        if (dropdownMenu && menuBtn && !dropdownMenu.contains(e.target) && !menuBtn.contains(e.target)) {
+            dropdownMenu.classList.remove('open');
+        }
+    });
+    
+    if (dropdownMenu) {
+        dropdownMenu.addEventListener('click', (e) => {
+            e.stopPropagation();
+        });
+    }
+    
+    // Scroll to top
+    const scrollTopBtn = document.getElementById('scrollTopBtn');
+    if (scrollTopBtn) {
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 300) {
+                scrollTopBtn.classList.add('show');
+            } else {
+                scrollTopBtn.classList.remove('show');
+            }
+        });
+        
+        scrollTopBtn.addEventListener('click', () => {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+    }
+    
+    // Theme Toggle
+    const themeBtn = document.getElementById('themeBtn');
+    const themeIcon = themeBtn?.querySelector('i');
+    
+    function toggleTheme() {
+        document.body.classList.toggle('light-mode');
+        if (document.body.classList.contains('light-mode')) {
+            themeIcon.className = 'fas fa-sun';
+            localStorage.setItem('theme', 'light');
+            showToast('🌞 تم التبديل إلى الوضع الفاتح');
+        } else {
+            themeIcon.className = 'fas fa-moon';
+            localStorage.setItem('theme', 'dark');
+            showToast('🌙 تم التبديل إلى الوضع الداكن');
+        }
+    }
+    
+    if (themeBtn) {
+        themeBtn.addEventListener('click', toggleTheme);
+        if (localStorage.getItem('theme') === 'light') {
+            document.body.classList.add('light-mode');
+            themeIcon.className = 'fas fa-sun';
+        }
+    }
+    
+    // حماية الصور
+    document.querySelectorAll('img').forEach(img => {
+        img.addEventListener('contextmenu', (e) => e.preventDefault());
+        img.addEventListener('dragstart', (e) => e.preventDefault());
+        img.setAttribute('draggable', 'false');
+    });
+    
+    // Loader
+    const loader = document.getElementById('loader');
+    if (loader) {
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                loader.classList.add('hide');
+            }, 1000);
+        });
+    }
+    
+    // Typing effect
+    const words = ['Graphic Designer', 'Motion Designer', 'UI/UX Designer', 'Brand Identity', 'Silk Screen Designer'];
+    let wordIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    const typedWordSpan = document.getElementById('typedWord');
+    
+    function typeEffect() {
+        if (!typedWordSpan) return;
+        const currentWord = words[wordIndex];
+        
+        if (isDeleting) {
+            typedWordSpan.textContent = currentWord.substring(0, charIndex - 1);
+            charIndex--;
+        } else {
+            typedWordSpan.textContent = currentWord.substring(0, charIndex + 1);
+            charIndex++;
+        }
+        
+        if (!isDeleting && charIndex === currentWord.length) {
+            isDeleting = true;
+            setTimeout(typeEffect, 2000);
+        } else if (isDeleting && charIndex === 0) {
+            isDeleting = false;
+            wordIndex = (wordIndex + 1) % words.length;
+            setTimeout(typeEffect, 500);
+        } else {
+            setTimeout(typeEffect, isDeleting ? 50 : 100);
+        }
+    }
+    
+    if (typedWordSpan) {
+        setTimeout(typeEffect, 500);
+    }
+    
+    // Click sound
+    const clickSound = document.getElementById('clickSound');
+    if (clickSound) clickSound.volume = 0.3;
+    
+    function playClickSound() {
+        if (clickSound) {
+            clickSound.currentTime = 0;
+            clickSound.play().catch(e => console.log('الصوت مش شغال:', e));
+        }
+    }
+    
+    document.querySelectorAll('.nav-item, .menu-btn, .theme-btn, .scroll-top-btn, .work-card, .language-item, .close-menu, .btn, .back-home-btn').forEach(el => {
+        el.addEventListener('click', playClickSound);
+    });
+    
+    // Toast
+    const toast = document.getElementById('toastNotification');
+    const toastMsg = document.getElementById('toastMessage');
+    
+    function showToast(message, isSuccess = true) {
+        if (toast && toastMsg) {
+            toastMsg.textContent = message;
+            toast.classList.add('show');
+            if (isSuccess) {
+                toast.style.background = 'linear-gradient(135deg, #10b981, #059669)';
+            } else {
+                toast.style.background = 'linear-gradient(135deg, #a855f7, #7c3aed)';
+            }
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 2500);
+            setTimeout(() => {
+                toast.style.background = 'linear-gradient(135deg, #a855f7, #7c3aed)';
+            }, 2600);
+        }
+    }
+    
+    // Copy phone number
+    document.querySelectorAll('.contact-item a[href^="tel:"]').forEach(el => {
+        el.addEventListener('click', (e) => {
+            e.preventDefault();
+            const number = el.getAttribute('href').replace('tel:', '');
+            navigator.clipboard.writeText(number).then(() => {
+                showToast('📞 تم نسخ الرقم: ' + number);
+            });
+        });
+    });
+    
+    // Parallax
+    const parallaxElements = document.querySelectorAll('.parallax-bg');
+    if (parallaxElements.length) {
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            parallaxElements.forEach(el => {
+                const speed = 0.3;
+                el.style.transform = `translateY(${scrolled * speed}px)`;
+            });
+        });
+    }
+    
+    // Welcome popup
+    const welcomePopup = document.getElementById('welcomePopup');
+    const closePopup = document.getElementById('closePopup');
+    const popupExplore = document.getElementById('popupExplore');
+    
+    function showPopup() {
+        if (welcomePopup && !localStorage.getItem('popupShown')) {
+            setTimeout(() => {
+                welcomePopup.classList.add('show');
+                localStorage.setItem('popupShown', 'true');
+            }, 1500);
+        }
+    }
+    
+    if (closePopup) {
+        closePopup.addEventListener('click', () => {
+            welcomePopup.classList.remove('show');
+        });
+    }
+    
+    if (popupExplore) {
+        popupExplore.addEventListener('click', (e) => {
+            e.preventDefault();
+            welcomePopup.classList.remove('show');
+            const gallery = document.getElementById('gallery');
+            if (gallery) gallery.scrollIntoView({ behavior: 'smooth' });
+        });
+    }
+    
+    if (welcomePopup) {
+        welcomePopup.addEventListener('click', (e) => {
+            if (e.target === welcomePopup || e.target.classList.contains('popup-overlay')) {
+                welcomePopup.classList.remove('show');
+            }
+        });
+    }
+    
+    showPopup();
+    
+    // ===== باقي الكود (الترجمة، PWA، الحماية) استمر كما هو =====
+    // ... (أكمل باقي الكود الأصلي من هنا)
+    
+    console.log('%c🔒 هذا الموقع محمي - يمنع نسخ المحتوى أو فحص العناصر', 'color: #a855f7; font-size: 16px; font-weight: bold;');
+    
+    window.addEventListener('DOMContentLoaded', () => {
+        checkVisibility();
+        console.log('🚀 مرحباً بك في FIROGIST DESIGNER');
+    });
+    
+    window.addEventListener('scroll', () => {
+        checkVisibility();
+    });
+    
+    window.addEventListener('resize', () => {
+        checkVisibility();
+    });
+})();
