@@ -106,6 +106,16 @@ body.light-mode .loader-logo i {
     background-clip: text;
 }
 
+/* ===== إصلاح اتجاه النص الإنجليزي (منع الانعكاس) ===== */
+.hero-title-wrapper {
+    direction: ltr !important;
+    unicode-bidi: isolate !important;
+}
+.char, .separator-char {
+    display: inline-block;
+    direction: ltr !important;
+}
+
 /* ===== شريط التحميل العلوي ===== */
 .top-progress-bar {
     position: fixed;
@@ -489,7 +499,7 @@ body.light-mode .scroll-top-btn i { color: #1a1a2e; }
     letter-spacing: 1px;
 }
 
-/* ===== الهيدر المبسط والسريع ===== */
+/* ===== الهيدر ===== */
 header {
     height: 60vh;
     display: flex;
@@ -500,7 +510,6 @@ header {
     overflow: hidden;
 }
 
-/* خلفية بسيطة بدون تأثيرات ثقيلة */
 header::before {
     content: '';
     position: absolute;
@@ -515,7 +524,6 @@ header::before {
     z-index: 2;
 }
 
-/* النص الرئيسي - اسم الموقع أكبر */
 .hero-title-wrapper {
     display: flex;
     align-items: center;
@@ -792,6 +800,85 @@ header::before {
 }
 .btn-secondary:hover { background: rgba(168, 85, 247, 0.25); }
 
+/* ===== أزرار المشاركة ===== */
+.share-section {
+    text-align: center;
+    padding: 40px 20px;
+    margin-top: 20px;
+}
+
+.share-title {
+    font-size: 1.2rem;
+    color: #d8b4fe;
+    margin-bottom: 20px;
+    letter-spacing: 2px;
+}
+
+.share-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 12px;
+}
+
+.share-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 50px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.3s ease;
+    color: #fff;
+}
+
+.share-btn i {
+    font-size: 1.1rem;
+}
+
+.share-btn.whatsapp {
+    background: #25D366;
+}
+.share-btn.whatsapp:hover {
+    background: #128C7E;
+    transform: translateY(-2px);
+}
+
+.share-btn.facebook {
+    background: #1877F2;
+}
+.share-btn.facebook:hover {
+    background: #0f5bc1;
+    transform: translateY(-2px);
+}
+
+.share-btn.twitter {
+    background: #1DA1F2;
+}
+.share-btn.twitter:hover {
+    background: #0d8bd9;
+    transform: translateY(-2px);
+}
+
+.share-btn.linkedin {
+    background: #0077B5;
+}
+.share-btn.linkedin:hover {
+    background: #005582;
+    transform: translateY(-2px);
+}
+
+.share-btn.copy {
+    background: rgba(168, 85, 247, 0.8);
+}
+.share-btn.copy:hover {
+    background: #a855f7;
+    transform: translateY(-2px);
+}
+
 /* ===== FOOTER ===== */
 footer {
     text-align: center;
@@ -878,6 +965,17 @@ footer {
         padding: 8px 16px;
         font-size: 0.75rem;
         bottom: 20px;
+    }
+    .share-btn {
+        padding: 8px 15px;
+        font-size: 0.8rem;
+    }
+    .share-btn span {
+        display: none;
+    }
+    .share-btn i {
+        font-size: 1.2rem;
+        margin: 0;
     }
 }
 
