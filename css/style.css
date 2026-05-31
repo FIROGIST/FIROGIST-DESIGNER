@@ -620,7 +620,7 @@ body.light-mode .scroll-top-btn i {
     letter-spacing: 2px;
 }
 
-/* ===== الهيدر المتطور جداً مع تأثير دخول الحروف ===== */
+/* ===== الهيدر المتطور جداً ===== */
 header {
     height: 70vh;
     display: flex;
@@ -631,7 +631,7 @@ header {
     overflow: hidden;
 }
 
-/* طبقة الخلفية الرئيسية */
+/* طبقة الخلفية الرئيسية - دوائر متحركة متعددة */
 header::before {
     content: '';
     position: absolute;
@@ -664,7 +664,7 @@ header::before {
     100% { filter: hue-rotate(0deg) brightness(1); }
 }
 
-/* طبقة الجسيمات */
+/* طبقة ثانية - جسيمات متحركة */
 header::after {
     content: '';
     position: absolute;
@@ -692,21 +692,8 @@ header::after {
     z-index: 2;
 }
 
-/* ===== النص الرئيسي - حواف حادة جداً + تأثير دخول الحروف ===== */
-
-/* حاوية النص - لتقسيم الحروف */
-.hero-title-wrapper {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.3em;
-    flex-wrap: wrap;
-}
-
-/* تنسيق الحروف الفردية */
-.char {
-    display: inline-block;
-    animation: charReveal 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1) both;
+/* النص الرئيسي مع تأثيرات متعددة */
+.hero-title {
     font-family: 'Space Grotesk', 'Inter', sans-serif;
     font-weight: 800;
     font-size: 5.5rem;
@@ -716,68 +703,38 @@ header::after {
         0 0 20px rgba(168,85,247,0.6),
         0 0 40px rgba(124,58,237,0.4),
         0 0 80px rgba(168,85,247,0.2);
-    -webkit-text-stroke: 1px rgba(168,85,247,0.3);
-    transition: all 0.3s ease;
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.3em;
+    flex-wrap: wrap;
+    animation: textPulseAdvanced 4s ease-in-out infinite, textFloat 6s ease-in-out infinite;
 }
 
-/* حواف حادة جداً عبر clip-path */
-.char {
-    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
-}
-
-/* إضافة تأثير الحواف الحادة عند الهوفر */
-.char:hover {
-    text-shadow: 0 0 30px #c084fc, 0 0 60px #a855f7;
-    transform: translateY(-3px);
-    -webkit-text-stroke: 1px #a855f7;
-}
-
-/* تأثير دخول الحروف بتأخير مختلف لكل حرف */
-@keyframes charReveal {
-    0% {
-        opacity: 0;
-        transform: translateY(50px) rotateX(-90deg);
-        filter: blur(10px);
-        clip-path: polygon(0% 0%, 100% 0%, 100% 0%, 0% 0%);
+@keyframes textPulseAdvanced {
+    0%, 100% {
+        text-shadow: 0 0 20px rgba(168,85,247,0.6), 0 0 40px rgba(124,58,237,0.4);
+        letter-spacing: -0.02em;
     }
-    100% {
-        opacity: 1;
-        transform: translateY(0) rotateX(0deg);
-        filter: blur(0);
-        clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%);
+    50% {
+        text-shadow: 0 0 40px rgba(192,132,252,0.9), 0 0 80px rgba(168,85,247,0.6);
+        letter-spacing: -0.01em;
     }
 }
 
-/* الحروف في السطر الأول */
-.hero-title-wrapper .char:nth-child(1) { animation-delay: 0.05s; }
-.hero-title-wrapper .char:nth-child(2) { animation-delay: 0.10s; }
-.hero-title-wrapper .char:nth-child(3) { animation-delay: 0.15s; }
-.hero-title-wrapper .char:nth-child(4) { animation-delay: 0.20s; }
-.hero-title-wrapper .char:nth-child(5) { animation-delay: 0.25s; }
-.hero-title-wrapper .char:nth-child(6) { animation-delay: 0.30s; }
-.hero-title-wrapper .char:nth-child(7) { animation-delay: 0.35s; }
-.hero-title-wrapper .char:nth-child(8) { animation-delay: 0.40s; }
+@keyframes textFloat {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-8px); }
+}
 
-/* الفاصل (|) */
-.separator-char {
-    display: inline-block;
+.hero-title .separator {
     font-weight: 300;
     color: #a855f7;
     text-shadow: 0 0 20px #a855f7, 0 0 40px #c084fc;
     font-size: 5rem;
-    animation: separatorPulseAdvanced 2.5s ease-in-out infinite, charReveal 0.6s cubic-bezier(0.2, 0.9, 0.4, 1.1) both;
-    animation-delay: 0.45s;
+    animation: separatorPulseAdvanced 2.5s ease-in-out infinite;
 }
-
-/* الحروف في السطر الثاني */
-.hero-title-wrapper .char:nth-child(10) { animation-delay: 0.50s; }
-.hero-title-wrapper .char:nth-child(11) { animation-delay: 0.55s; }
-.hero-title-wrapper .char:nth-child(12) { animation-delay: 0.60s; }
-.hero-title-wrapper .char:nth-child(13) { animation-delay: 0.65s; }
-.hero-title-wrapper .char:nth-child(14) { animation-delay: 0.70s; }
-.hero-title-wrapper .char:nth-child(15) { animation-delay: 0.75s; }
-.hero-title-wrapper .char:nth-child(16) { animation-delay: 0.80s; }
-.hero-title-wrapper .char:nth-child(17) { animation-delay: 0.85s; }
 
 @keyframes separatorPulseAdvanced {
     0%, 100% {
@@ -791,7 +748,7 @@ header::after {
     }
 }
 
-/* الكرة الضبابية الرئيسية */
+/* الكرة الضبابية الرئيسية المتطورة */
 .hero-glow {
     position: absolute;
     top: 50%;
@@ -837,8 +794,8 @@ header::after {
 }
 
 /* الموجات الصوتية حول النص */
-.hero-title-wrapper::before,
-.hero-title-wrapper::after {
+.hero-title::before,
+.hero-title::after {
     content: '';
     position: absolute;
     top: 50%;
@@ -850,13 +807,13 @@ header::after {
     z-index: -1;
 }
 
-.hero-title-wrapper::before {
+.hero-title::before {
     border: 2px solid rgba(168,85,247,0.3);
     transform: translate(-50%, -50%) scale(1);
     animation: waveRing 3s ease-out infinite;
 }
 
-.hero-title-wrapper::after {
+.hero-title::after {
     border: 1px solid rgba(192,132,252,0.2);
     transform: translate(-50%, -50%) scale(1);
     animation: waveRing 3s ease-out infinite 1.5s;
@@ -882,6 +839,7 @@ header::after {
     color: #d8b4fe;
     font-weight: 400;
     text-transform: uppercase;
+    animation: fadeInUp 1s ease 0.5s both, subtitleGlow 3s ease-in-out infinite;
     text-shadow: 0 0 15px rgba(168, 85, 247, 0.4);
     position: relative;
     display: inline-block;
@@ -1223,13 +1181,15 @@ footer {
     .info-cards { grid-template-columns: 1fr; gap: 15px; }
     .experience-badge { width: 80px; height: 80px; }
     .experience-badge .years { font-size: 1.5rem; }
-    .char, .separator-char { font-size: 3rem; }
+    .hero-title { font-size: 3rem; }
+    .hero-title .separator { font-size: 2.8rem; }
     .hero-glow { width: 400px; height: 400px; filter: blur(60px); }
 }
 
 @media (max-width: 768px) {
     header { height: 60vh; }
-    .char, .separator-char { font-size: 1.8rem; }
+    .hero-title { font-size: 2rem; flex-direction: row; flex-wrap: wrap; }
+    .hero-title .separator { font-size: 1.8rem; }
     .hero-subtitle { font-size: 0.7rem; letter-spacing: 5px; }
     .gallery { padding: 20px; gap: 20px; }
     .hero-glow { width: 300px; height: 300px; filter: blur(40px); }
@@ -1255,7 +1215,8 @@ footer {
 }
 
 @media (max-width: 480px) {
-    .char, .separator-char { font-size: 1.2rem; }
+    .hero-title { font-size: 1.4rem; }
+    .hero-title .separator { font-size: 1.2rem; }
     .gallery { grid-template-columns: 1fr; padding: 15px; }
     .about-buttons { flex-direction: column; }
     .btn { justify-content: center; }
