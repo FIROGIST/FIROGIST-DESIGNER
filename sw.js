@@ -6,7 +6,7 @@ const urlsToCache = [
     '/css/style.css',
     '/js/main.js',
     '/js/about.js',
-    '/js/telegram.js',
+    '/js/ntfy.js',
     '/manifest.json',
     'https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100;14..32,200;14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap',
     'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css'
