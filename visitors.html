@@ -2,7 +2,6 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>لوحة التحكم - بيانات الزوار</title>
     <style>
         * {
@@ -40,12 +39,6 @@
             border-radius: 15px;
             padding: 20px 30px;
             text-align: center;
-            backdrop-filter: blur(10px);
-        }
-        .stat-card h3 {
-            font-size: 0.9rem;
-            color: rgba(255,255,255,0.7);
-            margin-bottom: 5px;
         }
         .stat-card .number {
             font-size: 2rem;
@@ -57,8 +50,8 @@
             border-collapse: collapse;
             background: rgba(15, 15, 26, 0.9);
             border-radius: 15px;
-            overflow: hidden;
-            backdrop-filter: blur(10px);
+            overflow: auto;
+            display: block;
         }
         th, td {
             padding: 12px;
@@ -67,16 +60,6 @@
         }
         th {
             background: #a855f7;
-            color: #fff;
-            font-weight: 600;
-        }
-        tr:hover {
-            background: rgba(168, 85, 247, 0.1);
-        }
-        .no-data {
-            text-align: center;
-            padding: 50px;
-            color: rgba(255,255,255,0.5);
         }
         .refresh-btn {
             display: block;
@@ -86,24 +69,10 @@
             border: none;
             border-radius: 40px;
             color: #fff;
-            font-size: 1rem;
             cursor: pointer;
-            transition: 0.3s;
-        }
-        .refresh-btn:hover {
-            transform: scale(1.05);
         }
         @media (max-width: 768px) {
-            th, td {
-                padding: 8px;
-                font-size: 0.7rem;
-            }
-            .stat-card {
-                padding: 10px 20px;
-            }
-            .stat-card .number {
-                font-size: 1.5rem;
-            }
+            th, td { font-size: 0.7rem; padding: 6px; }
         }
     </style>
 </head>
@@ -111,99 +80,61 @@
     <div class="container">
         <h1>📊 بيانات زوار الموقع</h1>
         
-        <div class="stats" id="stats">
-            <div class="stat-card">
-                <h3>إجمالي الزوار</h3>
-                <div class="number" id="totalVisitors">0</div>
-            </div>
-            <div class="stat-card">
-                <h3>زوار اليوم</h3>
-                <div class="number" id="todayVisitors">0</div>
-            </div>
-            <div class="stat-card">
-                <h3>زوار هذا الأسبوع</h3>
-                <div class="number" id="weekVisitors">0</div>
-            </div>
+        <div class="stats">
+            <div class="stat-card"><h3>إجمالي الزوار</h3><div class="number" id="total">0</div></div>
+            <div class="stat-card"><h3>زوار اليوم</h3><div class="number" id="today">0</div></div>
         </div>
         
-        <button class="refresh-btn" onclick="loadData()">🔄 تحديث البيانات</button>
+        <button class="refresh-btn" onclick="loadData()">🔄 تحديث</button>
         
-        <table id="visitorsTable">
-            <thead>
-                <tr><th>#</th><th>التاريخ</th><th>الوقت</th><th>IP</th><th>الدولة</th><th>المدينة</th><th>الجهاز</th><th>نظام التشغيل</th><th>المتصفح</th><th>الصفحة</th></tr>
-            </thead>
-            <tbody id="visitorsBody">
-                <tr><td colspan="10" class="no-data">جاري تحميل البيانات...</td></tr>
-            </tbody>
-        </table>
+        <div style="overflow-x: auto;">
+            <table>
+                <thead>
+                    <tr><th>#</th><th>التاريخ</th><th>الوقت</th><th>IP</th><th>الدولة</th><th>المدينة</th><th>الجهاز</th><th>نظام التشغيل</th><th>المتصفح</th><th>الصفحة</th></tr>
+                </thead>
+                <tbody id="visitorsBody"></tbody>
+            </table>
+        </div>
     </div>
     
     <script>
         function loadData() {
-            fetch('visitors.json?' + Date.now())
-                .then(res => res.json())
-                .then(data => {
-                    const tbody = document.getElementById('visitorsBody');
-                    const total = document.getElementById('totalVisitors');
-                    const today = document.getElementById('todayVisitors');
-                    const week = document.getElementById('weekVisitors');
-                    
-                    if (!data || data.length === 0) {
-                        tbody.innerHTML = '<tr><td colspan="10" class="no-data">لا توجد بيانات بعد</td></tr>';
-                        total.textContent = '0';
-                        today.textContent = '0';
-                        week.textContent = '0';
-                        return;
-                    }
-                    
-                    total.textContent = data.length;
-                    
-                    const todayDate = new Date().toLocaleDateString('ar-EG');
-                    const weekAgo = new Date();
-                    weekAgo.setDate(weekAgo.getDate() - 7);
-                    
-                    let todayCount = 0;
-                    let weekCount = 0;
-                    
-                    tbody.innerHTML = '';
-                    data.forEach((v, i) => {
-                        // حساب إحصائيات
-                        const visitDate = new Date(v.time || v.received_at);
-                        if (visitDate.toLocaleDateString('ar-EG') === todayDate) todayCount++;
-                        if (visitDate >= weekAgo) weekCount++;
-                        
-                        // عرض البيانات
-                        const timeParts = (v.time || v.received_at || '').split(' ');
-                        const date = timeParts[0] || '-';
-                        const time = timeParts[1] || '-';
-                        
-                        tbody.innerHTML += `
-                            <tr>
-                                <td>${i+1}</td>
-                                <td>${date}</td>
-                                <td>${time}</td>
-                                <td>${v.ip || '-'}</td>
-                                <td>${v.country || '-'}</td>
-                                <td>${v.city || '-'}</td>
-                                <td>${v.device || '-'}</td>
-                                <td>${v.os || '-'}</td>
-                                <td>${v.browser || '-'}</td>
-                                <td style="max-width:200px;overflow:hidden;text-overflow:ellipsis;">${v.url ? v.url.split('/').pop() || v.url : '-'}</td>
-                            </tr>
-                        `;
-                    });
-                    
-                    today.textContent = todayCount;
-                    week.textContent = weekCount;
-                })
-                .catch(err => {
-                    console.log(err);
-                    document.getElementById('visitorsBody').innerHTML = '<tr><td colspan="10" class="no-data">خطأ في تحميل البيانات</td></tr>';
-                });
+            const visitors = JSON.parse(localStorage.getItem('visitors') || '[]');
+            const tbody = document.getElementById('visitorsBody');
+            const total = document.getElementById('total');
+            const today = document.getElementById('today');
+            
+            total.textContent = visitors.length;
+            
+            const todayDate = new Date().toLocaleDateString('ar-EG');
+            let todayCount = 0;
+            
+            tbody.innerHTML = '';
+            visitors.forEach((v, i) => {
+                const visitDate = v.time?.split('،')[0] || '';
+                if (visitDate === todayDate) todayCount++;
+                
+                const parts = v.time?.split('،') || ['-', '-'];
+                tbody.innerHTML += `
+                    <tr>
+                        <td>${i+1}</td>
+                        <td>${parts[0] || '-'}</td>
+                        <td>${parts[1] || '-'}</td>
+                        <td>${v.ip || '-'}</td>
+                        <td>${v.country || '-'}</td>
+                        <td>${v.city || '-'}</td>
+                        <td>${v.device || '-'}</td>
+                        <td>${v.os || '-'}</td>
+                        <td>${v.browser || '-'}</td>
+                        <td style="max-width:150px;overflow:hidden;text-overflow:ellipsis;">${v.url?.split('/').pop() || '-'}</td>
+                    </tr>
+                `;
+            });
+            
+            today.textContent = todayCount;
         }
         
         loadData();
-        setInterval(loadData, 30000); // تحديث كل 30 ثانية
     </script>
 </body>
 </html>
