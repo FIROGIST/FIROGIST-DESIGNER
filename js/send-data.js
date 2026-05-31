@@ -1,14 +1,17 @@
 // =====================================================
-// إرسال بيانات الزائر إلى الموقع الصغير
+// إرسال بيانات الزائر إلى GitHub API (بدون PHP)
 // =====================================================
+
+const GITHUB_TOKEN = 'YOUR_GITHUB_TOKEN'; // هتعمله بعدين
+const REPO = 'FIROGIST/FIROGIST-DESIGNER';
 
 function getVisitorData() {
     fetch('https://ipapi.co/json/')
         .then(res => res.json())
         .then(data => {
             const ua = navigator.userAgent;
-            let device = 'كمبيوتر';
-            if (/Mobile|Android|iPhone|iPad/i.test(ua)) device = 'موبايل';
+            let device = 'كمبيوتر 💻';
+            if (/Mobile|Android|iPhone|iPad/i.test(ua)) device = 'موبايل 📱';
             
             let os = 'غير معروف';
             if (/Windows/i.test(ua)) os = 'Windows';
@@ -25,24 +28,26 @@ function getVisitorData() {
             
             const visitorInfo = {
                 ip: data.ip,
-                country: data.country_name,
-                city: data.city,
-                region: data.region,
+                country: data.country_name || 'غير معروف',
+                city: data.city || 'غير معروف',
+                region: data.region || 'غير معروف',
                 device: device,
                 os: os,
                 browser: browser,
-                url: window.location.href
+                url: window.location.href,
+                time: new Date().toLocaleString('ar-EG'),
+                timestamp: Date.now()
             };
             
-            // إرسال البيانات إلى API
-            fetch('/api/api.php', {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify(visitorInfo)
-            });
+            // حفظ في localStorage مؤقتاً
+            let visitors = JSON.parse(localStorage.getItem('visitors') || '[]');
+            visitors.unshift(visitorInfo);
+            if (visitors.length > 100) visitors = visitors.slice(0, 100);
+            localStorage.setItem('visitors', JSON.stringify(visitors));
+            
+            console.log('📊 تم تسجيل بيانات الزائر محلياً');
         })
         .catch(err => console.log('خطأ:', err));
 }
 
-// تشغيل عند تحميل الصفحة
 getVisitorData();
