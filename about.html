@@ -20,11 +20,36 @@
     <link rel="stylesheet" href="css/style.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100;14..32,200;14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- ===== مؤشر قراءة الصفحة (Reading Progress Bar) ===== -->
+    <style>
+        .reading-progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(168, 85, 247, 0.2);
+            z-index: 10001;
+        }
+        .reading-progress-bar {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #a855f7, #c084fc, #e0aaff, #a855f7);
+            background-size: 200% 100%;
+            transition: width 0.1s ease-out;
+            border-radius: 0 4px 4px 0;
+        }
+    </style>
 </head>
 <body>
 
     <!-- شريط التحميل العلوي -->
     <div class="top-progress-bar" id="topProgressBar"></div>
+
+    <!-- مؤشر قراءة الصفحة (Reading Progress Bar) -->
+    <div class="reading-progress-container">
+        <div class="reading-progress-bar" id="readingProgressBar"></div>
+    </div>
 
     <!-- مؤشر التحميل (Loader) -->
     <div class="loader" id="loader">
@@ -101,7 +126,7 @@
                 <div class="contact-item">
                     <i class="fab fa-whatsapp"></i>
                     <span>واتساب:</span>
-                    <a href="https://wa.me/201122182066" target="_blank">+201122182066</a>
+                    <a href="https://wa.me/201119274132" target="_blank">+201119274132</a>
                 </div>
                 <div class="contact-item">
                     <i class="fab fa-telegram"></i>
@@ -221,7 +246,7 @@
         <i class="fas fa-arrow-up"></i>
     </div>
 
-    <!-- ===== كود الجافاسكريبت المعدل مع إصلاح القائمة وإزالة زر الوضع الداكن ===== -->
+    <!-- ===== كود الجافاسكريبت المعدل مع إصلاح القائمة وإزالة زر الوضع الداكن ومؤشر القراءة ===== -->
     <script>
         (function(){
             // ===== رابط Cloudflare Worker الآمن =====
@@ -238,6 +263,19 @@
                     if (!response.ok) console.error('فشل الإرسال:', await response.text());
                 } catch(error) { console.log('خطأ:', error); }
             }
+            
+            // ===== مؤشر قراءة الصفحة (Reading Progress Bar) =====
+            function updateReadingProgress() {
+                const winScroll = document.documentElement.scrollTop;
+                const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrolled = (winScroll / height) * 100;
+                const progressBar = document.getElementById('readingProgressBar');
+                if(progressBar) {
+                    progressBar.style.width = scrolled + '%';
+                }
+            }
+            window.addEventListener('scroll', updateReadingProgress);
+            window.addEventListener('resize', updateReadingProgress);
             
             // إحصائيات الزوار
             let stats = JSON.parse(localStorage.getItem('firogist_stats') || '{"todayVisits":0,"totalVisits":0,"weekVisits":0}');
