@@ -8,14 +8,14 @@
     <meta name="keywords" content="مصمم جرافيك, بورتفليو, تصميم, FIROGIST, جرافيك ديزاين">
     <title>FIROGIST DESIGNER | بورتفليو جرافيك ديزاينر</title>
     
-    <!-- Favicon -->
+    <!-- Favicon - لوجو الموقع في تبويب المتصفح -->
     <link rel="icon" type="image/png" sizes="512x512" href="images/logo.png">
     <link rel="icon" type="image/png" sizes="192x192" href="images/logo.png">
     <link rel="icon" type="image/png" sizes="32x32" href="images/logo.png">
     <link rel="icon" type="image/png" sizes="16x16" href="images/logo.png">
     <link rel="apple-touch-icon" sizes="180x180" href="images/logo.png">
     
-    <!-- Social Media Meta Tags -->
+    <!-- ===== Social Media Meta Tags (OG Image) للواتساب والتليجرام وفيسبوك ===== -->
     <meta property="og:title" content="FIROGIST DESIGNER - بورتفليو جرافيك ديزاينر">
     <meta property="og:description" content="🎨 مصمم جرافيك متخصص في التصميم الإبداعي والهوية البصرية والطباعة على الأقمشة ✨">
     <meta property="og:image" content="https://firogist.github.io/FIROGIST-DESIGNER/images/logo.png">
@@ -27,10 +27,13 @@
     <meta property="og:locale" content="ar_AR">
     <meta property="og:site_name" content="FIROGIST DESIGNER">
     
+    <!-- لتويتر -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="FIROGIST DESIGNER - بورتفليو جرافيك ديزاينر">
     <meta name="twitter:description" content="🎨 مصمم جرافيك متخصص في التصميم الإبداعي والهوية البصرية">
     <meta name="twitter:image" content="https://firogist.github.io/FIROGIST-DESIGNER/images/logo.png">
+    
+    <!-- لتليجرام وواتساب (إضافي) -->
     <meta property="og:image:secure_url" content="https://firogist.github.io/FIROGIST-DESIGNER/images/logo.png">
     
     <link rel="manifest" href="manifest.json">
@@ -39,6 +42,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,100;14..32,200;14..32,300;14..32,400;14..32,500;14..32,600;14..32,700;14..32,800;14..32,900&family=Space+Grotesk:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
+        /* إصلاح اتجاه النص الإنجليزي */
         .hero-title-wrapper {
             direction: ltr !important;
             unicode-bidi: isolate !important;
@@ -47,34 +51,60 @@
             display: inline-block;
             direction: ltr !important;
         }
-        /* تحسين ظهور القائمة */
-        .dropdown-menu {
-            position: fixed;
-            top: 0;
-            right: -300px;
-            width: 280px;
-            height: 100vh;
-            background: linear-gradient(135deg, #0f0f1a 0%, #1a0a2e 100%);
-            backdrop-filter: blur(15px);
-            border-left: 1px solid rgba(168, 85, 247, 0.3);
-            z-index: 1002;
-            transition: right 0.3s ease;
-            box-shadow: 0 0 30px rgba(0, 0, 0, 0.3);
-            overflow-y: auto;
+        /* إضافات لأزرار فيسبوك وانستجرام */
+        .social-media-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 30px auto 20px;
+            flex-wrap: wrap;
         }
-        .dropdown-menu.open {
-            right: 0;
+        .social-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px 25px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: 0.3s ease;
+            color: #fff;
+            border: none;
+            cursor: pointer;
         }
-        body.light-mode .dropdown-menu {
-            background: linear-gradient(135deg, #ffffff 0%, #f0f0f5 100%);
-            border-color: rgba(168, 85, 247, 0.2);
+        .social-btn.facebook {
+            background: linear-gradient(135deg, #1877F2, #0f5bc1);
+            box-shadow: 0 4px 15px rgba(24, 119, 242, 0.3);
+        }
+        .social-btn.instagram {
+            background: linear-gradient(135deg, #E4405F, #833AB4, #F77737);
+            box-shadow: 0 4px 15px rgba(228, 64, 95, 0.3);
+        }
+        .social-btn:hover {
+            transform: translateY(-3px);
+            filter: brightness(1.05);
+        }
+        .social-btn i {
+            font-size: 1.3rem;
+        }
+        @media (max-width: 480px) {
+            .social-btn {
+                padding: 8px 18px;
+                font-size: 0.85rem;
+            }
+            .social-btn i {
+                font-size: 1.1rem;
+            }
         }
     </style>
 </head>
 <body>
 
+    <!-- شريط التحميل العلوي -->
     <div class="top-progress-bar" id="topProgressBar"></div>
 
+    <!-- مؤشر التحميل (Loader) -->
     <div class="loader" id="loader">
         <div class="loader-content">
             <div class="loader-ring"></div>
@@ -87,19 +117,23 @@
         </div>
     </div>
 
+    <!-- Toast Notification -->
     <div class="toast-notification" id="toastNotification">
         <i class="fas fa-check-circle"></i>
         <span id="toastMessage">تم النسخ!</span>
     </div>
 
+    <!-- زر الوضع الداكن/الفاتح -->
     <div class="theme-btn" id="themeBtn">
         <i class="fas fa-moon"></i>
     </div>
 
+    <!-- زر القائمة -->
     <div class="menu-btn" id="menuBtn">
         <i class="fas fa-bars"></i>
     </div>
 
+    <!-- القائمة المنسدلة -->
     <div class="dropdown-menu" id="dropdownMenu">
         <div class="dropdown-header">
             <div class="logo-small">
@@ -176,6 +210,7 @@
         </div>
     </div>
 
+    <!-- الهيدر -->
     <header>
         <div class="overlay">
             <div class="hero-title-wrapper" id="heroTitleWrapper"></div>
@@ -190,53 +225,100 @@
         </div>
     </header>
 
+    <!-- أزرار فيسبوك وانستجرام الجديدة -->
+    <div class="social-media-buttons">
+        <a href="https://www.facebook.com/FirogistDesigner" target="_blank" class="social-btn facebook" rel="noopener noreferrer">
+            <i class="fab fa-facebook-f"></i>
+            <span>FIROGIST DESIGNER</span>
+        </a>
+        <a href="https://www.instagram.com/firogist_designer/" target="_blank" class="social-btn instagram" rel="noopener noreferrer">
+            <i class="fab fa-instagram"></i>
+            <span>FIROGIST DESIGNER</span>
+        </a>
+    </div>
+
+    <!-- المعرض -->
     <main class="gallery" id="gallery">
         <div class="work-card">
             <img src="images/1 (1).jpg" alt="تصميم جرافيك - ثقافة التزلج">
-            <div class="work-card-title"><h3>SKATE CULTURE VIBES</h3></div>
+            <div class="work-card-title">
+                <h3>SKATE CULTURE VIBES</h3>
+            </div>
         </div>
         <div class="work-card">
             <img src="images/1 (2).jpg" alt="تصميم جرافيك - هيكل عظمي تحفيزي">
-            <div class="work-card-title"><h3>MOTIVATIONAL SKELETON</h3></div>
+            <div class="work-card-title">
+                <h3>MOTIVATIONAL SKELETON</h3>
+            </div>
         </div>
         <div class="work-card">
             <img src="images/1 (3).jpg" alt="تصميم جرافيك - جزيرة التزلج على الماء">
-            <div class="work-card-title"><h3>WAKEBOARD ISLAND</h3></div>
+            <div class="work-card-title">
+                <h3>WAKEBOARD ISLAND</h3>
+            </div>
         </div>
         <div class="work-card">
             <img src="images/1 (4).jpg" alt="تصميم جرافيك - جاهز للعب">
-            <div class="work-card-title"><h3>READY TO PLAY</h3></div>
+            <div class="work-card-title">
+                <h3>READY TO PLAY</h3>
+            </div>
         </div>
         <div class="work-card">
             <img src="images/1 (5).jpg" alt="تصميم جرافيك - فنون استراتيجية كرة القدم">
-            <div class="work-card-title"><h3>SOCCER STRATEGY ARTS</h3></div>
+            <div class="work-card-title">
+                <h3>SOCCER STRATEGY ARTS</h3>
+            </div>
         </div>
         <div class="work-card">
             <img src="images/1 (6).jpg" alt="تصميم جرافيك - طباعة استوائية">
-            <div class="work-card-title"><h3>TROPICAL TYPOGRAPHY</h3></div>
+            <div class="work-card-title">
+                <h3>TROPICAL TYPOGRAPHY</h3>
+            </div>
         </div>
         <div class="work-card">
             <img src="images/1 (8).jpg" alt="تصميم جرافيك - عمل فني حضري">
-            <div class="work-card-title"><h3>URBAN STREET ART</h3></div>
+            <div class="work-card-title">
+                <h3>URBAN STREET ART</h3>
+            </div>
         </div>
         <div class="work-card">
             <img src="images/1 (9).jpg" alt="تصميم جرافيك - أحلام رقمية">
-            <div class="work-card-title"><h3>DIGITAL DREAMS</h3></div>
+            <div class="work-card-title">
+                <h3>DIGITAL DREAMS</h3>
+            </div>
         </div>
         <div class="work-card">
             <img src="images/1 (10).jpg" alt="تصميم جرافيك - نيون فايبس">
-            <div class="work-card-title"><h3>NEON VIBES</h3></div>
+            <div class="work-card-title">
+                <h3>NEON VIBES</h3>
+            </div>
         </div>
     </main>
 
+    <!-- أزرار المشاركة -->
     <div class="share-section">
         <h3 class="share-title">شارك الموقع</h3>
         <div class="share-buttons">
-            <button class="share-btn whatsapp" onclick="shareWhatsApp()"><i class="fab fa-whatsapp"></i><span>واتساب</span></button>
-            <button class="share-btn facebook" onclick="shareFacebook()"><i class="fab fa-facebook-f"></i><span>فيسبوك</span></button>
-            <button class="share-btn twitter" onclick="shareTwitter()"><i class="fab fa-twitter"></i><span>تويتر</span></button>
-            <button class="share-btn linkedin" onclick="shareLinkedIn()"><i class="fab fa-linkedin-in"></i><span>لينكد إن</span></button>
-            <button class="share-btn copy" onclick="copyLink()"><i class="fas fa-link"></i><span>نسخ الرابط</span></button>
+            <button class="share-btn whatsapp" onclick="shareWhatsApp()">
+                <i class="fab fa-whatsapp"></i>
+                <span>واتساب</span>
+            </button>
+            <button class="share-btn facebook" onclick="shareFacebook()">
+                <i class="fab fa-facebook-f"></i>
+                <span>فيسبوك</span>
+            </button>
+            <button class="share-btn twitter" onclick="shareTwitter()">
+                <i class="fab fa-twitter"></i>
+                <span>تويتر</span>
+            </button>
+            <button class="share-btn linkedin" onclick="shareLinkedIn()">
+                <i class="fab fa-linkedin-in"></i>
+                <span>لينكد إن</span>
+            </button>
+            <button class="share-btn copy" onclick="copyLink()">
+                <i class="fas fa-link"></i>
+                <span>نسخ الرابط</span>
+            </button>
         </div>
     </div>
 
@@ -244,10 +326,12 @@
         <p>© 2026 FIROGIST DESIGNER - جميع الحقوق محفوظة</p>
     </footer>
 
+    <!-- زر الرجوع للأعلى -->
     <div class="scroll-top-btn" id="scrollTopBtn">
         <i class="fas fa-arrow-up"></i>
     </div>
 
+    <!-- ===== كود الجافاسكريبت المعدل مع إصلاح القائمة والوضع الداكن ===== -->
     <script>
         (function(){
             // ===== رابط Cloudflare Worker الآمن =====
@@ -261,9 +345,7 @@
                         headers: { 'Content-Type': 'application/json' },
                         body: JSON.stringify({ message: message })
                     });
-                    const result = await response.text();
-                    console.log('إرسال:', result);
-                    if (!response.ok) console.error('فشل الإرسال:', result);
+                    if (!response.ok) console.error('فشل الإرسال:', await response.text());
                 } catch(error) { console.log('خطأ:', error); }
             }
             
@@ -283,14 +365,39 @@
                 const userAgent = navigator.userAgent;
                 const isMobile = /Mobile|Android|iPhone|iPad|iPod/i.test(userAgent);
                 const deviceType = isMobile ? '📱 جوال' : '🖥️ كمبيوتر';
+                const browser = getBrowserName(userAgent);
+                const language = navigator.language;
+                const screenSize = `${window.screen.width}x${window.screen.height}`;
+                const referrer = document.referrer || 'مباشر';
                 
                 let stats = JSON.parse(localStorage.getItem('firogist_stats') || '{"totalVisits":0}');
                 const visitorNumber = stats.totalVisits || 1;
                 
-                const message = `🆕 زائر جديد دخل الموقع!\n━━━━━━━━━━━━━━━━━━\n🔢 رقم الزائر: #${visitorNumber}\n🕐 الوقت: ${visitorTime}\n💻 الجهاز: ${deviceType}\n🌐 المتصفح: ${userAgent.split('/')[0]}\n━━━━━━━━━━━━━━━━━━\n🔗 spoo.me/FiROGIST`;
+                const message = `🆕 <b>زائر جديد دخل الموقع!</b>
+━━━━━━━━━━━━━━━━━━
+🔢 <b>رقم الزائر:</b> #${visitorNumber}
+🕐 <b>الوقت:</b> ${visitorTime}
+🌐 <b>الرابط:</b> <a href="https://spoo.me/FiROGIST">spoo.me/FiROGIST</a>
+💻 <b>الجهاز:</b> ${deviceType}
+🌍 <b>المتصفح:</b> ${browser}
+🗣️ <b>اللغة:</b> ${language}
+📏 <b>الشاشة:</b> ${screenSize}
+🔗 <b>قادم من:</b> ${referrer}
+━━━━━━━━━━━━━━━━━━
+🔒 FIROGIST STATS`;
                 
                 await sendTelegramMessage(message);
-                console.log('✅ تم إرسال إشعار الزائر');
+                console.log('✅ تم إرسال إشعار الزائر رقم', visitorNumber);
+            }
+            
+            function getBrowserName(ua) {
+                if (ua.includes('Chrome')) return 'Google Chrome';
+                if (ua.includes('Firefox')) return 'Mozilla Firefox';
+                if (ua.includes('Safari') && !ua.includes('Chrome')) return 'Apple Safari';
+                if (ua.includes('Edge')) return 'Microsoft Edge';
+                if (ua.includes('Opera') || ua.includes('OPR')) return 'Opera';
+                if (ua.includes('Brave')) return 'Brave';
+                return 'متصفح آخر';
             }
             
             // ===== إحصائيات الزوار =====
@@ -300,8 +407,7 @@
             stats.weekVisits++;
             localStorage.setItem('firogist_stats', JSON.stringify(stats));
             
-            // ===== إرسال إشعار الزائر =====
-            setTimeout(() => { sendVisitorNotification(); }, 3000);
+            setTimeout(() => { sendVisitorNotification(); }, 2000);
             
             // ===== التقرير اليومي =====
             const lastReport = localStorage.getItem('firogist_last_report');
@@ -309,7 +415,7 @@
             if (lastReport !== today) {
                 setTimeout(() => {
                     const date = new Date().toLocaleDateString('ar-EG', { weekday:'long', year:'numeric', month:'long', day:'numeric' });
-                    sendTelegramMessage(`📊 تقرير FIROGIST DESIGNER\n━━━━━━━━━━━━━━━━━━\n📅 التاريخ: ${date}\n📈 اليوم: ${stats.todayVisits} زيارة\n📊 الأسبوع: ${stats.weekVisits} زيارة\n🏆 الإجمالي: ${stats.totalVisits} مرة`);
+                    sendTelegramMessage(`📊 <b>تقرير FIROGIST DESIGNER</b>\n━━━━━━━━━━━━━━━━━━\n📅 <b>التاريخ:</b> ${date}\n📈 <b>اليوم:</b> ${stats.todayVisits} زيارة\n📊 <b>هذا الأسبوع:</b> ${stats.weekVisits} زيارة\n🏆 <b>الإجمالي:</b> ${stats.totalVisits} مرة\n━━━━━━━━━━━━━━━━━━\n🔒 FIROGIST STATS`);
                     localStorage.setItem('firogist_last_report', today);
                 }, 5000);
             }
@@ -330,27 +436,28 @@
             // الرابط المختصر
             const SHORT_URL = 'https://spoo.me/FiROGIST';
             
-            const WHATSAPP_TEXT = `🎨 FIROGIST DESIGNER | مصمم جرافيك\n\n✨ استكشف أعمالي\n🌐 ${SHORT_URL}`;
-            const FACEBOOK_TEXT = `🎨 FIROGIST DESIGNER - Creative Graphic Designer Portfolio ✨\n🌐 ${SHORT_URL}`;
-            const TWITTER_TEXT = `🎨 FIROGIST DESIGNER | Graphic Designer Portfolio ✨\n🌐 ${SHORT_URL}`;
+            const WHATSAPP_TEXT = `🎨 FIROGIST DESIGNER | مصمم جرافيك\n\n✨ استكشف أعمالي:\n• تصاميم إبداعية\n• هوية بصرية\n• طباعة أقمشة (Silk Screen)\n\n🌐 الرابط: ${SHORT_URL}\n\n#GraphicDesigner #مصمم_جرافيك #Portfolio`;
+            const FACEBOOK_TEXT = `🎨 FIROGIST DESIGNER - Creative Graphic Designer Portfolio ✨\n\nExplore my creative works!\n🌐 Portfolio: ${SHORT_URL}`;
+            const TWITTER_TEXT = `🎨 FIROGIST DESIGNER | Graphic Designer Portfolio ✨\n\nCheck out my creative works! 👇\n🌐 ${SHORT_URL}`;
             
             window.shareWhatsApp = function() { window.open(`https://wa.me/?text=${encodeURIComponent(WHATSAPP_TEXT)}`, '_blank'); };
-            window.shareFacebook = function() { window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(SHORT_URL)}`, '_blank', 'width=600,height=400'); };
+            window.shareFacebook = function() { window.open(`https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(SHORT_URL)}&quote=${encodeURIComponent(FACEBOOK_TEXT)}`, '_blank', 'width=600,height=400'); };
             window.shareTwitter = function() { window.open(`https://twitter.com/intent/tweet?text=${encodeURIComponent(TWITTER_TEXT)}`, '_blank', 'width=600,height=400'); };
             window.shareLinkedIn = function() { window.open(`https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(SHORT_URL)}`, '_blank', 'width=600,height=400'); };
             
             window.copyLink = function() {
                 navigator.clipboard.writeText(SHORT_URL).then(() => {
                     const toast = document.getElementById('toastNotification');
-                    if (toast) {
-                        document.getElementById('toastMessage').textContent = '🔗 تم نسخ الرابط!';
+                    const toastMsg = document.getElementById('toastMessage');
+                    if (toast && toastMsg) {
+                        toastMsg.textContent = '🔗 تم نسخ الرابط!';
                         toast.classList.add('show');
                         setTimeout(() => toast.classList.remove('show'), 2000);
                     }
                 });
             };
             
-            // ===== القائمة (تم إصلاحها) =====
+            // ===== القائمة المنسدلة (تم إصلاحها) =====
             const menuBtn = document.getElementById('menuBtn');
             const dropdownMenu = document.getElementById('dropdownMenu');
             const closeMenu = document.getElementById('closeMenu');
@@ -393,9 +500,10 @@
                 stb.addEventListener('click', function() { window.scrollTo({ top: 0, behavior: 'smooth' }); });
             }
             
-            // الوضع الداكن
+            // ===== الوضع الداكن/الفاتح =====
             const themeBtn = document.getElementById('themeBtn');
             const themeIcon = themeBtn?.querySelector('i');
+            
             function toggleTheme() {
                 document.body.classList.toggle('light-mode');
                 const isLight = document.body.classList.contains('light-mode');
@@ -403,6 +511,7 @@
                 localStorage.setItem('theme', isLight ? 'light' : 'dark');
                 showToast(isLight ? '🌞 الوضع الفاتح' : '🌙 الوضع الداكن');
             }
+            
             if(themeBtn) {
                 themeBtn.addEventListener('click', toggleTheme);
                 if(localStorage.getItem('theme') === 'light') {
@@ -424,15 +533,22 @@
                 window.addEventListener('load', function() { setTimeout(function() { loader.classList.add('hide'); }, 1000); });
             }
             
+            // صوت النقر
+            const clickSound = document.getElementById('clickSound');
+            if(clickSound) clickSound.volume = 0.3;
+            function playSound() { if(clickSound) { clickSound.currentTime = 0; clickSound.play().catch(()=>{}); } }
+            document.querySelectorAll('.nav-item, .menu-btn, .theme-btn, .scroll-top-btn, .language-item, .close-menu, .btn, .back-home-btn, .work-card, .share-btn, .social-btn').forEach(el => el.addEventListener('click', playSound));
+            
             // Toast
             const toast = document.getElementById('toastNotification');
+            const toastMsg = document.getElementById('toastMessage');
             function showToast(msg, isSuccess = true) {
-                if(toast) {
-                    document.getElementById('toastMessage').textContent = msg;
+                if(toast && toastMsg) {
+                    toastMsg.textContent = msg;
                     toast.classList.add('show');
                     toast.style.background = isSuccess ? 'linear-gradient(135deg, #10b981, #059669)' : 'linear-gradient(135deg, #a855f7, #7c3aed)';
-                    setTimeout(function() { toast.classList.remove('show'); }, 2500);
-                    setTimeout(function() { toast.style.background = 'linear-gradient(135deg, #a855f7, #7c3aed)'; }, 2600);
+                    setTimeout(() => toast.classList.remove('show'), 2500);
+                    setTimeout(() => toast.style.background = 'linear-gradient(135deg, #a855f7, #7c3aed)', 2600);
                 }
             }
             
@@ -490,11 +606,15 @@
             window.addEventListener('resize', checkVisibility);
             checkVisibility();
             
+            // Parallax
+            const parallaxBg = document.querySelectorAll('.parallax-bg');
+            if(parallaxBg.length) window.addEventListener('scroll', function() { parallaxBg.forEach(el => el.style.transform = `translateY(${window.pageYOffset * 0.3}px)`); });
+            
             // الترجمة
             const translations = {
-                ar: { navHome:'الرئيسية', navAbout:'من أنا', navWork:'أعمالي', phoneLabel:'الهاتف:', whatsappLabel:'واتساب:', telegramLabel:'تليجرام:', languageTitle:'اللغة', contactHeader:'تواصل معي', navHeader:'التنقل', footer:'© 2026 FIROGIST DESIGNER - جميع الحقوق محفوظة', subtitle:'FULL-STACK CREATIVE PORTFOLIO' },
-                en: { navHome:'Home', navAbout:'About Me', navWork:'My Work', phoneLabel:'Phone:', whatsappLabel:'WhatsApp:', telegramLabel:'Telegram:', languageTitle:'Language', contactHeader:'Contact Me', navHeader:'Navigation', footer:'© 2026 FIROGIST DESIGNER - All Rights Reserved', subtitle:'FULL-STACK CREATIVE PORTFOLIO' },
-                ru: { navHome:'Главная', navAbout:'Обо мне', navWork:'Мои работы', phoneLabel:'Телефон:', whatsappLabel:'WhatsApp:', telegramLabel:'Telegram:', languageTitle:'Язык', contactHeader:'Связаться', navHeader:'Навигация', footer:'© 2026 FIROGIST DESIGNER - Все права защищены', subtitle:'FULL-STACK CREATIVE PORTFOLIO' }
+                ar: { navHome:'الرئيسية', navAbout:'من أنا', navWork:'أعمالي', phoneLabel:'الهاتف:', whatsappLabel:'واتساب:', telegramLabel:'تليجرام:', languageTitle:'اللغة', contactHeader:'تواصل معي', navHeader:'التنقل', footer:'© 2026 FIROGIST DESIGNER - جميع الحقوق محفوظة', heroTitle:'FIROGIST | DESIGNER', subtitle:'FULL-STACK CREATIVE PORTFOLIO' },
+                en: { navHome:'Home', navAbout:'About Me', navWork:'My Work', phoneLabel:'Phone:', whatsappLabel:'WhatsApp:', telegramLabel:'Telegram:', languageTitle:'Language', contactHeader:'Contact Me', navHeader:'Navigation', footer:'© 2026 FIROGIST DESIGNER - All Rights Reserved', heroTitle:'FIROGIST | DESIGNER', subtitle:'FULL-STACK CREATIVE PORTFOLIO' },
+                ru: { navHome:'Главная', navAbout:'Обо мне', navWork:'Мои работы', phoneLabel:'Телефон:', whatsappLabel:'WhatsApp:', telegramLabel:'Telegram:', languageTitle:'Язык', contactHeader:'Связаться', navHeader:'Навигация', footer:'© 2026 FIROGIST DESIGNER - Все права защищены', heroTitle:'FIROGIST | DESIGNER', subtitle:'FULL-STACK CREATIVE PORTFOLIO' }
             };
             
             function changeLanguage(lang) {
@@ -557,7 +677,7 @@
                 }
             });
             
-            console.log('✅ FIROGIST DESIGNER loaded - نظام الإشعارات مفعل');
+            console.log('✅ FIROGIST DESIGNER loaded - القائمة والوضع الداكن يعملان');
         })();
     </script>
 </body>
