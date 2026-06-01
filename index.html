@@ -127,11 +127,6 @@
         <span id="toastMessage">تم النسخ!</span>
     </div>
 
-    <!-- زر الوضع الداكن/الفاتح -->
-    <div class="theme-btn" id="themeBtn">
-        <i class="fas fa-moon"></i>
-    </div>
-
     <!-- زر القائمة -->
     <div class="menu-btn" id="menuBtn">
         <i class="fas fa-bars"></i>
@@ -339,7 +334,7 @@
         <i class="fas fa-arrow-up"></i>
     </div>
 
-    <!-- ===== كود الجافاسكريبت المعدل مع إصلاح القائمة والوضع الداكن ===== -->
+    <!-- ===== كود الجافاسكريبت المعدل مع إصلاح القائمة ===== -->
     <script>
         (function(){
             // ===== رابط Cloudflare Worker الآمن =====
@@ -508,25 +503,7 @@
                 stb.addEventListener('click', function() { window.scrollTo({ top: 0, behavior: 'smooth' }); });
             }
             
-            // ===== الوضع الداكن/الفاتح =====
-            const themeBtn = document.getElementById('themeBtn');
-            const themeIcon = themeBtn?.querySelector('i');
-            
-            function toggleTheme() {
-                document.body.classList.toggle('light-mode');
-                const isLight = document.body.classList.contains('light-mode');
-                if(themeIcon) themeIcon.className = isLight ? 'fas fa-sun' : 'fas fa-moon';
-                localStorage.setItem('theme', isLight ? 'light' : 'dark');
-                showToast(isLight ? '🌞 الوضع الفاتح' : '🌙 الوضع الداكن');
-            }
-            
-            if(themeBtn) {
-                themeBtn.addEventListener('click', toggleTheme);
-                if(localStorage.getItem('theme') === 'light') {
-                    document.body.classList.add('light-mode');
-                    if(themeIcon) themeIcon.className = 'fas fa-sun';
-                }
-            }
+            // إزالة زر الوضع الداكن وجعل الموقع داكن فقط
             
             // حماية الصور
             document.querySelectorAll('img').forEach(img => {
@@ -545,7 +522,7 @@
             const clickSound = document.getElementById('clickSound');
             if(clickSound) clickSound.volume = 0.3;
             function playSound() { if(clickSound) { clickSound.currentTime = 0; clickSound.play().catch(()=>{}); } }
-            document.querySelectorAll('.nav-item, .menu-btn, .theme-btn, .scroll-top-btn, .language-item, .close-menu, .btn, .back-home-btn, .work-card, .share-btn, .social-btn').forEach(el => el.addEventListener('click', playSound));
+            document.querySelectorAll('.nav-item, .menu-btn, .scroll-top-btn, .language-item, .close-menu, .btn, .back-home-btn, .work-card, .share-btn, .social-btn').forEach(el => el.addEventListener('click', playSound));
             
             // Toast
             const toast = document.getElementById('toastNotification');
@@ -685,7 +662,7 @@
                 }
             });
             
-            console.log('✅ FIROGIST DESIGNER loaded - القائمة والوضع الداكن يعملان');
+            console.log('✅ FIROGIST DESIGNER loaded - وضع داكن فقط');
         })();
     </script>
 </body>
