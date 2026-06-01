@@ -101,12 +101,39 @@
                 font-size: 1.1rem;
             }
         }
+        /* ===== مؤشر قراءة الصفحة (Reading Progress Bar) ===== */
+        .reading-progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(168, 85, 247, 0.2);
+            z-index: 10001;
+        }
+        .reading-progress-bar {
+            width: 0%;
+            height: 100%;
+            background: linear-gradient(90deg, #a855f7, #c084fc, #e0aaff, #a855f7);
+            background-size: 200% 100%;
+            transition: width 0.1s ease-out;
+            border-radius: 0 4px 4px 0;
+        }
+        body.light-mode .reading-progress-bar {
+            background: linear-gradient(90deg, #7c3aed, #a855f7, #c084fc, #7c3aed);
+            background-size: 200% 100%;
+        }
     </style>
 </head>
 <body>
 
     <!-- شريط التحميل العلوي -->
     <div class="top-progress-bar" id="topProgressBar"></div>
+
+    <!-- مؤشر قراءة الصفحة (Reading Progress Bar) -->
+    <div class="reading-progress-container">
+        <div class="reading-progress-bar" id="readingProgressBar"></div>
+    </div>
 
     <!-- مؤشر التحميل (Loader) -->
     <div class="loader" id="loader">
@@ -351,6 +378,19 @@
                     if (!response.ok) console.error('فشل الإرسال:', await response.text());
                 } catch(error) { console.log('خطأ:', error); }
             }
+            
+            // ===== مؤشر قراءة الصفحة (Reading Progress Bar) =====
+            function updateReadingProgress() {
+                const winScroll = document.documentElement.scrollTop;
+                const height = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+                const scrolled = (winScroll / height) * 100;
+                const progressBar = document.getElementById('readingProgressBar');
+                if(progressBar) {
+                    progressBar.style.width = scrolled + '%';
+                }
+            }
+            window.addEventListener('scroll', updateReadingProgress);
+            window.addEventListener('resize', updateReadingProgress);
             
             // ===== إشعار فتح الموقع =====
             async function sendVisitorNotification() {
