@@ -51,7 +51,7 @@
             display: inline-block;
             direction: ltr !important;
         }
-        /* إضافات لأزرار فيسبوك وانستجرام */
+        /* إضافات لأزرار فيسبوك وانستجرام وواتساب */
         .social-media-buttons {
             display: flex;
             justify-content: center;
@@ -80,6 +80,10 @@
         .social-btn.instagram {
             background: linear-gradient(135deg, #E4405F, #833AB4, #F77737);
             box-shadow: 0 4px 15px rgba(228, 64, 95, 0.3);
+        }
+        .social-btn.whatsapp {
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
         }
         .social-btn:hover {
             transform: translateY(-3px);
@@ -225,7 +229,7 @@
         </div>
     </header>
 
-    <!-- أزرار فيسبوك وانستجرام الجديدة -->
+    <!-- أزرار فيسبوك وانستجرام وواتساب -->
     <div class="social-media-buttons">
         <a href="https://www.facebook.com/FirogistDesigner" target="_blank" class="social-btn facebook" rel="noopener noreferrer">
             <i class="fab fa-facebook-f"></i>
@@ -233,6 +237,10 @@
         </a>
         <a href="https://www.instagram.com/firogist_designer/" target="_blank" class="social-btn instagram" rel="noopener noreferrer">
             <i class="fab fa-instagram"></i>
+            <span>FIROGIST DESIGNER</span>
+        </a>
+        <a href="https://wa.me/201122182066" target="_blank" class="social-btn whatsapp" rel="noopener noreferrer">
+            <i class="fab fa-whatsapp"></i>
             <span>FIROGIST DESIGNER</span>
         </a>
     </div>
