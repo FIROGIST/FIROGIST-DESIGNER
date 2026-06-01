@@ -39,6 +39,43 @@
             transition: width 0.1s ease-out;
             border-radius: 0 4px 4px 0;
         }
+        /* ===== زر الواتساب العائم ===== */
+        .float-wa {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 55px;
+            height: 55px;
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1001;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        .float-wa i {
+            font-size: 28px;
+            color: #fff;
+        }
+        .float-wa:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.5);
+        }
+        @media (max-width: 768px) {
+            .float-wa {
+                width: 45px;
+                height: 45px;
+                bottom: 15px;
+                left: 15px;
+            }
+            .float-wa i {
+                font-size: 22px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -246,7 +283,12 @@
         <i class="fas fa-arrow-up"></i>
     </div>
 
-    <!-- ===== كود الجافاسكريبت المعدل مع إصلاح القائمة وإزالة زر الوضع الداكن ومؤشر القراءة ===== -->
+    <!-- ===== زر الواتساب العائم ===== -->
+    <a href="https://wa.me/201119274132" target="_blank" class="float-wa" rel="noopener noreferrer">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
+    <!-- ===== كود الجافاسكريبت المعدل مع عدادات متحركة وإصلاح القائمة ===== -->
     <script>
         (function(){
             // ===== رابط Cloudflare Worker الآمن =====
@@ -262,6 +304,50 @@
                     });
                     if (!response.ok) console.error('فشل الإرسال:', await response.text());
                 } catch(error) { console.log('خطأ:', error); }
+            }
+            
+            // ===== عدادات متحركة (Counter Animation) =====
+            function animateCounter(element, start, end, duration) {
+                let startTimestamp = null;
+                const step = (timestamp) => {
+                    if (!startTimestamp) startTimestamp = timestamp;
+                    const progress = Math.min((timestamp - startTimestamp) / duration, 1);
+                    const currentValue = Math.floor(progress * (end - start) + start);
+                    element.textContent = currentValue + (element.classList.contains('counter-years') ? '+' : '+');
+                    if (progress < 1) {
+                        window.requestAnimationFrame(step);
+                    }
+                };
+                window.requestAnimationFrame(step);
+            }
+            
+            function startCounters() {
+                const yearsEl = document.querySelector('.info-card:first-child p');
+                const projectsEl = document.querySelector('.info-card:nth-child(2) p');
+                const clientsEl = document.querySelector('.info-card:nth-child(3) p');
+                
+                if(yearsEl && !yearsEl.classList.contains('counter-started')) {
+                    yearsEl.classList.add('counter-started');
+                    yearsEl.classList.add('counter-years');
+                    const originalText = yearsEl.textContent;
+                    const number = parseInt(originalText) || 3;
+                    yearsEl.textContent = '0+';
+                    animateCounter(yearsEl, 0, number, 1500);
+                }
+                if(projectsEl && !projectsEl.classList.contains('counter-started')) {
+                    projectsEl.classList.add('counter-started');
+                    const originalText = projectsEl.textContent;
+                    const number = parseInt(originalText) || 50;
+                    projectsEl.textContent = '0+';
+                    animateCounter(projectsEl, 0, number, 1500);
+                }
+                if(clientsEl && !clientsEl.classList.contains('counter-started')) {
+                    clientsEl.classList.add('counter-started');
+                    const originalText = clientsEl.textContent;
+                    const number = parseInt(originalText) || 30;
+                    clientsEl.textContent = '0+';
+                    animateCounter(clientsEl, 0, number, 1500);
+                }
             }
             
             // ===== مؤشر قراءة الصفحة (Reading Progress Bar) =====
@@ -347,17 +433,24 @@
                 img.setAttribute('draggable', 'false');
             });
             
-            // إخفاء loader
+            // إخفاء loader وبدء العدادات
             const loader = document.getElementById('loader');
             if(loader) {
-                window.addEventListener('load', function() { setTimeout(function() { loader.classList.add('hide'); }, 1000); });
+                window.addEventListener('load', function() { 
+                    setTimeout(function() { 
+                        loader.classList.add('hide');
+                        startCounters();
+                    }, 1000); 
+                });
+            } else {
+                window.addEventListener('load', startCounters);
             }
             
             // صوت النقر
             const clickSound = document.getElementById('clickSound');
             if(clickSound) clickSound.volume = 0.3;
             function playSound() { if(clickSound) { clickSound.currentTime = 0; clickSound.play().catch(()=>{}); } }
-            document.querySelectorAll('.nav-item, .menu-btn, .scroll-top-btn, .language-item, .close-menu, .btn, .back-home-btn').forEach(el => el.addEventListener('click', playSound));
+            document.querySelectorAll('.nav-item, .menu-btn, .scroll-top-btn, .language-item, .close-menu, .btn, .back-home-btn, .float-wa').forEach(el => el.addEventListener('click', playSound));
             
             // Toast
             const toast = document.getElementById('toastNotification');
@@ -480,7 +573,7 @@
             window.addEventListener('resize', checkVisibility);
             checkVisibility();
             
-            console.log('✅ About page loaded - Faris Suleiman - وضع داكن فقط');
+            console.log('✅ About page loaded - Faris Suleiman - عدادات متحركة وزر واتساب عائم');
         })();
     </script>
 </body>
