@@ -50,11 +50,6 @@
         <source src="https://www.soundjay.com/misc/sounds/bell-ringing-05.mp3" type="audio/mpeg">
     </audio>
 
-    <!-- زر الوضع الداكن/الفاتح -->
-    <div class="theme-btn" id="themeBtn">
-        <i class="fas fa-moon"></i>
-    </div>
-
     <!-- زر العودة للرئيسية -->
     <div class="back-home-btn" id="backHomeBtn">
         <i class="fas fa-arrow-right"></i>
@@ -226,7 +221,7 @@
         <i class="fas fa-arrow-up"></i>
     </div>
 
-    <!-- ===== كود الجافاسكريبت المعدل مع إصلاح القائمة ===== -->
+    <!-- ===== كود الجافاسكريبت المعدل مع إصلاح القائمة وإزالة زر الوضع الداكن ===== -->
     <script>
         (function(){
             // ===== رابط Cloudflare Worker الآمن =====
@@ -305,25 +300,7 @@
                 stb.addEventListener('click', function() { window.scrollTo({ top: 0, behavior: 'smooth' }); });
             }
             
-            // ===== الوضع الداكن/الفاتح =====
-            const themeBtn = document.getElementById('themeBtn');
-            const themeIcon = themeBtn?.querySelector('i');
-            
-            function toggleTheme() {
-                document.body.classList.toggle('light-mode');
-                const isLight = document.body.classList.contains('light-mode');
-                if(themeIcon) themeIcon.className = isLight ? 'fas fa-sun' : 'fas fa-moon';
-                localStorage.setItem('theme', isLight ? 'light' : 'dark');
-                showToast(isLight ? '🌞 الوضع الفاتح' : '🌙 الوضع الداكن');
-            }
-            
-            if(themeBtn) {
-                themeBtn.addEventListener('click', toggleTheme);
-                if(localStorage.getItem('theme') === 'light') {
-                    document.body.classList.add('light-mode');
-                    if(themeIcon) themeIcon.className = 'fas fa-sun';
-                }
-            }
+            // تم إزالة زر الوضع الداكن بالكامل
             
             // حماية الصور
             document.querySelectorAll('img').forEach(img => {
@@ -342,7 +319,7 @@
             const clickSound = document.getElementById('clickSound');
             if(clickSound) clickSound.volume = 0.3;
             function playSound() { if(clickSound) { clickSound.currentTime = 0; clickSound.play().catch(()=>{}); } }
-            document.querySelectorAll('.nav-item, .menu-btn, .theme-btn, .scroll-top-btn, .language-item, .close-menu, .btn, .back-home-btn').forEach(el => el.addEventListener('click', playSound));
+            document.querySelectorAll('.nav-item, .menu-btn, .scroll-top-btn, .language-item, .close-menu, .btn, .back-home-btn').forEach(el => el.addEventListener('click', playSound));
             
             // Toast
             const toast = document.getElementById('toastNotification');
@@ -425,13 +402,23 @@
                 item.addEventListener('click', function() { changeLanguage(this.getAttribute('data-lang')); });
             });
             
-            // التنقل
+            // التنقل - إصلاح زر الرجوع للصفحة الرئيسية
+            const backToHomeBtn = document.getElementById('backHomeBtn');
+            if(backToHomeBtn) {
+                backToHomeBtn.addEventListener('click', function(e) {
+                    window.location.href = 'index.html';
+                });
+            }
+            
             document.querySelectorAll('.nav-item').forEach(item => {
                 item.addEventListener('click', function(e) {
                     e.preventDefault();
                     const link = this.getAttribute('data-link');
-                    if(link === 'home') window.location.href = 'index.html';
-                    else if(link === 'about') window.scrollTo({ top: 0, behavior: 'smooth' });
+                    if(link === 'home') {
+                        window.location.href = 'index.html';
+                    } else if(link === 'about') {
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
                     if(dropdownMenu) dropdownMenu.classList.remove('open');
                 });
             });
@@ -455,7 +442,7 @@
             window.addEventListener('resize', checkVisibility);
             checkVisibility();
             
-            console.log('✅ About page loaded - Faris Suleiman - القائمة تعمل');
+            console.log('✅ About page loaded - Faris Suleiman - وضع داكن فقط');
         })();
     </script>
 </body>
