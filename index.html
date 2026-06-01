@@ -123,6 +123,43 @@
             background: linear-gradient(90deg, #7c3aed, #a855f7, #c084fc, #7c3aed);
             background-size: 200% 100%;
         }
+        /* ===== زر الواتساب العائم ===== */
+        .float-wa {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            width: 55px;
+            height: 55px;
+            background: linear-gradient(135deg, #25D366, #128C7E);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1001;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(37, 211, 102, 0.3);
+            transition: all 0.3s ease;
+            text-decoration: none;
+        }
+        .float-wa i {
+            font-size: 28px;
+            color: #fff;
+        }
+        .float-wa:hover {
+            transform: scale(1.1);
+            box-shadow: 0 6px 20px rgba(37, 211, 102, 0.5);
+        }
+        @media (max-width: 768px) {
+            .float-wa {
+                width: 45px;
+                height: 45px;
+                bottom: 15px;
+                left: 15px;
+            }
+            .float-wa i {
+                font-size: 22px;
+            }
+        }
     </style>
 </head>
 <body>
@@ -361,6 +398,11 @@
         <i class="fas fa-arrow-up"></i>
     </div>
 
+    <!-- ===== زر الواتساب العائم ===== -->
+    <a href="https://wa.me/201119274132" target="_blank" class="float-wa" rel="noopener noreferrer">
+        <i class="fab fa-whatsapp"></i>
+    </a>
+
     <!-- ===== كود الجافاسكريبت المعدل مع إصلاح القائمة ===== -->
     <script>
         (function(){
@@ -562,7 +604,7 @@
             const clickSound = document.getElementById('clickSound');
             if(clickSound) clickSound.volume = 0.3;
             function playSound() { if(clickSound) { clickSound.currentTime = 0; clickSound.play().catch(()=>{}); } }
-            document.querySelectorAll('.nav-item, .menu-btn, .scroll-top-btn, .language-item, .close-menu, .btn, .back-home-btn, .work-card, .share-btn, .social-btn').forEach(el => el.addEventListener('click', playSound));
+            document.querySelectorAll('.nav-item, .menu-btn, .scroll-top-btn, .language-item, .close-menu, .btn, .back-home-btn, .work-card, .share-btn, .social-btn, .float-wa').forEach(el => el.addEventListener('click', playSound));
             
             // Toast
             const toast = document.getElementById('toastNotification');
