@@ -226,7 +226,7 @@
         <i class="fas fa-arrow-up"></i>
     </div>
 
-    <!-- ===== كود الجافاسكريبت المعدل (آمن) ===== -->
+    <!-- ===== كود الجافاسكريبت المعدل مع إصلاح القائمة ===== -->
     <script>
         (function(){
             // ===== رابط Cloudflare Worker الآمن =====
@@ -262,59 +262,87 @@
                 }, 5000);
             }
             
-            // القائمة
+            // ===== القائمة المنسدلة (تم إصلاحها) =====
             const menuBtn = document.getElementById('menuBtn');
             const dropdownMenu = document.getElementById('dropdownMenu');
             const closeMenu = document.getElementById('closeMenu');
-            if(menuBtn) menuBtn.onclick = (e) => { e.stopPropagation(); dropdownMenu.classList.add('open'); };
-            if(closeMenu) closeMenu.onclick = () => dropdownMenu.classList.remove('open');
-            document.onclick = (e) => { if(dropdownMenu && menuBtn && !dropdownMenu.contains(e.target) && !menuBtn.contains(e.target)) dropdownMenu.classList.remove('open'); };
+            
+            if(menuBtn) {
+                menuBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    dropdownMenu.classList.add('open');
+                });
+            }
+            
+            if(closeMenu) {
+                closeMenu.addEventListener('click', function() {
+                    dropdownMenu.classList.remove('open');
+                });
+            }
+            
+            document.addEventListener('click', function(e) {
+                if(dropdownMenu && menuBtn && !dropdownMenu.contains(e.target) && !menuBtn.contains(e.target)) {
+                    dropdownMenu.classList.remove('open');
+                }
+            });
+            
+            if(dropdownMenu) {
+                dropdownMenu.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                });
+            }
             
             // شريط التحميل
             const pb = document.getElementById('topProgressBar');
-            window.onload = () => { if(pb) { pb.style.width = '100%'; setTimeout(() => { if(pb) pb.style.width = '0%'; }, 300); } };
+            window.addEventListener('load', function() { 
+                if(pb) { pb.style.width = '100%'; setTimeout(function() { if(pb) pb.style.width = '0%'; }, 300); } 
+            });
             
             // زر الرجوع للأعلى
             const stb = document.getElementById('scrollTopBtn');
             if(stb) {
-                window.onscroll = () => stb.classList.toggle('show', window.scrollY > 300);
-                stb.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+                window.addEventListener('scroll', function() { stb.classList.toggle('show', window.scrollY > 300); });
+                stb.addEventListener('click', function() { window.scrollTo({ top: 0, behavior: 'smooth' }); });
             }
             
-            // الوضع الداكن
+            // ===== الوضع الداكن/الفاتح =====
             const themeBtn = document.getElementById('themeBtn');
             const themeIcon = themeBtn?.querySelector('i');
+            
             function toggleTheme() {
                 document.body.classList.toggle('light-mode');
                 const isLight = document.body.classList.contains('light-mode');
-                themeIcon.className = isLight ? 'fas fa-sun' : 'fas fa-moon';
+                if(themeIcon) themeIcon.className = isLight ? 'fas fa-sun' : 'fas fa-moon';
                 localStorage.setItem('theme', isLight ? 'light' : 'dark');
                 showToast(isLight ? '🌞 الوضع الفاتح' : '🌙 الوضع الداكن');
             }
+            
             if(themeBtn) {
-                themeBtn.onclick = toggleTheme;
+                themeBtn.addEventListener('click', toggleTheme);
                 if(localStorage.getItem('theme') === 'light') {
                     document.body.classList.add('light-mode');
-                    themeIcon.className = 'fas fa-sun';
+                    if(themeIcon) themeIcon.className = 'fas fa-sun';
                 }
             }
             
             // حماية الصور
             document.querySelectorAll('img').forEach(img => {
-                img.oncontextmenu = (e) => e.preventDefault();
-                img.ondragstart = (e) => e.preventDefault();
+                img.addEventListener('contextmenu', (e) => e.preventDefault());
+                img.addEventListener('dragstart', (e) => e.preventDefault());
                 img.setAttribute('draggable', 'false');
             });
             
             // إخفاء loader
             const loader = document.getElementById('loader');
-            if(loader) window.onload = () => setTimeout(() => loader.classList.add('hide'), 1000);
+            if(loader) {
+                window.addEventListener('load', function() { setTimeout(function() { loader.classList.add('hide'); }, 1000); });
+            }
             
             // صوت النقر
             const clickSound = document.getElementById('clickSound');
             if(clickSound) clickSound.volume = 0.3;
             function playSound() { if(clickSound) { clickSound.currentTime = 0; clickSound.play().catch(()=>{}); } }
-            document.querySelectorAll('.nav-item, .menu-btn, .theme-btn, .scroll-top-btn, .language-item, .close-menu, .btn, .back-home-btn').forEach(el => el.onclick = playSound);
+            document.querySelectorAll('.nav-item, .menu-btn, .theme-btn, .scroll-top-btn, .language-item, .close-menu, .btn, .back-home-btn').forEach(el => el.addEventListener('click', playSound));
             
             // Toast
             const toast = document.getElementById('toastNotification');
@@ -331,16 +359,16 @@
             
             // نسخ رقم الهاتف
             document.querySelectorAll('.contact-item a[href^="tel:"]').forEach(el => {
-                el.onclick = (e) => {
+                el.addEventListener('click', (e) => {
                     e.preventDefault();
                     const num = el.getAttribute('href').replace('tel:', '');
                     navigator.clipboard.writeText(num).then(() => showToast('📞 تم نسخ الرقم: ' + num));
-                };
+                });
             });
             
             // Parallax
             const parallaxBg = document.querySelectorAll('.parallax-bg');
-            if(parallaxBg.length) window.onscroll = () => parallaxBg.forEach(el => el.style.transform = `translateY(${window.pageYOffset * 0.3}px)`);
+            if(parallaxBg.length) window.addEventListener('scroll', function() { parallaxBg.forEach(el => el.style.transform = `translateY(${window.pageYOffset * 0.3}px)`); });
             
             // الترجمة
             const translations = {
@@ -351,51 +379,70 @@
             
             function changeLanguage(lang) {
                 const t = translations[lang];
-                document.querySelector('footer p').textContent = t.footer;
-                document.querySelector('.nav-header span').textContent = t.navHeader;
-                document.querySelector('.contact-header span').textContent = t.contactHeader;
-                document.querySelector('.language-header span').textContent = t.languageTitle;
+                const footer = document.querySelector('footer p');
+                if(footer) footer.textContent = t.footer;
+                const navHeader = document.querySelector('.nav-header span');
+                if(navHeader) navHeader.textContent = t.navHeader;
+                const contactHeader = document.querySelector('.contact-header span');
+                if(contactHeader) contactHeader.textContent = t.contactHeader;
+                const languageHeader = document.querySelector('.language-header span');
+                if(languageHeader) languageHeader.textContent = t.languageTitle;
                 const navLinks = document.querySelectorAll('.nav-link-text');
                 if(navLinks.length >= 2) { navLinks[0].textContent = t.navHome; navLinks[1].textContent = t.navAbout; }
-                document.querySelector('.contact-item:first-child span').textContent = t.phoneLabel;
-                document.querySelector('.contact-item:nth-child(2) span').textContent = t.whatsappLabel;
-                document.querySelector('.contact-item:last-child span').textContent = t.telegramLabel;
-                document.querySelector('.about-name-large').textContent = t.aboutName;
-                document.querySelector('.about-title-text').textContent = t.aboutTitle;
-                document.querySelector('.about-description').innerHTML = t.aboutDesc;
-                document.querySelector('.skills-container h3').textContent = t.skillsTitle;
+                const phoneLabel = document.querySelector('.contact-item:first-child span');
+                if(phoneLabel) phoneLabel.textContent = t.phoneLabel;
+                const whatsappLabel = document.querySelector('.contact-item:nth-child(2) span');
+                if(whatsappLabel) whatsappLabel.textContent = t.whatsappLabel;
+                const telegramLabel = document.querySelector('.contact-item:last-child span');
+                if(telegramLabel) telegramLabel.textContent = t.telegramLabel;
+                const aboutName = document.querySelector('.about-name-large');
+                if(aboutName) aboutName.textContent = t.aboutName;
+                const aboutTitle = document.querySelector('.about-title-text');
+                if(aboutTitle) aboutTitle.textContent = t.aboutTitle;
+                const aboutDesc = document.querySelector('.about-description');
+                if(aboutDesc) aboutDesc.innerHTML = t.aboutDesc;
+                const skillsTitle = document.querySelector('.skills-container h3');
+                if(skillsTitle) skillsTitle.textContent = t.skillsTitle;
                 const infoTitles = document.querySelectorAll('.info-card h4');
                 if(infoTitles.length >= 3) { infoTitles[0].textContent = t.expCard; infoTitles[1].textContent = t.projectsCard; infoTitles[2].textContent = t.clientsCard; }
-                document.querySelector('.btn-primary span').textContent = t.btnBack;
-                document.querySelector('.btn-secondary span').textContent = t.btnCv;
-                document.documentElement.setAttribute('dir', lang === 'ar' ? 'rtl' : 'ltr');
-                document.documentElement.setAttribute('lang', lang);
+                const btnBack = document.querySelector('.btn-primary span');
+                if(btnBack) btnBack.textContent = t.btnBack;
+                const btnCv = document.querySelector('.btn-secondary span');
+                if(btnCv) btnCv.textContent = t.btnCv;
+                const htmlElement = document.documentElement;
+                if(lang === 'ar') {
+                    htmlElement.setAttribute('dir', 'rtl');
+                    htmlElement.setAttribute('lang', 'ar');
+                } else {
+                    htmlElement.setAttribute('dir', 'ltr');
+                    htmlElement.setAttribute('lang', lang);
+                }
                 if(dropdownMenu) dropdownMenu.classList.remove('open');
                 showToast(`🌐 تم تغيير اللغة إلى: ${lang === 'ar' ? 'العربية' : lang === 'en' ? 'English' : 'Русский'}`);
             }
             
             document.querySelectorAll('.language-item').forEach(item => {
-                item.onclick = () => changeLanguage(item.getAttribute('data-lang'));
+                item.addEventListener('click', function() { changeLanguage(this.getAttribute('data-lang')); });
             });
             
             // التنقل
             document.querySelectorAll('.nav-item').forEach(item => {
-                item.onclick = (e) => {
+                item.addEventListener('click', function(e) {
                     e.preventDefault();
-                    const link = item.getAttribute('data-link');
+                    const link = this.getAttribute('data-link');
                     if(link === 'home') window.location.href = 'index.html';
                     else if(link === 'about') window.scrollTo({ top: 0, behavior: 'smooth' });
                     if(dropdownMenu) dropdownMenu.classList.remove('open');
-                };
+                });
             });
             
             // حماية شاملة
-            document.oncontextmenu = (e) => { e.preventDefault(); showToast('🔒 محمية', false); };
-            document.onkeydown = (e) => {
+            document.addEventListener('contextmenu', (e) => { e.preventDefault(); showToast('🔒 محمية', false); });
+            document.addEventListener('keydown', (e) => {
                 if(e.key === 'F12' || e.keyCode === 123 || ((e.ctrlKey || e.metaKey) && e.shiftKey && (e.key === 'I' || e.key === 'J')) || ((e.ctrlKey || e.metaKey) && (e.key === 'u' || e.key === 'U'))) {
                     e.preventDefault(); showToast('🔒 محمية', false);
                 }
-            };
+            });
             
             // تأثيرات الظهور
             function checkVisibility() {
@@ -408,7 +455,7 @@
             window.addEventListener('resize', checkVisibility);
             checkVisibility();
             
-            console.log('✅ About page loaded - Faris Suleiman');
+            console.log('✅ About page loaded - Faris Suleiman - القائمة تعمل');
         })();
     </script>
 </body>
