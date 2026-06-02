@@ -160,6 +160,44 @@
                 font-size: 22px;
             }
         }
+        /* ===== زر تحميل التطبيق ===== */
+        .download-app-section {
+            text-align: center;
+            margin: 20px auto 30px;
+        }
+        .download-app-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, #a855f7, #7c3aed);
+            color: #fff;
+            padding: 12px 30px;
+            border-radius: 50px;
+            font-size: 1rem;
+            font-weight: 600;
+            text-decoration: none;
+            transition: 0.3s ease;
+            box-shadow: 0 4px 15px rgba(168, 85, 247, 0.4);
+            border: none;
+            cursor: pointer;
+        }
+        .download-app-btn:hover {
+            transform: translateY(-3px);
+            filter: brightness(1.05);
+            box-shadow: 0 6px 20px rgba(168, 85, 247, 0.5);
+        }
+        .download-app-btn i {
+            font-size: 1.2rem;
+        }
+        @media (max-width: 480px) {
+            .download-app-btn {
+                padding: 10px 22px;
+                font-size: 0.9rem;
+            }
+            .download-app-btn i {
+                font-size: 1rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -389,6 +427,14 @@
         </div>
     </div>
 
+    <!-- ===== زر تحميل التطبيق ===== -->
+    <div class="download-app-section">
+        <a href="https://raw.githubusercontent.com/firogist/FIROGIST-DESiGNER/main/apk/FIROGIST%20DESIGNER.apk" class="download-app-btn" download>
+            <i class="fas fa-download"></i>
+            <span>📱 حمل تطبيق FIROGIST DESIGNER</span>
+        </a>
+    </div>
+
     <footer>
         <p>© 2026 FIROGIST DESIGNER - جميع الحقوق محفوظة</p>
     </footer>
@@ -604,7 +650,7 @@
             const clickSound = document.getElementById('clickSound');
             if(clickSound) clickSound.volume = 0.3;
             function playSound() { if(clickSound) { clickSound.currentTime = 0; clickSound.play().catch(()=>{}); } }
-            document.querySelectorAll('.nav-item, .menu-btn, .scroll-top-btn, .language-item, .close-menu, .btn, .back-home-btn, .work-card, .share-btn, .social-btn, .float-wa').forEach(el => el.addEventListener('click', playSound));
+            document.querySelectorAll('.nav-item, .menu-btn, .scroll-top-btn, .language-item, .close-menu, .btn, .back-home-btn, .work-card, .share-btn, .social-btn, .float-wa, .download-app-btn').forEach(el => el.addEventListener('click', playSound));
             
             // Toast
             const toast = document.getElementById('toastNotification');
